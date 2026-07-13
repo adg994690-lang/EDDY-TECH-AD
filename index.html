@@ -4,526 +4,1492 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>EDDY TECH</title>
+  <meta name="description" content="EDDY TECH — Professional digital solutions by Eddy. Website development, video editing, promo videos, and event media.">
+  <meta name="theme-color" content="#08080d">
+
+  <!-- Favicon: dynamically updated from Supabase profile_image setting -->
+  <link rel="icon" type="image/png" sizes="32x32" id="favicon32" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%2300e68a'/><text x='50%25' y='55%25' dominant-baseline='middle' text-anchor='middle' font-family='sans-serif' font-weight='bold' font-size='18' fill='%2308080d'>E</text></svg>">
+  <link rel="icon" type="image/png" sizes="16x16" id="favicon16" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><rect width='16' height='16' rx='4' fill='%2300e68a'/><text x='50%25' y='55%25' dominant-baseline='middle' text-anchor='middle' font-family='sans-serif' font-weight='bold' font-size='10' fill='%2308080d'>E</text></svg>">
+  <link rel="apple-touch-icon" sizes="180x180" id="appleIcon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 180 180'><rect width='180' height='180' rx='40' fill='%2300e68a'/><text x='50%25' y='55%25' dominant-baseline='middle' text-anchor='middle' font-family='sans-serif' font-weight='bold' font-size='100' fill='%2308080d'>E</text></svg>">
+
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@800;900&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-  <style>
-    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
+  <style>
+    /* ══════════════════════════════════════════════════════════════
+       CSS CUSTOM PROPERTIES
+       ══════════════════════════════════════════════════════════════ */
     :root {
       --bg: #08080d;
+      --bg-elevated: #0c0c14;
       --bg-card: #0f0f17;
-      --bg-card-hover: #141420;
-      --bg-alt: #0b0b12;
+      --bg-card-hover: #131320;
+      --bg-input: rgba(255, 255, 255, 0.04);
+      --bg-input-focus: rgba(255, 255, 255, 0.06);
+      --bg-alt: #0a0a11;
       --fg: #e8e8f0;
-      --fg-muted: #8888a0;
+      --fg-secondary: #c0c0d0;
+      --fg-muted: #7a7a96;
+      --fg-dim: #55556a;
       --accent: #00e68a;
-      --accent-dim: rgba(0,230,138,0.12);
-      --accent-glow: rgba(0,230,138,0.25);
+      --accent-rgb: 0, 230, 138;
+      --accent-dim: rgba(0, 230, 138, 0.10);
+      --accent-soft: rgba(0, 230, 138, 0.18);
+      --accent-glow: rgba(0, 230, 138, 0.25);
       --gold: #ffb800;
+      --gold-rgb: 255, 184, 0;
+      --gold-dim: rgba(255, 184, 0, 0.12);
       --danger: #ff4466;
+      --danger-rgb: 255, 68, 102;
+      --danger-dim: rgba(255, 68, 102, 0.12);
       --border: #1a1a2e;
-      --radius: 12px;
+      --border-light: #222240;
+      --border-accent: rgba(0, 230, 138, 0.2);
+      --radius-xs: 6px;
       --radius-sm: 8px;
-      --shadow-card: 0 4px 30px rgba(0,0,0,0.5), 0 1px 3px rgba(0,0,0,0.3);
-      --shadow-card-hover: 0 8px 50px rgba(0,0,0,0.6), 0 2px 10px rgba(0,230,138,0.1);
-      --shadow-btn: 0 4px 20px rgba(0,230,138,0.25);
+      --radius: 12px;
+      --radius-lg: 16px;
+      --radius-xl: 24px;
+      --radius-full: 100px;
+      --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.3);
+      --shadow: 0 4px 24px rgba(0, 0, 0, 0.4), 0 1px 3px rgba(0, 0, 0, 0.3);
+      --shadow-lg: 0 8px 40px rgba(0, 0, 0, 0.5), 0 2px 8px rgba(0, 0, 0, 0.3);
+      --shadow-glow: 0 4px 20px rgba(0, 230, 138, 0.2);
+      --shadow-card-hover: 0 12px 48px rgba(0, 0, 0, 0.55), 0 4px 12px rgba(0, 230, 138, 0.08);
       --font-heading: 'Outfit', sans-serif;
       --font-body: 'Space Grotesk', sans-serif;
+      --header-h: 72px;
+      --container-max: 1120px;
+      --ease-fast: 0.2s ease;
+      --ease: 0.3s ease;
+      --ease-slow: 0.5s ease;
+      --ease-bounce: 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
     }
 
-    html { scroll-behavior: smooth; }
+    /* ══════════════════════════════════════════════════════════════
+       RESET & BASE
+       ══════════════════════════════════════════════════════════════ */
+    *, *::before, *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      scroll-padding-top: calc(var(--header-h) + 16px);
+    }
 
     body {
       font-family: var(--font-body);
       background: var(--bg);
       color: var(--fg);
-      line-height: 1.6;
+      line-height: 1.65;
       overflow-x: hidden;
       -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
     }
 
-    a { color: inherit; text-decoration: none; }
+    a {
+      color: inherit;
+      text-decoration: none;
+      transition: color var(--ease-fast);
+    }
 
-    .container { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
+    img {
+      max-width: 100%;
+      display: block;
+    }
 
-    /* ── Skeleton ── */
+    button {
+      font-family: var(--font-body);
+      cursor: pointer;
+      border: none;
+      background: none;
+    }
+
+    input, textarea, select {
+      font-family: var(--font-body);
+    }
+
+    ::selection {
+      background: rgba(var(--accent-rgb), 0.3);
+      color: #fff;
+    }
+
+    ::-webkit-scrollbar {
+      width: 7px;
+    }
+    ::-webkit-scrollbar-track {
+      background: var(--bg);
+    }
+    ::-webkit-scrollbar-thumb {
+      background: var(--border-light);
+      border-radius: 4px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: var(--fg-dim);
+    }
+
+    .container {
+      width: 100%;
+      max-width: var(--container-max);
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    /* ══════════════════════════════════════════════════════════════
+       SKELETON LOADING ANIMATIONS
+       ══════════════════════════════════════════════════════════════ */
     .skeleton {
-      background: linear-gradient(90deg, #151522 25%, #1e1e30 50%, #151522 75%);
-      background-size: 200% 100%;
-      animation: shimmer 1.5s ease-in-out infinite;
+      background: linear-gradient(90deg, #12121e 25%, #1c1c30 37%, #12121e 63%);
+      background-size: 400% 100%;
+      animation: skelShimmer 1.8s ease-in-out infinite;
       border-radius: var(--radius-sm);
     }
-    @keyframes shimmer { 0%{background-position:200% 0} 100%{background-position:-200% 0} }
 
-    .skel-line { height: 16px; margin-bottom: 10px; display: block; }
-    .skel-line.short { width: 60%; }
-    .skel-line.med { width: 80%; }
-    .skel-circle { width: 48px; height: 48px; border-radius: 50%; flex-shrink: 0; }
-    .skel-title { height: 20px; width: 50%; margin-bottom: 12px; }
-    .skel-stars { height: 20px; width: 120px; margin-bottom: 10px; }
-    .skel-date { height: 14px; width: 100px; margin-top: 8px; }
-
-    /* ── Header ── */
-    header {
-      position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
-      background: rgba(8,8,13,0.8);
-      backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
-      border-bottom: 1px solid var(--border);
-    }
-    .nav-container {
-      display: flex; align-items: center; justify-content: space-between;
-      height: 70px;
-    }
-    .logo { font-family: var(--font-heading); font-weight: 900; font-size: 1.4rem; letter-spacing: -0.5px; }
-    .logo-green { color: var(--accent); }
-    .logo-white { color: #fff; }
-
-    nav { display: flex; gap: 32px; }
-    .nav-link {
-      font-size: 0.9rem; font-weight: 500; color: var(--fg-muted);
-      transition: color 0.25s; position: relative;
-    }
-    .nav-link:hover, .nav-link.active { color: var(--fg); }
-    .nav-link.active::after {
-      content: ''; position: absolute; bottom: -4px; left: 0; right: 0;
-      height: 2px; background: var(--accent); border-radius: 2px;
+    @keyframes skelShimmer {
+      0% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
     }
 
-    .nav-right { display: flex; align-items: center; gap: 16px; }
+    .skel-line {
+      height: 14px;
+      margin-bottom: 10px;
+      display: block;
+      border-radius: 4px;
+    }
+    .skel-line.full { width: 100%; }
+    .skel-line.w90 { width: 90%; }
+    .skel-line.w75 { width: 75%; }
+    .skel-line.w60 { width: 60%; }
+    .skel-line.w45 { width: 45%; }
+    .skel-line.w30 { width: 30%; }
+    .skel-line.h18 { height: 18px; }
+    .skel-line.h12 { height: 12px; }
 
-    .profile-circle {
-      width: 38px; height: 38px; border-radius: 50%; overflow: hidden;
-      background: var(--accent-dim); border: 2px solid var(--accent);
-      display: flex; align-items: center; justify-content: center;
-      font-family: var(--font-heading); font-weight: 800; font-size: 0.9rem; color: var(--accent);
+    .skel-circle {
+      border-radius: 50%;
       flex-shrink: 0;
     }
-    .profile-circle img { width: 100%; height: 100%; object-fit: cover; }
-
-    .hamburger {
-      display: none; background: none; border: none; cursor: pointer;
-      flex-direction: column; gap: 5px; padding: 4px;
-    }
-    .hamburger span {
-      display: block; width: 24px; height: 2px; background: var(--fg);
-      border-radius: 2px; transition: all 0.3s;
-    }
-    .hamburger.active span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
-    .hamburger.active span:nth-child(2) { opacity: 0; }
-    .hamburger.active span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
-
-    @media (max-width: 768px) {
-      .hamburger { display: flex; }
-      nav {
-        position: fixed; top: 70px; left: 0; right: 0;
-        background: rgba(8,8,13,0.95); backdrop-filter: blur(20px);
-        flex-direction: column; align-items: center; gap: 0;
-        max-height: 0; overflow: hidden; transition: max-height 0.35s ease;
-        border-bottom: 1px solid var(--border);
-      }
-      nav.open { max-height: 300px; }
-      .nav-link { padding: 16px 0; font-size: 1rem; }
-      .nav-link.active::after { display: none; }
-    }
-
-    /* ── Hero ── */
-    .hero {
-      position: relative; min-height: 100vh; display: flex; align-items: center;
-      justify-content: center; text-align: center; overflow: hidden;
-      padding: 120px 24px 80px;
-      background-size: cover; background-position: center; background-repeat: no-repeat;
-    }
-    .hero-grid {
-      position: absolute; inset: 0; pointer-events: none;
-      background-image:
-        linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px);
-      background-size: 60px 60px;
-    }
-    .hero-glow {
-      position: absolute; width: 700px; height: 700px; border-radius: 50%;
-      background: radial-gradient(circle, rgba(0,230,138,0.12) 0%, transparent 65%);
-      animation: glowPulse 5s ease-in-out infinite; pointer-events: none;
-    }
-    @keyframes glowPulse {
-      0%, 100% { transform: scale(1); opacity: 0.7; }
-      50% { transform: scale(1.15); opacity: 1; }
-    }
-    .hero-content { position: relative; z-index: 1; max-width: 750px; }
-
-    .tag-pill {
-      display: inline-flex; align-items: center; gap: 8px;
-      background: var(--accent-dim); border: 1px solid rgba(0,230,138,0.2);
-      padding: 8px 20px; border-radius: 100px; font-size: 0.82rem;
-      font-weight: 500; color: var(--accent); margin-bottom: 28px;
-      letter-spacing: 0.5px; text-transform: uppercase;
-    }
-    .pulse-dot {
-      width: 8px; height: 8px; background: var(--accent); border-radius: 50%;
-      animation: pulseDot 2s ease-in-out infinite;
-    }
-    @keyframes pulseDot {
-      0%, 100% { box-shadow: 0 0 0 0 rgba(0,230,138,0.5); }
-      50% { box-shadow: 0 0 0 8px rgba(0,230,138,0); }
-    }
-
-    .hero h1 {
-      font-family: var(--font-heading); font-weight: 900; font-size: clamp(2.4rem, 6vw, 4rem);
-      line-height: 1.1; margin-bottom: 24px; letter-spacing: -1px;
-    }
-    .accent { color: var(--accent); }
-    .hero-text { font-size: 1.05rem; color: var(--fg-muted); max-width: 600px; margin: 0 auto 36px; line-height: 1.7; }
-
-    .btn-primary {
-      display: inline-flex; align-items: center; gap: 8px;
-      background: var(--accent); color: #08080d; font-family: var(--font-body);
-      font-weight: 600; font-size: 0.95rem; padding: 14px 32px;
-      border-radius: 100px; border: none; cursor: pointer;
-      box-shadow: var(--shadow-btn); transition: all 0.3s;
-    }
-    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 6px 30px rgba(0,230,138,0.35); }
-    .btn-primary:active { transform: translateY(0); }
-    .btn-primary:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
-
-    .btn-spinner {
-      display: inline-block; width: 16px; height: 16px;
-      border: 2px solid rgba(8,8,13,0.3); border-top-color: #08080d;
-      border-radius: 50%; animation: spin 0.6s linear infinite;
-    }
-    @keyframes spin { to { transform: rotate(360deg); } }
-
-    /* ── Sections ── */
-    .section { padding: 100px 0; }
-    .section-alt { background: var(--bg-alt); }
-
-    .section-header { text-align: center; margin-bottom: 56px; }
-    .section-label {
-      display: inline-block; font-size: 0.78rem; font-weight: 600;
-      text-transform: uppercase; letter-spacing: 2px; color: var(--accent);
-      margin-bottom: 12px;
-    }
-    .section-title {
-      font-family: var(--font-heading); font-weight: 900;
-      font-size: clamp(1.8rem, 4vw, 2.6rem); letter-spacing: -0.5px;
-    }
-
-    /* ── Service Cards ── */
-    .services-grid {
-      display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-      gap: 24px;
-    }
-    .service-card {
-      background: var(--bg-card); border: 1px solid var(--border);
-      border-radius: var(--radius); padding: 32px 28px;
-      box-shadow: var(--shadow-card); transition: all 0.35s;
-      position: relative; overflow: hidden;
-    }
-    .service-card::before {
-      content: ''; position: absolute; top: 0; left: 0; right: 0;
-      height: 3px; background: var(--accent); transform: scaleX(0);
-      transform-origin: left; transition: transform 0.35s ease;
-    }
-    .service-card:hover {
-      transform: translateY(-6px);
-      box-shadow: var(--shadow-card-hover);
-      border-color: rgba(0,230,138,0.3);
-    }
-    .service-card:hover::before { transform: scaleX(1); }
-    .service-card .card-icon {
-      width: 52px; height: 52px; border-radius: 12px;
-      background: var(--accent-dim); display: flex; align-items: center;
-      justify-content: center; font-size: 1.3rem; color: var(--accent);
-      margin-bottom: 20px;
-    }
-    .service-card h3 {
-      font-family: var(--font-heading); font-weight: 800;
-      font-size: 1.15rem; margin-bottom: 10px;
-    }
-    .service-card p { font-size: 0.88rem; color: var(--fg-muted); line-height: 1.6; }
 
     .skel-card {
-      background: var(--bg-card); border: 1px solid var(--border);
-      border-radius: var(--radius); padding: 32px 28px;
-      box-shadow: var(--shadow-card);
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 30px 26px;
+      box-shadow: var(--shadow);
     }
-    .skel-card .skel-inner { display: flex; flex-direction: column; gap: 0; }
 
-    /* ── Contact Cards ── */
-    .contacts-grid {
-      display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-      gap: 24px;
+    /* ══════════════════════════════════════════════════════════════
+       HEADER / NAVIGATION BAR
+       ══════════════════════════════════════════════════════════════ */
+    .site-header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 1000;
+      height: var(--header-h);
+      background: rgba(8, 8, 13, 0.72);
+      backdrop-filter: blur(24px) saturate(1.3);
+      -webkit-backdrop-filter: blur(24px) saturate(1.3);
+      border-bottom: 1px solid var(--border);
+      transition: background var(--ease), box-shadow var(--ease);
     }
-    .contact-card {
-      background: var(--bg-card); border: 1px solid var(--border);
-      border-radius: var(--radius); padding: 28px; box-shadow: var(--shadow-card);
-      display: flex; align-items: flex-start; gap: 18px;
-      transition: all 0.3s;
+
+    .site-header.scrolled {
+      background: rgba(8, 8, 13, 0.94);
+      box-shadow: 0 2px 24px rgba(0, 0, 0, 0.5);
     }
-    .contact-card:hover {
-      border-color: rgba(0,230,138,0.3); transform: translateY(-3px);
-      box-shadow: var(--shadow-card-hover);
+
+    .nav-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 100%;
     }
-    .contact-card .card-icon {
-      width: 46px; height: 46px; border-radius: 10px;
-      background: var(--accent-dim); display: flex; align-items: center;
-      justify-content: center; font-size: 1.1rem; color: var(--accent);
+
+    .logo-link {
+      display: flex;
+      align-items: center;
+    }
+
+    .logo {
+      font-family: var(--font-heading);
+      font-weight: 900;
+      font-size: 1.35rem;
+      letter-spacing: -0.5px;
+      user-select: none;
+    }
+
+    .logo-green { color: var(--accent); }
+    .logo-white { color: #ffffff; }
+
+    /* Desktop navigation links */
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .nav-link {
+      font-size: 0.88rem;
+      font-weight: 500;
+      color: var(--fg-muted);
+      padding: 8px 18px;
+      border-radius: var(--radius-full);
+      transition: all var(--ease-fast);
+      position: relative;
+    }
+
+    .nav-link:hover {
+      color: var(--fg-secondary);
+      background: rgba(255, 255, 255, 0.04);
+    }
+
+    .nav-link.active {
+      color: var(--accent);
+      background: var(--accent-dim);
+    }
+
+    /* Right side of nav */
+    .nav-right {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    /* Profile image circle in header */
+    .profile-circle {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      overflow: hidden;
+      background: var(--accent-dim);
+      border: 2px solid rgba(var(--accent-rgb), 0.35);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-heading);
+      font-weight: 900;
+      font-size: 0.95rem;
+      color: var(--accent);
+      flex-shrink: 0;
+      transition: border-color var(--ease-fast), transform var(--ease-fast), box-shadow var(--ease-fast);
+    }
+
+    .profile-circle:hover {
+      border-color: rgba(var(--accent-rgb), 0.7);
+      transform: scale(1.06);
+      box-shadow: 0 0 16px rgba(var(--accent-rgb), 0.2);
+    }
+
+    .profile-circle img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    /* Hamburger menu button (mobile) */
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      padding: 6px;
+      cursor: pointer;
+      background: none;
+      border: none;
+    }
+
+    .hamburger-line {
+      display: block;
+      width: 24px;
+      height: 2px;
+      background: var(--fg);
+      border-radius: 2px;
+      transition: all var(--ease);
+      transform-origin: center;
+    }
+
+    .hamburger.open .hamburger-line:nth-child(1) {
+      transform: translateY(7px) rotate(45deg);
+    }
+    .hamburger.open .hamburger-line:nth-child(2) {
+      opacity: 0;
+      transform: scaleX(0);
+    }
+    .hamburger.open .hamburger-line:nth-child(3) {
+      transform: translateY(-7px) rotate(-45deg);
+    }
+
+    /* Mobile nav menu */
+    @media (max-width: 768px) {
+      .hamburger { display: flex; }
+
+      .nav-links {
+        position: fixed;
+        top: var(--header-h);
+        left: 0;
+        right: 0;
+        background: rgba(8, 8, 13, 0.96);
+        backdrop-filter: blur(24px);
+        -webkit-backdrop-filter: blur(24px);
+        flex-direction: column;
+        align-items: stretch;
+        padding: 8px 16px;
+        gap: 4px;
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height var(--ease), padding var(--ease), border-color var(--ease);
+        border-bottom: 1px solid transparent;
+        z-index: 999;
+      }
+
+      .nav-links.open {
+        max-height: 320px;
+        padding: 16px;
+        border-bottom-color: var(--border);
+      }
+
+      .nav-link {
+        padding: 14px 18px;
+        font-size: 0.95rem;
+        border-radius: var(--radius-sm);
+      }
+    }
+
+    /* ══════════════════════════════════════════════════════════════
+       HERO SECTION
+       ══════════════════════════════════════════════════════════════ */
+    .hero {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      overflow: hidden;
+      padding: calc(var(--header-h) + 40px) 24px 80px;
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+    }
+
+    /* Grid pattern overlay */
+    .hero-grid-overlay {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      background-image:
+        linear-gradient(rgba(255, 255, 255, 0.022) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.022) 1px, transparent 1px);
+      background-size: 64px 64px;
+      z-index: 1;
+    }
+
+    /* Gradient overlay for when background image is set */
+    .hero-gradient-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        180deg,
+        rgba(8, 8, 13, 0.7) 0%,
+        rgba(8, 8, 13, 0.5) 40%,
+        rgba(8, 8, 13, 0.85) 100%
+      );
+      pointer-events: none;
+      z-index: 1;
+      display: none;
+    }
+
+    /* Animated glow behind hero text */
+    .hero-glow {
+      position: absolute;
+      width: 650px;
+      height: 650px;
+      border-radius: 50%;
+      background: radial-gradient(
+        circle,
+        rgba(var(--accent-rgb), 0.12) 0%,
+        rgba(var(--accent-rgb), 0.04) 40%,
+        transparent 70%
+      );
+      animation: heroGlowPulse 6s ease-in-out infinite;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    @keyframes heroGlowPulse {
+      0%, 100% {
+        transform: scale(1);
+        opacity: 0.6;
+      }
+      50% {
+        transform: scale(1.18);
+        opacity: 1;
+      }
+    }
+
+    /* Secondary glow offset */
+    .hero-glow-secondary {
+      position: absolute;
+      width: 400px;
+      height: 400px;
+      border-radius: 50%;
+      background: radial-gradient(
+        circle,
+        rgba(var(--accent-rgb), 0.06) 0%,
+        transparent 65%
+      );
+      top: 20%;
+      right: 10%;
+      animation: heroGlowPulse 8s ease-in-out infinite reverse;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      max-width: 760px;
+    }
+
+    /* Tag pill above hero title */
+    .hero-tag-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: var(--accent-dim);
+      border: 1px solid rgba(var(--accent-rgb), 0.18);
+      padding: 9px 22px;
+      border-radius: var(--radius-full);
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--accent);
+      margin-bottom: 30px;
+      letter-spacing: 0.8px;
+      text-transform: uppercase;
+    }
+
+    .pulse-dot {
+      width: 8px;
+      height: 8px;
+      background: var(--accent);
+      border-radius: 50%;
+      animation: pulseDot 2s ease-in-out infinite;
       flex-shrink: 0;
     }
-    .contact-card h4 {
-      font-family: var(--font-heading); font-weight: 800;
-      font-size: 0.95rem; margin-bottom: 4px;
-    }
-    .contact-card a {
-      font-size: 0.88rem; color: var(--fg-muted);
-      transition: color 0.2s; word-break: break-all;
-    }
-    .contact-card a:hover { color: var(--accent); }
 
-    /* ── Reviews ── */
-    .review-form-container {
-      background: var(--bg-card); border: 1px solid var(--border);
-      border-radius: var(--radius); padding: 32px; margin-bottom: 48px;
-      box-shadow: var(--shadow-card); max-width: 560px; margin-left: auto;
+    @keyframes pulseDot {
+      0%, 100% {
+        box-shadow: 0 0 0 0 rgba(var(--accent-rgb), 0.5);
+      }
+      50% {
+        box-shadow: 0 0 0 8px rgba(var(--accent-rgb), 0);
+      }
+    }
+
+    /* Hero heading */
+    .hero-title {
+      font-family: var(--font-heading);
+      font-weight: 900;
+      font-size: clamp(2.4rem, 6vw, 4.2rem);
+      line-height: 1.08;
+      margin-bottom: 26px;
+      letter-spacing: -1.5px;
+    }
+
+    .hero-title .accent-text {
+      color: var(--accent);
+      position: relative;
+    }
+
+    .hero-title .accent-text::after {
+      content: '';
+      position: absolute;
+      bottom: -2px;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: var(--accent);
+      border-radius: 2px;
+      opacity: 0.4;
+    }
+
+    /* Hero paragraph text */
+    .hero-paragraph {
+      font-size: 1.05rem;
+      color: var(--fg-muted);
+      max-width: 580px;
+      margin: 0 auto 40px;
+      line-height: 1.75;
+    }
+
+    /* Primary CTA button */
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: var(--accent);
+      color: #08080d;
+      font-family: var(--font-body);
+      font-weight: 700;
+      font-size: 0.95rem;
+      padding: 15px 36px;
+      border-radius: var(--radius-full);
+      border: none;
+      cursor: pointer;
+      box-shadow: var(--shadow-glow);
+      transition: all var(--ease);
+      letter-spacing: 0.2px;
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 32px rgba(var(--accent-rgb), 0.35);
+      background: #00cc7a;
+    }
+
+    .btn-primary:active {
+      transform: translateY(-1px);
+    }
+
+    .btn-primary:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      transform: none;
+      box-shadow: none;
+    }
+
+    .btn-primary .btn-icon {
+      font-size: 0.85rem;
+      transition: transform var(--ease);
+    }
+
+    .btn-primary:hover .btn-icon {
+      transform: translateY(2px);
+    }
+
+    /* Button spinner */
+    .btn-spinner {
+      display: inline-block;
+      width: 16px;
+      height: 16px;
+      border: 2.5px solid rgba(8, 8, 13, 0.25);
+      border-top-color: #08080d;
+      border-radius: 50%;
+      animation: btnSpin 0.6s linear infinite;
+    }
+
+    @keyframes btnSpin {
+      to { transform: rotate(360deg); }
+    }
+
+    /* ══════════════════════════════════════════════════════════════
+       SECTIONS (Generic)
+       ══════════════════════════════════════════════════════════════ */
+    .site-section {
+      padding: 100px 0;
+    }
+
+    .site-section.alt-bg {
+      background: var(--bg-alt);
+    }
+
+    .section-header {
+      text-align: center;
+      margin-bottom: 56px;
+    }
+
+    .section-label {
+      display: inline-block;
+      font-size: 0.76rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 2.5px;
+      color: var(--accent);
+      margin-bottom: 14px;
+    }
+
+    .section-title {
+      font-family: var(--font-heading);
+      font-weight: 900;
+      font-size: clamp(1.8rem, 4vw, 2.7rem);
+      letter-spacing: -0.5px;
+      line-height: 1.15;
+    }
+
+    /* ══════════════════════════════════════════════════════════════
+       SERVICE CARDS
+       ══════════════════════════════════════════════════════════════ */
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(245px, 1fr));
+      gap: 22px;
+    }
+
+    .service-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 32px 26px;
+      box-shadow: var(--shadow);
+      transition: all var(--ease);
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Green top line that animates in on hover */
+    .service-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--accent), rgba(var(--accent-rgb), 0.5));
+      transform: scaleX(0);
+      transform-origin: left center;
+      transition: transform var(--ease);
+    }
+
+    .service-card:hover {
+      transform: translateY(-8px);
+      box-shadow: var(--shadow-card-hover);
+      border-color: var(--border-accent);
+      background: var(--bg-card-hover);
+    }
+
+    .service-card:hover::before {
+      transform: scaleX(1);
+    }
+
+    .service-card-icon {
+      width: 54px;
+      height: 54px;
+      border-radius: var(--radius-sm);
+      background: var(--accent-dim);
+      border: 1px solid rgba(var(--accent-rgb), 0.08);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.3rem;
+      color: var(--accent);
+      margin-bottom: 22px;
+      transition: all var(--ease);
+    }
+
+    .service-card:hover .service-card-icon {
+      background: var(--accent-soft);
+      border-color: rgba(var(--accent-rgb), 0.15);
+      transform: scale(1.06);
+    }
+
+    .service-card-title {
+      font-family: var(--font-heading);
+      font-weight: 800;
+      font-size: 1.12rem;
+      margin-bottom: 10px;
+      line-height: 1.3;
+    }
+
+    .service-card-desc {
+      font-size: 0.87rem;
+      color: var(--fg-muted);
+      line-height: 1.65;
+    }
+
+    /* ══════════════════════════════════════════════════════════════
+       CONTACT CARDS
+       ══════════════════════════════════════════════════════════════ */
+    .contacts-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
+      gap: 22px;
+    }
+
+    .contact-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 28px;
+      box-shadow: var(--shadow);
+      display: flex;
+      align-items: flex-start;
+      gap: 18px;
+      transition: all var(--ease);
+    }
+
+    .contact-card:hover {
+      border-color: var(--border-accent);
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-card-hover);
+      background: var(--bg-card-hover);
+    }
+
+    .contact-card-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: var(--radius-sm);
+      background: var(--accent-dim);
+      border: 1px solid rgba(var(--accent-rgb), 0.08);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.1rem;
+      color: var(--accent);
+      flex-shrink: 0;
+      transition: all var(--ease);
+    }
+
+    .contact-card:hover .contact-card-icon {
+      background: var(--accent-soft);
+      transform: scale(1.05);
+    }
+
+    .contact-card-title {
+      font-family: var(--font-heading);
+      font-weight: 800;
+      font-size: 0.95rem;
+      margin-bottom: 5px;
+    }
+
+    .contact-card-link {
+      font-size: 0.88rem;
+      color: var(--fg-muted);
+      transition: color var(--ease-fast);
+      word-break: break-all;
+      line-height: 1.5;
+    }
+
+    .contact-card-link:hover {
+      color: var(--accent);
+    }
+
+    /* Special email button style */
+    .contact-card-link.email-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--accent);
+      font-weight: 600;
+      padding: 6px 0;
+      border-bottom: 1px dashed rgba(var(--accent-rgb), 0.3);
+      transition: all var(--ease-fast);
+    }
+
+    .contact-card-link.email-link:hover {
+      border-bottom-color: var(--accent);
+      gap: 10px;
+    }
+
+    .contact-card-link.email-link .email-arrow {
+      font-size: 0.75rem;
+      transition: transform var(--ease-fast);
+    }
+
+    .contact-card-link.email-link:hover .email-arrow {
+      transform: translateX(3px);
+    }
+
+    /* ══════════════════════════════════════════════════════════════
+       REVIEWS SECTION
+       ══════════════════════════════════════════════════════════════ */
+    .review-form-wrapper {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 34px;
+      margin-bottom: 48px;
+      box-shadow: var(--shadow);
+      max-width: 580px;
+      margin-left: auto;
       margin-right: auto;
     }
-    .star-rating { display: flex; gap: 6px; margin-bottom: 20px; }
-    .star-rating i {
-      font-size: 1.5rem; color: #2a2a3e; cursor: pointer;
-      transition: color 0.15s, transform 0.15s;
-    }
-    .star-rating i:hover { transform: scale(1.15); }
-    .star-rating i.active { color: var(--gold); }
 
-    .form-input {
-      width: 100%; background: rgba(255,255,255,0.04); border: 1px solid var(--border);
-      border-radius: var(--radius-sm); padding: 12px 16px; color: var(--fg);
-      font-family: var(--font-body); font-size: 0.9rem; transition: border-color 0.25s;
-      outline: none; margin-bottom: 14px;
+    /* Interactive star rating */
+    .star-rating {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 22px;
     }
-    .form-input:focus { border-color: var(--accent); }
-    .form-input::placeholder { color: var(--fg-muted); }
-    .form-textarea { min-height: 100px; resize: vertical; }
 
-    .reviews-list { display: flex; flex-direction: column; gap: 20px; max-width: 560px; margin: 0 auto; }
+    .star-rating .star {
+      font-size: 1.6rem;
+      color: #2a2a3e;
+      cursor: pointer;
+      transition: color var(--ease-fast), transform var(--ease-fast);
+      padding: 2px;
+    }
+
+    .star-rating .star:hover {
+      transform: scale(1.2);
+    }
+
+    .star-rating .star.lit {
+      color: var(--gold);
+    }
+
+    /* Form inputs */
+    .form-field {
+      width: 100%;
+      background: var(--bg-input);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 13px 18px;
+      color: var(--fg);
+      font-size: 0.9rem;
+      transition: border-color var(--ease), background var(--ease), box-shadow var(--ease);
+      outline: none;
+      margin-bottom: 14px;
+    }
+
+    .form-field:focus {
+      border-color: rgba(var(--accent-rgb), 0.5);
+      background: var(--bg-input-focus);
+      box-shadow: 0 0 0 3px rgba(var(--accent-rgb), 0.08);
+    }
+
+    .form-field::placeholder {
+      color: var(--fg-dim);
+    }
+
+    .form-textarea {
+      min-height: 110px;
+      resize: vertical;
+      line-height: 1.6;
+    }
+
+    /* Reviews list */
+    .reviews-list {
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+      max-width: 580px;
+      margin: 0 auto;
+    }
+
     .review-card {
-      background: var(--bg-card); border: 1px solid var(--border);
-      border-radius: var(--radius); padding: 24px; box-shadow: var(--shadow-card);
-    }
-    .review-card .review-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px; }
-    .review-card .review-name { font-family: var(--font-heading); font-weight: 800; font-size: 1rem; }
-    .review-card .review-date { font-size: 0.78rem; color: var(--fg-muted); }
-    .review-card .review-stars { margin-bottom: 10px; }
-    .review-card .review-stars i { font-size: 0.85rem; color: var(--gold); }
-    .review-card .review-stars i.empty { color: #2a2a3e; }
-    .review-card .review-text { font-size: 0.9rem; color: var(--fg-muted); line-height: 1.65; }
-
-    .skel-review {
-      background: var(--bg-card); border: 1px solid var(--border);
-      border-radius: var(--radius); padding: 24px; box-shadow: var(--shadow-card);
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 24px 26px;
+      box-shadow: var(--shadow);
+      transition: border-color var(--ease);
     }
 
-    /* ── Footer ── */
-    .footer {
-      text-align: center; padding: 36px 24px;
-      border-top: 1px solid var(--border); font-size: 0.85rem; color: var(--fg-muted);
+    .review-card:hover {
+      border-color: var(--border-light);
     }
 
-    /* ── Toast ── */
+    .review-card-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 10px;
+      gap: 12px;
+    }
+
+    .review-card-name {
+      font-family: var(--font-heading);
+      font-weight: 800;
+      font-size: 1rem;
+    }
+
+    .review-card-date {
+      font-size: 0.76rem;
+      color: var(--fg-dim);
+      white-space: nowrap;
+    }
+
+    .review-card-stars {
+      margin-bottom: 12px;
+      display: flex;
+      gap: 3px;
+    }
+
+    .review-card-stars .star-filled {
+      font-size: 0.88rem;
+      color: var(--gold);
+    }
+
+    .review-card-stars .star-empty {
+      font-size: 0.88rem;
+      color: #2a2a3e;
+    }
+
+    .review-card-text {
+      font-size: 0.9rem;
+      color: var(--fg-muted);
+      line-height: 1.7;
+    }
+
+    /* ══════════════════════════════════════════════════════════════
+       FOOTER
+       ══════════════════════════════════════════════════════════════ */
+    .site-footer {
+      text-align: center;
+      padding: 40px 24px;
+      border-top: 1px solid var(--border);
+      font-size: 0.85rem;
+      color: var(--fg-muted);
+    }
+
+    .site-footer a {
+      color: var(--accent);
+      transition: opacity var(--ease-fast);
+    }
+
+    .site-footer a:hover {
+      opacity: 0.8;
+    }
+
+    /* ══════════════════════════════════════════════════════════════
+       TOAST NOTIFICATIONS
+       ══════════════════════════════════════════════════════════════ */
     #toastContainer {
-      position: fixed; bottom: 24px; right: 24px; z-index: 9999;
-      display: flex; flex-direction: column-reverse; gap: 10px;
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      z-index: 9999;
+      display: flex;
+      flex-direction: column-reverse;
+      gap: 10px;
+      pointer-events: none;
     }
-    .toast {
-      background: #1a1a2e; border: 1px solid var(--border); border-radius: var(--radius-sm);
-      padding: 14px 20px; min-width: 280px; max-width: 400px;
-      box-shadow: 0 8px 30px rgba(0,0,0,0.5); font-size: 0.88rem;
-      display: flex; align-items: flex-start; gap: 10px;
-      animation: toastIn 0.35s ease forwards;
-    }
-    .toast.removing { animation: toastOut 0.3s ease forwards; }
-    .toast.success { border-left: 3px solid var(--accent); }
-    .toast.error { border-left: 3px solid var(--danger); }
-    .toast-icon { font-size: 1rem; margin-top: 2px; }
-    .toast.success .toast-icon { color: var(--accent); }
-    .toast.error .toast-icon { color: var(--danger); }
-    @keyframes toastIn { from { opacity:0; transform:translateY(20px); } to { opacity:1; transform:translateY(0); } }
-    @keyframes toastOut { from { opacity:1; transform:translateY(0); } to { opacity:0; transform:translateY(20px); } }
 
-    /* ── Connection Status ── */
+    .toast-notification {
+      pointer-events: auto;
+      background: #181828;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 14px 20px;
+      min-width: 280px;
+      max-width: 420px;
+      box-shadow: 0 10px 36px rgba(0, 0, 0, 0.55);
+      font-size: 0.86rem;
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      animation: toastSlideIn 0.35s cubic-bezier(0.34, 1.2, 0.64, 1) forwards;
+      line-height: 1.5;
+    }
+
+    .toast-notification.dismissing {
+      animation: toastSlideOut 0.28s ease forwards;
+    }
+
+    .toast-notification.toast-success {
+      border-left: 3px solid var(--accent);
+    }
+
+    .toast-notification.toast-error {
+      border-left: 3px solid var(--danger);
+    }
+
+    .toast-notification .toast-icon {
+      font-size: 1rem;
+      margin-top: 2px;
+      flex-shrink: 0;
+    }
+
+    .toast-notification.toast-success .toast-icon {
+      color: var(--accent);
+    }
+
+    .toast-notification.toast-error .toast-icon {
+      color: var(--danger);
+    }
+
+    .toast-notification .toast-message {
+      flex: 1;
+    }
+
+    @keyframes toastSlideIn {
+      from {
+        opacity: 0;
+        transform: translateY(20px) scale(0.96);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+
+    @keyframes toastSlideOut {
+      from {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+      to {
+        opacity: 0;
+        transform: translateY(16px) scale(0.96);
+      }
+    }
+
+    /* ══════════════════════════════════════════════════════════════
+       CONNECTION STATUS INDICATOR
+       ══════════════════════════════════════════════════════════════ */
     #connectionStatus {
-      position: fixed; bottom: 20px; left: 20px; z-index: 900;
-      display: flex; align-items: center; gap: 8px;
-      background: rgba(15,15,23,0.9); backdrop-filter: blur(10px);
-      border: 1px solid var(--border); border-radius: 100px;
-      padding: 8px 16px; font-size: 0.72rem; color: var(--fg-muted);
+      position: fixed;
+      bottom: 20px;
+      left: 20px;
+      z-index: 900;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(15, 15, 23, 0.92);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-full);
+      padding: 8px 16px;
+      font-size: 0.7rem;
+      color: var(--fg-muted);
+      transition: all var(--ease);
     }
-    .status-dot {
-      width: 7px; height: 7px; border-radius: 50%; background: #555;
-      flex-shrink: 0; transition: background 0.3s;
-    }
-    .status-dot.online { background: var(--accent); box-shadow: 0 0 6px rgba(0,230,138,0.5); }
-    .status-dot.offline { background: var(--danger); box-shadow: 0 0 6px rgba(255,68,102,0.5); }
 
-    /* ── Scroll Reveal ── */
-    .reveal {
-      opacity: 0; transform: translateY(30px);
+    .connection-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--fg-dim);
+      flex-shrink: 0;
+      transition: all var(--ease);
+    }
+
+    .connection-dot.online {
+      background: var(--accent);
+      box-shadow: 0 0 8px rgba(var(--accent-rgb), 0.6);
+    }
+
+    .connection-dot.offline {
+      background: var(--danger);
+      box-shadow: 0 0 8px rgba(var(--danger-rgb), 0.6);
+      animation: connectionPulse 1.5s ease-in-out infinite;
+    }
+
+    @keyframes connectionPulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.5; }
+    }
+
+    /* ══════════════════════════════════════════════════════════════
+       SCROLL REVEAL ANIMATIONS
+       ══════════════════════════════════════════════════════════════ */
+    .scroll-reveal {
+      opacity: 0;
+      transform: translateY(32px);
       transition: opacity 0.7s ease, transform 0.7s ease;
+      will-change: opacity, transform;
     }
-    .reveal.revealed { opacity: 1; transform: translateY(0); }
-    .reveal-delay-1 { transition-delay: 0.1s; }
-    .reveal-delay-2 { transition-delay: 0.2s; }
-    .reveal-delay-3 { transition-delay: 0.3s; }
 
+    .scroll-reveal.revealed {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .scroll-reveal.delay-1 { transition-delay: 0.08s; }
+    .scroll-reveal.delay-2 { transition-delay: 0.16s; }
+    .scroll-reveal.delay-3 { transition-delay: 0.24s; }
+    .scroll-reveal.delay-4 { transition-delay: 0.32s; }
+
+    /* ══════════════════════════════════════════════════════════════
+       REDUCED MOTION
+       ══════════════════════════════════════════════════════════════ */
     @media (prefers-reduced-motion: reduce) {
-      .reveal { opacity: 1; transform: none; transition: none; }
-      .hero-glow { animation: none; }
-      .pulse-dot { animation: none; }
-      .skeleton { animation: none; }
+      .scroll-reveal {
+        opacity: 1;
+        transform: none;
+        transition: none;
+      }
+      .hero-glow,
+      .hero-glow-secondary {
+        animation: none;
+      }
+      .pulse-dot {
+        animation: none;
+      }
+      .skeleton {
+        animation: none;
+      }
+      .connection-dot.offline {
+        animation: none;
+      }
+      html {
+        scroll-behavior: auto;
+      }
     }
 
-    @media (max-width: 480px) {
-      .services-grid { grid-template-columns: 1fr; }
-      .contacts-grid { grid-template-columns: 1fr; }
-      .review-form-container { padding: 20px; }
+    /* ══════════════════════════════════════════════════════════════
+       RESPONSIVE BREAKPOINTS
+       ══════════════════════════════════════════════════════════════ */
+    @media (max-width: 768px) {
+      :root {
+        --header-h: 64px;
+      }
+
+      .site-section {
+        padding: 72px 0;
+      }
+
+      .section-header {
+        margin-bottom: 40px;
+      }
+
+      .hero {
+        padding: calc(var(--header-h) + 32px) 20px 60px;
+      }
+
+      .hero-tag-pill {
+        font-size: 0.72rem;
+        padding: 7px 16px;
+        margin-bottom: 22px;
+      }
+
+      .hero-paragraph {
+        font-size: 0.95rem;
+      }
+
+      .review-form-wrapper {
+        padding: 22px;
+        margin-left: 12px;
+        margin-right: 12px;
+      }
+    }
+
+    @media (max-width: 520px) {
+      .container {
+        padding: 0 16px;
+      }
+
+      .services-grid {
+        grid-template-columns: 1fr;
+        gap: 16px;
+      }
+
+      .contacts-grid {
+        grid-template-columns: 1fr;
+        gap: 16px;
+      }
+
+      .service-card {
+        padding: 26px 22px;
+      }
+
+      .contact-card {
+        padding: 22px;
+      }
+
+      .review-card {
+        padding: 20px;
+      }
+
+      .reviews-list {
+        margin-left: 8px;
+        margin-right: 8px;
+      }
+
+      #connectionStatus {
+        bottom: 12px;
+        left: 12px;
+        font-size: 0.65rem;
+        padding: 6px 12px;
+      }
+
+      #toastContainer {
+        bottom: 12px;
+        right: 12px;
+        left: 12px;
+      }
+
+      .toast-notification {
+        min-width: auto;
+        max-width: none;
+        font-size: 0.82rem;
+      }
     }
   </style>
 </head>
 <body>
 
-  <!-- Toast Container -->
-  <div id="toastContainer"></div>
+  <!-- ══════════════════════════════════════════════════════════════
+       TOAST NOTIFICATION CONTAINER
+       ══════════════════════════════════════════════════════════════ -->
+  <div id="toastContainer" aria-live="polite"></div>
 
-  <!-- Connection Status -->
-  <div id="connectionStatus">
-    <span class="status-dot" id="statusDot"></span>
-    <span id="statusText">Connecting...</span>
+  <!-- ══════════════════════════════════════════════════════════════
+       CONNECTION STATUS INDICATOR
+       ══════════════════════════════════════════════════════════════ -->
+  <div id="connectionStatus" role="status">
+    <span class="connection-dot" id="connectionDot"></span>
+    <span id="connectionText">Connecting...</span>
   </div>
 
-  <!-- Header -->
-  <header id="header">
-    <div class="container nav-container">
-      <a href="#" class="logo"><span class="logo-green">EDDY</span><span class="logo-white">TECH</span></a>
-      <nav id="navMenu">
+  <!-- ══════════════════════════════════════════════════════════════
+       SITE HEADER / NAVIGATION
+       ══════════════════════════════════════════════════════════════ -->
+  <header class="site-header" id="siteHeader">
+    <div class="container nav-inner">
+      <a href="#" class="logo-link" aria-label="EDDY TECH Home">
+        <span class="logo">
+          <span class="logo-green">EDDY</span><span class="logo-white">TECH</span>
+        </span>
+      </a>
+
+      <nav class="nav-links" id="navLinks" role="navigation" aria-label="Main navigation">
         <a href="#home" class="nav-link active">Home</a>
         <a href="#services" class="nav-link">Services</a>
         <a href="#contact" class="nav-link">Contact</a>
         <a href="#reviews" class="nav-link">Reviews</a>
       </nav>
+
       <div class="nav-right">
-        <div id="profileCircle" class="profile-circle"><span>E</span></div>
-        <button id="hamburger" class="hamburger" aria-label="Toggle menu">
-          <span></span><span></span><span></span>
+        <div class="profile-circle" id="profileCircle" aria-label="Profile">
+          <span>E</span>
+        </div>
+        <button class="hamburger" id="hamburgerBtn" aria-label="Toggle navigation menu" aria-expanded="false">
+          <span class="hamburger-line"></span>
+          <span class="hamburger-line"></span>
+          <span class="hamburger-line"></span>
         </button>
       </div>
     </div>
   </header>
 
-  <!-- Hero -->
-  <section id="home" class="hero">
-    <div class="hero-grid"></div>
+  <!-- ══════════════════════════════════════════════════════════════
+       HERO SECTION
+       ══════════════════════════════════════════════════════════════ -->
+  <section class="hero" id="home">
+    <div class="hero-grid-overlay"></div>
+    <div class="hero-gradient-overlay" id="heroGradientOverlay"></div>
     <div class="hero-glow"></div>
+    <div class="hero-glow-secondary"></div>
+
     <div class="container hero-content">
-      <div class="tag-pill reveal">
+      <div class="hero-tag-pill scroll-reveal">
         <span class="pulse-dot"></span>
         <span id="heroTagline">Digital Solutions by Eddy</span>
       </div>
-      <h1 id="heroTitle" class="reveal reveal-delay-1"></h1>
-      <p id="heroText" class="hero-text reveal reveal-delay-2">
-        <span class="skeleton skel-line med"></span>
-        <span class="skeleton skel-line short"></span>
+
+      <h1 class="hero-title scroll-reveal delay-1" id="heroTitle">
+        <!-- Populated by JavaScript -->
+      </h1>
+
+      <p class="hero-paragraph scroll-reveal delay-2" id="heroParagraph">
+        <span class="skel-line full"></span>
+        <span class="skel-line w75"></span>
+        <span class="skel-line w45"></span>
       </p>
-      <div class="reveal reveal-delay-3">
-        <a href="#services" class="btn-primary"><span id="heroBtnText">Explore Services</span> <i class="fas fa-arrow-down" style="font-size:0.85rem"></i></a>
+
+      <div class="scroll-reveal delay-3">
+        <a href="#services" class="btn-primary" id="heroCtaBtn">
+          <span id="heroCtaText">Explore Services</span>
+          <i class="fas fa-arrow-down btn-icon"></i>
+        </a>
       </div>
     </div>
   </section>
 
-  <!-- Services -->
-  <section id="services" class="section">
+  <!-- ══════════════════════════════════════════════════════════════
+       SERVICES SECTION
+       ══════════════════════════════════════════════════════════════ -->
+  <section class="site-section" id="services">
     <div class="container">
-      <div class="section-header reveal">
+      <div class="section-header scroll-reveal">
         <span class="section-label" id="servicesLabel">What We Do</span>
         <h2 class="section-title" id="servicesTitle">Our Services</h2>
       </div>
-      <div id="servicesGrid" class="services-grid"></div>
+      <div class="services-grid" id="servicesGrid">
+        <!-- Populated by JavaScript / skeletons shown initially -->
+      </div>
     </div>
   </section>
 
-  <!-- Contact -->
-  <section id="contact" class="section section-alt">
+  <!-- ══════════════════════════════════════════════════════════════
+       CONTACT SECTION
+       ══════════════════════════════════════════════════════════════ -->
+  <section class="site-section alt-bg" id="contact">
     <div class="container">
-      <div class="section-header reveal">
+      <div class="section-header scroll-reveal">
         <span class="section-label" id="contactsLabel">Reach Out</span>
         <h2 class="section-title" id="contactsTitle">Get In Touch</h2>
       </div>
-      <div id="contactsGrid" class="contacts-grid"></div>
+      <div class="contacts-grid" id="contactsGrid">
+        <!-- Populated by JavaScript / skeletons shown initially -->
+      </div>
     </div>
   </section>
 
-  <!-- Reviews -->
-  <section id="reviews" class="section">
+  <!-- ══════════════════════════════════════════════════════════════
+       REVIEWS SECTION
+       ══════════════════════════════════════════════════════════════ -->
+  <section class="site-section" id="reviews">
     <div class="container">
-      <div class="section-header reveal">
+      <div class="section-header scroll-reveal">
         <span class="section-label" id="reviewsLabel">Testimonials</span>
         <h2 class="section-title" id="reviewsTitle">Client Reviews</h2>
       </div>
-      <div class="review-form-container reveal">
-        <div class="star-rating" id="starRating">
-          <i class="fas fa-star" data-value="1"></i>
-          <i class="fas fa-star" data-value="2"></i>
-          <i class="fas fa-star" data-value="3"></i>
-          <i class="fas fa-star" data-value="4"></i>
-          <i class="fas fa-star" data-value="5"></i>
+
+      <!-- Review submission form -->
+      <div class="review-form-wrapper scroll-reveal">
+        <div class="star-rating" id="starRating" role="radiogroup" aria-label="Rating">
+          <i class="fas fa-star star" data-value="1" role="radio" aria-label="1 star" tabindex="0"></i>
+          <i class="fas fa-star star" data-value="2" role="radio" aria-label="2 stars" tabindex="0"></i>
+          <i class="fas fa-star star" data-value="3" role="radio" aria-label="3 stars" tabindex="0"></i>
+          <i class="fas fa-star star" data-value="4" role="radio" aria-label="4 stars" tabindex="0"></i>
+          <i class="fas fa-star star" data-value="5" role="radio" aria-label="5 stars" tabindex="0"></i>
         </div>
-        <input type="text" id="reviewName" class="form-input" placeholder="Your name" maxlength="100">
-        <textarea id="reviewText" class="form-input form-textarea" placeholder="Write your review..." maxlength="1000"></textarea>
-        <button id="submitReview" class="btn-primary" style="width:100%;justify-content:center;">Submit Review</button>
+
+        <input
+          type="text"
+          class="form-field"
+          id="reviewNameInput"
+          placeholder="Your name"
+          maxlength="100"
+          autocomplete="name"
+        >
+
+        <textarea
+          class="form-field form-textarea"
+          id="reviewTextInput"
+          placeholder="Write your review..."
+          maxlength="1000"
+        ></textarea>
+
+        <button class="btn-primary" id="submitReviewBtn" style="width:100%;justify-content:center;">
+          Submit Review
+        </button>
       </div>
-      <div id="reviewsList" class="reviews-list"></div>
+
+      <!-- Reviews list -->
+      <div class="reviews-list" id="reviewsList">
+        <!-- Populated by JavaScript / skeletons shown initially -->
+      </div>
     </div>
   </section>
 
-  <!-- Footer -->
-  <footer class="footer">
+  <!-- ══════════════════════════════════════════════════════════════
+       FOOTER
+       ══════════════════════════════════════════════════════════════ -->
+  <footer class="site-footer">
     <div class="container">
       <p id="footerText">&copy; 2025 EDDY TECH. All rights reserved.</p>
     </div>
   </footer>
 
-  <script>
-    /* ══════════════════════════════════════
-       Constants & Config
-       ══════════════════════════════════════ */
-    var API_URL = 'https://kyhgwsatvkazvtdqbmeb.supabase.co';
-    var API_KEY = 'sb_publishable_wvwTKSI76Rfkzh8sC3uW0g_V_0C8xb7';
-    var REST_URL = API_URL + '/rest/v1';
-    var HEADERS = { apikey: API_KEY, Authorization: 'Bearer ' + API_KEY };
 
-    /* ══════════════════════════════════════
-       Fallback Data
-       ══════════════════════════════════════ */
+  <!-- ══════════════════════════════════════════════════════════════
+       JAVASCRIPT — All Application Logic
+       ══════════════════════════════════════════════════════════════ -->
+  <script>
+    /* ══════════════════════════════════════════════════════════════
+       CONFIGURATION & SUPABASE CREDENTIALS
+       ══════════════════════════════════════════════════════════════ */
+    var SUPABASE_URL = 'https://kyhgwsatvkazvtdqbmeb.supabase.co';
+    var SUPABASE_KEY = 'sb_publishable_wvwTKSI76Rfkzh8sC3uW0g_V_0C8xb7';
+    var REST_BASE = SUPABASE_URL + '/rest/v1';
+
+    /* Default headers for all Supabase REST API calls */
+    var DEFAULT_HEADERS = {
+      'apikey': SUPABASE_KEY,
+      'Authorization': 'Bearer ' + SUPABASE_KEY
+    };
+
+    /* Headers for POST/PATCH requests with JSON body */
+    var JSON_HEADERS = {
+      'Content-Type': 'application/json'
+    };
+
+    /* Headers for POST requests that return the created row */
+    var POST_RETURN_HEADERS = {
+      'Content-Type': 'application/json',
+      'Prefer': 'return=representation'
+    };
+
+    /* ══════════════════════════════════════════════════════════════
+       DEFAULT MAILTO LINK — Opens email client with pre-filled
+       subject line and body text for direct email contact
+       ══════════════════════════════════════════════════════════════ */
+    var DEFAULT_EMAIL_MAILTO = 'mailto:eddygech@gmail.com?subject=Eddytech%20contact%20&body=Founded%20by%20Eddy%20%E2%80%94%20the%20owner%20of%20AMBO%20MARKET%2C%20the%20premier%20local%20platform%20to%20buy%20and%20sell%20things.%20We%20bring%20your%20digital%20vision%20to%20life%20with%20professional%20precision.%0A%7BGEDION%20GETACEHW%7D';
+
+    /* ══════════════════════════════════════════════════════════════
+       FALLBACK DATA — Used when Supabase is unreachable
+       ══════════════════════════════════════════════════════════════ */
     var FALLBACK_SERVICES = [
-      { title: 'Website Development', description: 'We build modern, responsive websites that elevate your brand and drive results. From landing pages to full-stack applications.', icon: 'fa-code', sort_order: 1 },
-      { title: 'Video & Image Editing', description: 'Professional editing that transforms raw footage and images into polished, captivating visual content for any platform.', icon: 'fa-film', sort_order: 2 },
-      { title: 'Promo Videos', description: 'Eye-catching promotional videos that capture attention, communicate your message, and leave a lasting impression on your audience.', icon: 'fa-video', sort_order: 3 },
-      { title: 'Event Media', description: 'Complete event coverage with professional photography and videography services. We capture every moment so you can relive it.', icon: 'fa-camera', sort_order: 4 }
+      {
+        title: 'Website Development',
+        description: 'We build modern, responsive websites that elevate your brand and drive results. From landing pages to full-stack applications.',
+        icon: 'fa-code',
+        sort_order: 1
+      },
+      {
+        title: 'Video & Image Editing',
+        description: 'Professional editing that transforms raw footage and images into polished, captivating visual content for any platform.',
+        icon: 'fa-film',
+        sort_order: 2
+      },
+      {
+        title: 'Promo Videos',
+        description: 'Eye-catching promotional videos that capture attention, communicate your message, and leave a lasting impression on your audience.',
+        icon: 'fa-video',
+        sort_order: 3
+      },
+      {
+        title: 'Event Media',
+        description: 'Complete event coverage with professional photography and videography services. We capture every moment so you can relive it.',
+        icon: 'fa-camera',
+        sort_order: 4
+      }
     ];
 
     var FALLBACK_CONTACTS = [
-      { icon: 'fa-phone', title: 'Phone', value: '+251959634128', link: 'tel:+251959634128' },
-      { icon: 'fa-envelope', title: 'Email', value: 'eddygech@gmail.com', link: 'mailto:eddygech@gmail.com' },
-      { icon: 'fa-paper-plane', title: 'Telegram', value: '@Threecreatives3c', link: 'https://t.me/Threecreatives3c' }
+      {
+        icon: 'fa-phone',
+        title: 'Phone',
+        value: '+251959634128',
+        link: 'tel:+251959634128'
+      },
+      {
+        icon: 'fa-envelope',
+        title: 'Email',
+        value: 'eddygech@gmail.com',
+        link: DEFAULT_EMAIL_MAILTO
+      },
+      {
+        icon: 'fa-paper-plane',
+        title: 'Telegram',
+        value: '@Threecreatives3c',
+        link: 'https://t.me/Threecreatives3c'
+      }
     ];
 
     var FALLBACK_REVIEWS = [
-      { name: 'Abel Tadesse', rating: 5, text: 'EDDY TECH delivered an outstanding website for my business. Professional, fast, and the attention to detail was incredible. Highly recommended to anyone looking for quality digital services!', review_date: new Date(Date.now() - 15*86400000).toISOString().split('T')[0] },
-      { name: 'Hanna Mekonnen', rating: 5, text: 'The video editing service was top-notch. They understood exactly what I needed and exceeded my expectations. The final product was beyond what I imagined. Will definitely come back!', review_date: new Date(Date.now() - 7*86400000).toISOString().split('T')[0] },
-      { name: 'Dawit Assefa', rating: 4, text: 'Great work on our event coverage. The photos and videos were amazing quality. Communication was smooth throughout the process and delivery was on time.', review_date: new Date(Date.now() - 3*86400000).toISOString().split('T')[0] }
+      {
+        name: 'Abel Tadesse',
+        rating: 5,
+        text: 'EDDY TECH delivered an outstanding website for my business. Professional, fast, and the attention to detail was incredible. Highly recommended to anyone looking for quality digital services!',
+        review_date: new Date(Date.now() - 15 * 86400000).toISOString().split('T')[0]
+      },
+      {
+        name: 'Hanna Mekonnen',
+        rating: 5,
+        text: 'The video editing service was top-notch. They understood exactly what I needed and exceeded my expectations. The final product was beyond what I imagined. Will definitely come back!',
+        review_date: new Date(Date.now() - 7 * 86400000).toISOString().split('T')[0]
+      },
+      {
+        name: 'Dawit Assefa',
+        rating: 4,
+        text: 'Great work on our event coverage. The photos and videos were amazing quality. Communication was smooth throughout the process and delivery was on time.',
+        review_date: new Date(Date.now() - 3 * 86400000).toISOString().split('T')[0]
+      }
     ];
 
-    var FALLBACK_HERO_TEXT = 'Founded by Eddy — the owner of AMBO MARKET, the premier local platform to buy and sell things. We bring your digital vision to life with professional precision.';
+    var FALLBACK_HERO_TEXT = 'Founded by Eddy \u2014 the owner of AMBO MARKET, the premier local platform to buy and sell things. We bring your digital vision to life with professional precision.';
+
     var FALLBACK_PROFILE_IMAGE = 'https://z-cdn-media.chatglm.cn/files/2b930774-8985-4506-8d33-04f9ac025bb5.png?auth_key=1883920902-502ba23644bb44718856b5f5a981382f-0-0549443c9e150a2d0140a2dd0b98bf05';
 
     var FALLBACK_PAGE_CONTENT = {
@@ -540,92 +1506,208 @@
       footer_text: '\u00A9 2025 EDDY TECH. All rights reserved.'
     };
 
-    /* ══════════════════════════════════════
-       Utility Functions
-       ══════════════════════════════════════ */
+    /* ══════════════════════════════════════════════════════════════
+       UTILITY FUNCTIONS
+       ══════════════════════════════════════════════════════════════ */
+
+    /**
+     * Escape HTML special characters to prevent XSS
+     * @param {string} str - Raw string
+     * @returns {string} Escaped HTML string
+     */
     function escapeHtml(str) {
+      if (!str) return '';
       var div = document.createElement('div');
-      div.textContent = str || '';
+      div.appendChild(document.createTextNode(str));
       return div.innerHTML;
     }
 
+    /**
+     * Format a date string into a human-readable format
+     * @param {string} dateStr - ISO date string or date-only string
+     * @returns {string} Formatted date like "Jan 15, 2025"
+     */
     function formatDate(dateStr) {
       if (!dateStr) return '';
-      var d = new Date(dateStr + 'T00:00:00');
-      return d.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
+      var dateStrClean = dateStr.indexOf('T') > -1 ? dateStr : dateStr + 'T00:00:00';
+      var d = new Date(dateStrClean);
+      if (isNaN(d.getTime())) return dateStr;
+      return d.toLocaleDateString('en-US', {
+        year: 'numeric',
+        month: 'short',
+        day: 'numeric'
+      });
     }
 
-    function renderStars(rating) {
+    /**
+     * Generate HTML for star rating display
+     * @param {number} rating - Number from 1 to 5
+     * @returns {string} HTML string with filled and empty stars
+     */
+    function renderStarsHTML(rating) {
       var html = '';
       for (var i = 1; i <= 5; i++) {
-        html += '<i class="fas fa-star' + (i <= rating ? '' : ' empty') + '"></i>';
+        if (i <= rating) {
+          html += '<i class="fas fa-star star-filled"></i>';
+        } else {
+          html += '<i class="fas fa-star star-empty"></i>';
+        }
       }
       return html;
     }
 
-    /* ══════════════════════════════════════
-       Fetch Helper
-       ══════════════════════════════════════ */
-    async function fetchJSON(url, options) {
-      options = options || {};
-      var response = await fetch(url, {
-        ...options,
-        headers: { ...HEADERS, ...options.headers }
-      });
-      if (!response.ok) {
-        var errorMsg;
-        try {
-          var errData = await response.json();
-          errorMsg = errData.message || errData.msg || JSON.stringify(errData);
-        } catch (e) {
-          errorMsg = response.statusText || ('HTTP ' + response.status);
-        }
-        throw new Error(errorMsg);
-      }
-      var text = await response.text();
-      if (!text) return [];
-      return JSON.parse(text);
+    /**
+     * Enhance a mailto: link to include default subject and body
+     * if the link doesn't already have query parameters
+     * @param {string} link - The mailto link from the database
+     * @returns {string} Enhanced or original mailto link
+     */
+    function enhanceMailtoLink(link) {
+      if (!link) return link;
+      /* Only process mailto: links */
+      if (link.indexOf('mailto:') !== 0) return link;
+      /* If the link already has query params (subject/body), use it as-is */
+      if (link.indexOf('?') > -1) return link;
+      /* Extract the email address part */
+      var emailPart = link.replace('mailto:', '').trim();
+      /* Return the full mailto with default subject and body */
+      return DEFAULT_EMAIL_MAILTO;
     }
 
-    /* ══════════════════════════════════════
-       Toast Notifications
-       ══════════════════════════════════════ */
+    /**
+     * Check if a link is a mailto: link
+     * @param {string} link - URL string
+     * @returns {boolean}
+     */
+    function isMailtoLink(link) {
+      return link && link.indexOf('mailto:') === 0;
+    }
+
+    /* ══════════════════════════════════════════════════════════════
+       SUPABASE FETCH HELPER
+       Sends requests with proper headers, parses response,
+       and throws descriptive errors on failure.
+       ══════════════════════════════════════════════════════════════ */
+    async function supabaseFetch(url, options) {
+      options = options || {};
+      /* Merge default headers with any custom headers */
+      var mergedHeaders = {};
+      for (var key in DEFAULT_HEADERS) {
+        mergedHeaders[key] = DEFAULT_HEADERS[key];
+      }
+      if (options.headers) {
+        for (var hk in options.headers) {
+          mergedHeaders[hk] = options.headers[hk];
+        }
+      }
+
+      var response = await fetch(url, {
+        method: options.method || 'GET',
+        headers: mergedHeaders,
+        body: options.body || undefined
+      });
+
+      /* Handle non-OK responses */
+      if (!response.ok) {
+        var errorMessage;
+        try {
+          var errorData = await response.json();
+          errorMessage = errorData.message || errorData.msg || errorData.error || JSON.stringify(errorData);
+        } catch (parseErr) {
+          errorMessage = response.statusText || ('HTTP Error ' + response.status);
+        }
+        throw new Error(errorMessage);
+      }
+
+      /* Parse JSON response, handle empty body for DELETE/PATCH */
+      var responseText = await response.text();
+      if (!responseText || responseText.trim() === '') {
+        return [];
+      }
+
+      try {
+        return JSON.parse(responseText);
+      } catch (parseErr) {
+        throw new Error('Invalid JSON response from server');
+      }
+    }
+
+    /* ══════════════════════════════════════════════════════════════
+       TOAST NOTIFICATION SYSTEM
+       Shows slide-up notifications that auto-dismiss after 4s
+       ══════════════════════════════════════════════════════════════ */
     function showToast(message, type) {
       type = type || 'success';
       var container = document.getElementById('toastContainer');
       var toast = document.createElement('div');
-      toast.className = 'toast ' + type;
-      var iconClass = type === 'success' ? 'fa-check-circle' : 'fa-exclamation-circle';
-      toast.innerHTML = '<i class="fas ' + iconClass + ' toast-icon"></i><span>' + escapeHtml(message) + '</span>';
+      toast.className = 'toast-notification toast-' + type;
+
+      var iconClass;
+      if (type === 'success') {
+        iconClass = 'fa-check-circle';
+      } else {
+        iconClass = 'fa-exclamation-circle';
+      }
+
+      toast.innerHTML =
+        '<i class="fas ' + iconClass + ' toast-icon"></i>' +
+        '<span class="toast-message">' + escapeHtml(message) + '</span>';
+
       container.appendChild(toast);
-      setTimeout(function() {
-        toast.classList.add('removing');
-        setTimeout(function() { toast.remove(); }, 300);
+
+      /* Auto-dismiss after 4 seconds */
+      var dismissTimer = setTimeout(function() {
+        dismissToast(toast);
       }, 4000);
+
+      /* Store timer so we can clear it if manually dismissed */
+      toast._dismissTimer = dismissTimer;
     }
 
-    /* ══════════════════════════════════════
-       Connection Status
-       ══════════════════════════════════════ */
-    function setConnectionStatus(online, message) {
-      var dot = document.getElementById('statusDot');
-      var text = document.getElementById('statusText');
-      dot.className = 'status-dot ' + (online ? 'online' : 'offline');
-      text.textContent = online ? 'Connected to database' : ('Offline \u2014 ' + message);
+    function dismissToast(toastElement) {
+      if (!toastElement || toastElement._dismissed) return;
+      toastElement._dismissed = true;
+      clearTimeout(toastElement._dismissTimer);
+      toastElement.classList.add('dismissing');
+      setTimeout(function() {
+        if (toastElement.parentNode) {
+          toastElement.parentNode.removeChild(toastElement);
+        }
+      }, 300);
     }
 
-    /* ══════════════════════════════════════
-       Skeleton Renderers
-       ══════════════════════════════════════ */
+    /* ══════════════════════════════════════════════════════════════
+       CONNECTION STATUS INDICATOR
+       Shows green dot when connected, red with error when offline
+       ══════════════════════════════════════════════════════════════ */
+    function updateConnectionStatus(isOnline, errorMessage) {
+      var dot = document.getElementById('connectionDot');
+      var text = document.getElementById('connectionText');
+
+      if (isOnline) {
+        dot.className = 'connection-dot online';
+        text.textContent = 'Connected to database';
+      } else {
+        dot.className = 'connection-dot offline';
+        text.textContent = 'Offline \u2014 ' + (errorMessage || 'Unknown error');
+      }
+    }
+
+    /* ══════════════════════════════════════════════════════════════
+       SKELETON LOADING RENDERERS
+       Show animated placeholders while data loads from Supabase
+       ══════════════════════════════════════════════════════════════ */
     function renderServiceSkeletons(count) {
       var html = '';
       for (var i = 0; i < count; i++) {
-        html += '<div class="skel-card"><div class="skel-inner">' +
-          '<div class="skeleton skel-circle" style="margin-bottom:18px"></div>' +
-          '<div class="skeleton skel-title"></div>' +
-          '<div class="skeleton skel-line med"></div>' +
-          '<div class="skeleton skel-line short"></div>' +
-          '</div></div>';
+        html +=
+          '<div class="skel-card">' +
+            '<div class="skeleton skel-circle" style="width:52px;height:52px;margin-bottom:20px"></div>' +
+            '<div class="skeleton skel-line h18 w60" style="margin-bottom:12px"></div>' +
+            '<div class="skeleton skel-line full"></div>' +
+            '<div class="skeleton skel-line w75"></div>' +
+            '<div class="skeleton skel-line w45"></div>' +
+          '</div>';
       }
       return html;
     }
@@ -633,12 +1715,15 @@
     function renderContactSkeletons(count) {
       var html = '';
       for (var i = 0; i < count; i++) {
-        html += '<div class="skel-card" style="display:flex;align-items:flex-start;gap:18px;padding:28px">' +
-          '<div class="skeleton skel-circle" style="width:46px;height:46px"></div>' +
-          '<div style="flex:1">' +
-          '<div class="skeleton skel-title" style="width:40%"></div>' +
-          '<div class="skeleton skel-line med" style="margin-top:6px"></div>' +
-          '</div></div>';
+        html +=
+          '<div class="skel-card" style="display:flex;align-items:flex-start;gap:18px;padding:28px">' +
+            '<div class="skeleton skel-circle" style="width:46px;height:46px"></div>' +
+            '<div style="flex:1">' +
+              '<div class="skeleton skel-line h18 w40" style="margin-bottom:8px"></div>' +
+              '<div class="skeleton skel-line w90"></div>' +
+              '<div class="skeleton skel-line w60"></div>' +
+            '</div>' +
+          '</div>';
       }
       return html;
     }
@@ -646,253 +1731,435 @@
     function renderReviewSkeletons(count) {
       var html = '';
       for (var i = 0; i < count; i++) {
-        html += '<div class="skel-review">' +
-          '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">' +
-          '<div class="skeleton" style="width:120px;height:18px"></div>' +
-          '<div class="skeleton" style="width:90px;height:14px"></div>' +
-          '</div>' +
-          '<div class="skeleton skel-stars" style="margin-bottom:12px"></div>' +
-          '<div class="skeleton skel-line med"></div>' +
-          '<div class="skeleton skel-line short"></div>' +
+        html +=
+          '<div class="skel-card" style="padding:24px">' +
+            '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">' +
+              '<div class="skeleton skel-line h18" style="width:120px;margin-bottom:0"></div>' +
+              '<div class="skeleton skel-line h12" style="width:90px;margin-bottom:0"></div>' +
+            '</div>' +
+            '<div class="skeleton skel-line h18" style="width:130px;margin-bottom:12px"></div>' +
+            '<div class="skeleton skel-line full"></div>' +
+            '<div class="skeleton skel-line w75"></div>' +
           '</div>';
       }
       return html;
     }
 
-    /* ══════════════════════════════════════
-       Data Renderers
-       ══════════════════════════════════════ */
+    /* ══════════════════════════════════════════════════════════════
+       DATA RENDERERS — Services
+       ══════════════════════════════════════════════════════════════ */
     function renderServices(services) {
       var grid = document.getElementById('servicesGrid');
-      if (!services.length) {
-        grid.innerHTML = '<p style="color:var(--fg-muted);text-align:center;grid-column:1/-1">No services available yet.</p>';
+
+      if (!services || services.length === 0) {
+        grid.innerHTML = '<p style="color:var(--fg-muted);text-align:center;grid-column:1/-1;padding:40px 0;">No services available yet.</p>';
         return;
       }
-      grid.innerHTML = services.map(function(s, i) {
-        return '<div class="service-card reveal reveal-delay-' + Math.min(i % 3 + 1, 3) + '">' +
-          '<div class="card-icon"><i class="fas ' + escapeHtml(s.icon || 'fa-gear') + '"></i></div>' +
-          '<h3>' + escapeHtml(s.title) + '</h3>' +
-          '<p>' + escapeHtml(s.description) + '</p>' +
+
+      var html = '';
+      for (var i = 0; i < services.length; i++) {
+        var s = services[i];
+        var delayClass = 'delay-' + Math.min((i % 4) + 1, 4);
+        var iconClass = escapeHtml(s.icon || 'fa-gear');
+
+        html +=
+          '<div class="service-card scroll-reveal ' + delayClass + '">' +
+            '<div class="service-card-icon">' +
+              '<i class="fas ' + iconClass + '"></i>' +
+            '</div>' +
+            '<h3 class="service-card-title">' + escapeHtml(s.title) + '</h3>' +
+            '<p class="service-card-desc">' + escapeHtml(s.description) + '</p>' +
           '</div>';
-      }).join('');
-      observeReveals();
+      }
+
+      grid.innerHTML = html;
+      observeScrollReveals();
     }
 
+    /* ══════════════════════════════════════════════════════════════
+       DATA RENDERERS — Contacts
+       Includes special handling for mailto: links to show
+       "send us an email" styled button instead of plain link
+       ══════════════════════════════════════════════════════════════ */
     function renderContacts(contacts) {
       var grid = document.getElementById('contactsGrid');
-      if (!contacts.length) {
-        grid.innerHTML = '<p style="color:var(--fg-muted);text-align:center;grid-column:1/-1">No contact info available yet.</p>';
+
+      if (!contacts || contacts.length === 0) {
+        grid.innerHTML = '<p style="color:var(--fg-muted);text-align:center;grid-column:1/-1;padding:40px 0;">No contact info available yet.</p>';
         return;
       }
-      grid.innerHTML = contacts.map(function(c, i) {
-        return '<div class="contact-card reveal reveal-delay-' + Math.min(i % 3 + 1, 3) + '">' +
-          '<div class="card-icon"><i class="fas ' + escapeHtml(c.icon || 'fa-phone') + '"></i></div>' +
-          '<div>' +
-          '<h4>' + escapeHtml(c.title) + '</h4>' +
-          (c.link ? '<a href="' + escapeHtml(c.link) + '" target="_blank" rel="noopener">' + escapeHtml(c.value) + '</a>' : '<span style="font-size:0.88rem;color:var(--fg-muted)">' + escapeHtml(c.value) + '</span>') +
-          '</div></div>';
-      }).join('');
-      observeReveals();
+
+      var html = '';
+      for (var i = 0; i < contacts.length; i++) {
+        var c = contacts[i];
+        var delayClass = 'delay-' + Math.min((i % 3) + 1, 3);
+        var iconClass = escapeHtml(c.icon || 'fa-phone');
+        var linkHref = '';
+        var linkHTML = '';
+
+        /* Check if this contact has a mailto: link */
+        if (c.link && isMailtoLink(c.link)) {
+          /* Enhance the mailto link with subject/body if needed */
+          var fullMailto = enhanceMailtoLink(c.link);
+          linkHref = fullMailto;
+          linkHTML =
+            '<a href="' + escapeHtml(fullMailto) + '" class="contact-card-link email-link">' +
+              '<i class="fas fa-paper-plane" style="font-size:0.8rem"></i> ' +
+              'Send us an email ' +
+              '<i class="fas fa-arrow-right email-arrow"></i>' +
+            '</a>';
+        } else if (c.link) {
+          linkHref = c.link;
+          linkHTML =
+            '<a href="' + escapeHtml(c.link) + '" target="_blank" rel="noopener noreferrer" class="contact-card-link">' +
+              escapeHtml(c.value) +
+            '</a>';
+        } else {
+          linkHTML =
+            '<span class="contact-card-link">' + escapeHtml(c.value) + '</span>';
+        }
+
+        html +=
+          '<div class="contact-card scroll-reveal ' + delayClass + '">' +
+            '<div class="contact-card-icon">' +
+              '<i class="fas ' + iconClass + '"></i>' +
+            '</div>' +
+            '<div>' +
+              '<h4 class="contact-card-title">' + escapeHtml(c.title) + '</h4>' +
+              linkHTML +
+            '</div>' +
+          '</div>';
+      }
+
+      grid.innerHTML = html;
+      observeScrollReveals();
     }
 
+    /* ══════════════════════════════════════════════════════════════
+       DATA RENDERERS — Reviews
+       ══════════════════════════════════════════════════════════════ */
     function renderReviews(reviews) {
       var list = document.getElementById('reviewsList');
-      if (!reviews.length) {
-        list.innerHTML = '<p style="color:var(--fg-muted);text-align:center">No reviews yet. Be the first to leave one!</p>';
+
+      if (!reviews || reviews.length === 0) {
+        list.innerHTML = '<p style="color:var(--fg-muted);text-align:center;padding:40px 0;">No reviews yet. Be the first to leave one!</p>';
         return;
       }
-      list.innerHTML = reviews.map(function(r) {
-        return '<div class="review-card reveal">' +
-          '<div class="review-header">' +
-          '<span class="review-name">' + escapeHtml(r.name) + '</span>' +
-          '<span class="review-date">' + formatDate(r.review_date || r.created_at) + '</span>' +
-          '</div>' +
-          '<div class="review-stars">' + renderStars(r.rating) + '</div>' +
-          '<p class="review-text">' + escapeHtml(r.text) + '</p>' +
+
+      var html = '';
+      for (var i = 0; i < reviews.length; i++) {
+        var r = reviews[i];
+        var dateValue = r.review_date || r.created_at;
+        var displayDate = formatDate(dateValue);
+
+        html +=
+          '<div class="review-card scroll-reveal">' +
+            '<div class="review-card-header">' +
+              '<span class="review-card-name">' + escapeHtml(r.name) + '</span>' +
+              '<span class="review-card-date">' + escapeHtml(displayDate) + '</span>' +
+            '</div>' +
+            '<div class="review-card-stars">' + renderStarsHTML(r.rating) + '</div>' +
+            '<p class="review-card-text">' + escapeHtml(r.text) + '</p>' +
           '</div>';
-      }).join('');
-      observeReveals();
+      }
+
+      list.innerHTML = html;
+      observeScrollReveals();
     }
 
-    /* ══════════════════════════════════════
-       Page Content Applier
-       (FIX #1: uses !== undefined instead of ||)
-       ══════════════════════════════════════ */
-    function applyPageContent(pc) {
+    /* ══════════════════════════════════════════════════════════════
+       PAGE CONTENT APPLIER
+       Reads page_content map and updates all text elements.
+       Uses !== undefined checks so empty strings are respected
+       (fixes the "remove image shows fallback" bug)
+       ══════════════════════════════════════════════════════════════ */
+    function applyPageContent(contentMap) {
       /* Hero tagline */
-      if (pc.hero_tagline !== undefined) {
-        document.getElementById('heroTagline').textContent = pc.hero_tagline || FALLBACK_PAGE_CONTENT.hero_tagline;
+      if (contentMap.hero_tagline !== undefined) {
+        document.getElementById('heroTagline').textContent = contentMap.hero_tagline || FALLBACK_PAGE_CONTENT.hero_tagline;
       }
-      /* Hero title with highlight */
-      var title = (pc.hero_title !== undefined) ? pc.hero_title : FALLBACK_PAGE_CONTENT.hero_title;
-      var highlight = (pc.hero_title_highlight !== undefined) ? pc.hero_title_highlight : FALLBACK_PAGE_CONTENT.hero_title_highlight;
+
+      /* Hero title with highlight word in green */
+      var titleText = (contentMap.hero_title !== undefined) ? contentMap.hero_title : FALLBACK_PAGE_CONTENT.hero_title;
+      var highlightText = (contentMap.hero_title_highlight !== undefined) ? contentMap.hero_title_highlight : FALLBACK_PAGE_CONTENT.hero_title_highlight;
+
       var titleEl = document.getElementById('heroTitle');
-      if (highlight && title && title.indexOf(highlight) !== -1) {
-        var escapedTitle = escapeHtml(title);
-        var escapedHighlight = escapeHtml(highlight);
-        titleEl.innerHTML = escapedTitle.replace(escapedHighlight, '<span class="accent">' + escapedHighlight + '</span>');
+      if (titleText && highlightText && titleText.indexOf(highlightText) !== -1) {
+        var escapedFullTitle = escapeHtml(titleText);
+        var escapedHighlight = escapeHtml(highlightText);
+        titleEl.innerHTML = escapedFullTitle.replace(escapedHighlight, '<span class="accent-text">' + escapedHighlight + '</span>');
       } else {
-        titleEl.textContent = title || FALLBACK_PAGE_CONTENT.hero_title;
+        titleEl.textContent = titleText || FALLBACK_PAGE_CONTENT.hero_title;
       }
-      /* Hero button text */
-      if (pc.hero_button_text !== undefined) {
-        document.getElementById('heroBtnText').textContent = pc.hero_button_text || FALLBACK_PAGE_CONTENT.hero_button_text;
+
+      /* Hero CTA button text */
+      if (contentMap.hero_button_text !== undefined) {
+        document.getElementById('heroCtaText').textContent = contentMap.hero_button_text || FALLBACK_PAGE_CONTENT.hero_button_text;
       }
-      /* Services section */
-      if (pc.services_label !== undefined) {
-        document.getElementById('servicesLabel').textContent = pc.services_label || FALLBACK_PAGE_CONTENT.services_label;
+
+      /* Services section labels */
+      if (contentMap.services_label !== undefined) {
+        document.getElementById('servicesLabel').textContent = contentMap.services_label || FALLBACK_PAGE_CONTENT.services_label;
       }
-      if (pc.services_title !== undefined) {
-        document.getElementById('servicesTitle').textContent = pc.services_title || FALLBACK_PAGE_CONTENT.services_title;
+      if (contentMap.services_title !== undefined) {
+        document.getElementById('servicesTitle').textContent = contentMap.services_title || FALLBACK_PAGE_CONTENT.services_title;
       }
-      /* Contacts section */
-      if (pc.contacts_label !== undefined) {
-        document.getElementById('contactsLabel').textContent = pc.contacts_label || FALLBACK_PAGE_CONTENT.contacts_label;
+
+      /* Contacts section labels */
+      if (contentMap.contacts_label !== undefined) {
+        document.getElementById('contactsLabel').textContent = contentMap.contacts_label || FALLBACK_PAGE_CONTENT.contacts_label;
       }
-      if (pc.contacts_title !== undefined) {
-        document.getElementById('contactsTitle').textContent = pc.contacts_title || FALLBACK_PAGE_CONTENT.contacts_title;
+      if (contentMap.contacts_title !== undefined) {
+        document.getElementById('contactsTitle').textContent = contentMap.contacts_title || FALLBACK_PAGE_CONTENT.contacts_title;
       }
-      /* Reviews section */
-      if (pc.reviews_label !== undefined) {
-        document.getElementById('reviewsLabel').textContent = pc.reviews_label || FALLBACK_PAGE_CONTENT.reviews_label;
+
+      /* Reviews section labels */
+      if (contentMap.reviews_label !== undefined) {
+        document.getElementById('reviewsLabel').textContent = contentMap.reviews_label || FALLBACK_PAGE_CONTENT.reviews_label;
       }
-      if (pc.reviews_title !== undefined) {
-        document.getElementById('reviewsTitle').textContent = pc.reviews_title || FALLBACK_PAGE_CONTENT.reviews_title;
+      if (contentMap.reviews_title !== undefined) {
+        document.getElementById('reviewsTitle').textContent = contentMap.reviews_title || FALLBACK_PAGE_CONTENT.reviews_title;
       }
-      /* Footer */
-      if (pc.footer_text !== undefined) {
-        document.getElementById('footerText').textContent = pc.footer_text || FALLBACK_PAGE_CONTENT.footer_text;
+
+      /* Footer text */
+      if (contentMap.footer_text !== undefined) {
+        document.getElementById('footerText').textContent = contentMap.footer_text || FALLBACK_PAGE_CONTENT.footer_text;
       }
     }
 
-    /* ══════════════════════════════════════
-       Profile Image Setter
-       (FIX #4: proper event listener, no inline onerror)
-       ══════════════════════════════════════ */
-    function setProfileImage(url) {
+    /* ══════════════════════════════════════════════════════════════
+       PROFILE IMAGE SETTER
+       Uses proper DOM element creation with addEventListener
+       for error handling (fixes inline onerror quote bug)
+       ══════════════════════════════════════════════════════════════ */
+    function setProfileImage(imageUrl) {
       var circle = document.getElementById('profileCircle');
-      if (url && url.trim()) {
+
+      if (imageUrl && imageUrl.trim()) {
         var img = document.createElement('img');
-        img.alt = 'Profile';
-        img.src = url;
-        img.onerror = function() {
-          circle.textContent = 'E';
-        };
+        img.alt = 'EDDY TECH Profile';
+        img.src = imageUrl;
+
+        /* Proper error handler — no inline onerror */
+        img.addEventListener('error', function() {
+          circle.innerHTML = '<span>E</span>';
+        });
+
+        /* On successful load, replace circle content with image */
+        img.addEventListener('load', function() {
+          circle.innerHTML = '';
+          circle.appendChild(img);
+        });
+
         circle.innerHTML = '';
         circle.appendChild(img);
       } else {
-        circle.textContent = 'E';
+        /* No image set — show the letter E */
+        circle.innerHTML = '<span>E</span>';
       }
     }
 
-    /* ══════════════════════════════════════
-       Background Image Applier
-       (FIX #3: now actually applies background image)
-       ══════════════════════════════════════ */
-    function applyBackgroundImage(bgUrl) {
+    /* ══════════════════════════════════════════════════════════════
+       FAVICON UPDATER
+       Dynamically sets the browser tab icon from the profile image
+       URL loaded from Supabase. Falls back to SVG placeholder.
+       ══════════════════════════════════════════════════════════════ */
+    function updateFavicon(imageUrl) {
+      if (!imageUrl || !imageUrl.trim()) return;
+
+      var favicon32 = document.getElementById('favicon32');
+      var favicon16 = document.getElementById('favicon16');
+      var appleIcon = document.getElementById('appleIcon');
+
+      if (favicon32) favicon32.href = imageUrl;
+      if (favicon16) favicon16.href = imageUrl;
+      if (appleIcon) appleIcon.href = imageUrl;
+    }
+
+    /* ══════════════════════════════════════════════════════════════
+       BACKGROUND IMAGE APPLIER
+       Sets the hero section background image from the settings.
+       Shows a gradient overlay when background is set for readability.
+       ══════════════════════════════════════════════════════════════ */
+    function applyBackgroundImage(bgImageUrl) {
       var heroEl = document.getElementById('home');
-      if (bgUrl && bgUrl.trim()) {
-        heroEl.style.backgroundImage = 'url(' + escapeHtml(bgUrl) + ')';
+      var gradientOverlay = document.getElementById('heroGradientOverlay');
+
+      if (bgImageUrl && bgImageUrl.trim()) {
+        heroEl.style.backgroundImage = 'url(' + escapeHtml(bgImageUrl) + ')';
         heroEl.style.backgroundSize = 'cover';
         heroEl.style.backgroundPosition = 'center';
         heroEl.style.backgroundRepeat = 'no-repeat';
+        /* Show gradient overlay for text readability over the image */
+        if (gradientOverlay) {
+          gradientOverlay.style.display = 'block';
+        }
       } else {
         heroEl.style.backgroundImage = '';
+        heroEl.style.backgroundSize = '';
+        heroEl.style.backgroundPosition = '';
+        heroEl.style.backgroundRepeat = '';
+        /* Hide gradient overlay when no background image */
+        if (gradientOverlay) {
+          gradientOverlay.style.display = 'none';
+        }
       }
     }
 
-    /* ══════════════════════════════════════
-       Star Rating Interaction
-       ══════════════════════════════════════ */
-    var selectedRating = 0;
-    var starRatingEl = document.getElementById('starRating');
-    var starIcons = starRatingEl.querySelectorAll('i');
+    /* ══════════════════════════════════════════════════════════════
+       STAR RATING INTERACTION
+       Handles hover preview and click-to-select for the 5 stars
+       ══════════════════════════════════════════════════════════════ */
+    var selectedStarRating = 0;
+    var starRatingContainer = document.getElementById('starRating');
+    var starElements = starRatingContainer.querySelectorAll('.star');
 
-    function updateStarDisplay(rating) {
-      starIcons.forEach(function(s) {
-        s.classList.toggle('active', parseInt(s.dataset.value) <= rating);
-      });
+    function updateStarVisual(ratingValue) {
+      for (var i = 0; i < starElements.length; i++) {
+        var star = starElements[i];
+        var starValue = parseInt(star.getAttribute('data-value'), 10);
+        if (starValue <= ratingValue) {
+          star.classList.add('lit');
+        } else {
+          star.classList.remove('lit');
+        }
+      }
     }
 
-    starIcons.forEach(function(star) {
-      star.addEventListener('mouseenter', function() {
-        updateStarDisplay(parseInt(star.dataset.value));
-      });
-      star.addEventListener('click', function() {
-        selectedRating = parseInt(star.dataset.value);
-        updateStarDisplay(selectedRating);
-      });
+    /* Hover: preview the rating */
+    for (var si = 0; si < starElements.length; si++) {
+      (function(star) {
+        star.addEventListener('mouseenter', function() {
+          var val = parseInt(star.getAttribute('data-value'), 10);
+          updateStarVisual(val);
+        });
+
+        /* Click: lock in the rating */
+        star.addEventListener('click', function() {
+          selectedStarRating = parseInt(star.getAttribute('data-value'), 10);
+          updateStarVisual(selectedStarRating);
+        });
+
+        /* Keyboard support */
+        star.addEventListener('keydown', function(e) {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            selectedStarRating = parseInt(star.getAttribute('data-value'), 10);
+            updateStarVisual(selectedStarRating);
+          }
+        });
+      })(starElements[si]);
+    }
+
+    /* Mouse leave: revert to selected rating */
+    starRatingContainer.addEventListener('mouseleave', function() {
+      updateStarVisual(selectedStarRating);
     });
-    starRatingEl.addEventListener('mouseleave', function() {
-      updateStarDisplay(selectedRating);
-    });
 
-    /* ══════════════════════════════════════
-       Submit Review
-       ══════════════════════════════════════ */
-    var submitBtn = document.getElementById('submitReview');
+    /* ══════════════════════════════════════════════════════════════
+       REVIEW SUBMISSION
+       Validates inputs, shows spinner, POSTs to Supabase,
+       then refreshes the review list from the database
+       ══════════════════════════════════════════════════════════════ */
+    var submitReviewBtn = document.getElementById('submitReviewBtn');
+    var reviewNameInput = document.getElementById('reviewNameInput');
+    var reviewTextInput = document.getElementById('reviewTextInput');
 
-    submitBtn.addEventListener('click', async function() {
-      var name = document.getElementById('reviewName').value.trim();
-      var text = document.getElementById('reviewText').value.trim();
+    submitReviewBtn.addEventListener('click', async function() {
+      var nameValue = reviewNameInput.value.trim();
+      var textValue = reviewTextInput.value.trim();
 
-      if (!selectedRating) { showToast('Please select a star rating.', 'error'); return; }
-      if (!name) { showToast('Please enter your name.', 'error'); return; }
-      if (!text) { showToast('Please write a review.', 'error'); return; }
+      /* Validation */
+      if (!selectedStarRating) {
+        showToast('Please select a star rating.', 'error');
+        return;
+      }
+      if (!nameValue) {
+        showToast('Please enter your name.', 'error');
+        reviewNameInput.focus();
+        return;
+      }
+      if (!textValue) {
+        showToast('Please write your review.', 'error');
+        reviewTextInput.focus();
+        return;
+      }
 
-      submitBtn.disabled = true;
-      submitBtn.innerHTML = '<span class="btn-spinner"></span> Submitting...';
+      /* Show loading state and disable button */
+      submitReviewBtn.disabled = true;
+      submitReviewBtn.innerHTML = '<span class="btn-spinner"></span> Submitting...';
 
       try {
-        await fetchJSON(REST_URL + '/reviews', {
+        /* POST the new review to Supabase */
+        await supabaseFetch(REST_BASE + '/reviews', {
           method: 'POST',
-          headers: { 'Content-Type': 'application/json', Prefer: 'return=representation' },
-          body: JSON.stringify({ name: name, rating: selectedRating, text: text })
+          headers: POST_RETURN_HEADERS,
+          body: JSON.stringify({
+            name: nameValue,
+            rating: selectedStarRating,
+            text: textValue
+          })
         });
-        showToast('Review submitted successfully!', 'success');
-        document.getElementById('reviewName').value = '';
-        document.getElementById('reviewText').value = '';
-        selectedRating = 0;
-        updateStarDisplay(0);
+
+        /* Success — reset form and refresh list */
+        showToast('Review submitted successfully! Thank you.', 'success');
+        reviewNameInput.value = '';
+        reviewTextInput.value = '';
+        selectedStarRating = 0;
+        updateStarVisual(0);
+
+        /* Reload only the reviews from Supabase */
         await loadReviewsOnly();
-      } catch (err) {
-        showToast('Failed to submit review: ' + err.message, 'error');
+      } catch (error) {
+        showToast('Failed to submit review: ' + error.message, 'error');
       } finally {
-        submitBtn.disabled = false;
-        submitBtn.innerHTML = 'Submit Review';
+        /* Always restore the button */
+        submitReviewBtn.disabled = false;
+        submitReviewBtn.innerHTML = 'Submit Review';
       }
     });
 
-    /* ══════════════════════════════════════
-       Data Loaders
-       ══════════════════════════════════════ */
+    /* ══════════════════════════════════════════════════════════════
+       DATA LOADER — Reviews Only
+       Used after submitting a new review to refresh just the list
+       ══════════════════════════════════════════════════════════════ */
     async function loadReviewsOnly() {
       try {
-        var data = await fetchJSON(REST_URL + '/reviews?select=*&order=created_at.desc');
+        var data = await supabaseFetch(
+          REST_BASE + '/reviews?select=*&order=created_at.desc'
+        );
         renderReviews(data);
-      } catch (err) {
+      } catch (error) {
         renderReviews(FALLBACK_REVIEWS);
       }
     }
 
-    /* ══════════════════════════════════════
-       Load All Data
-       ══════════════════════════════════════ */
+    /* ══════════════════════════════════════════════════════════════
+       MAIN DATA LOADER — Loads Everything on Page Load
+       Fetches all 5 data sources in parallel using Promise.allSettled
+       so partial failures don't break the entire page
+       ══════════════════════════════════════════════════════════════ */
     async function loadAllData() {
-      var dbConnected = true;
-      var firstError = '';
+      var isOnline = true;
+      var firstErrorMessage = '';
 
-      /* Show skeletons */
+      /* Show skeleton placeholders while loading */
       document.getElementById('servicesGrid').innerHTML = renderServiceSkeletons(4);
       document.getElementById('contactsGrid').innerHTML = renderContactSkeletons(3);
       document.getElementById('reviewsList').innerHTML = renderReviewSkeletons(3);
 
-      var results = await Promise.allSettled([
-        fetchJSON(REST_URL + '/services?select=*&order=sort_order.asc,id.asc'),
-        fetchJSON(REST_URL + '/contacts?select=*&order=sort_order.asc,id.asc'),
-        fetchJSON(REST_URL + '/reviews?select=*&order=created_at.desc'),
-        fetchJSON(REST_URL + '/settings?select=setting_key,setting_value'),
-        fetchJSON(REST_URL + '/page_content?select=element_key,content')
+      /* Fetch all 5 data sources in parallel */
+      var allResults = await Promise.allSettled([
+        /* 0: Services */
+        supabaseFetch(REST_BASE + '/services?select=*&order=sort_order.asc,id.asc'),
+        /* 1: Contacts */
+        supabaseFetch(REST_BASE + '/contacts?select=*&order=sort_order.asc,id.asc'),
+        /* 2: Reviews */
+        supabaseFetch(REST_BASE + '/reviews?select=*&order=created_at.desc'),
+        /* 3: Settings */
+        supabaseFetch(REST_BASE + '/settings?select=setting_key,setting_value'),
+        /* 4: Page Content */
+        supabaseFetch(REST_BASE + '/page_content?select=element_key,content')
       ]);
 
       var servicesData = null;
@@ -901,129 +2168,306 @@
       var settingsData = null;
       var pageContentData = null;
 
-      if (results[0].status === 'fulfilled') servicesData = results[0].value;
-      else { dbConnected = false; firstError = firstError || results[0].reason.message; }
-
-      if (results[1].status === 'fulfilled') contactsData = results[1].value;
-      else { dbConnected = false; firstError = firstError || results[1].reason.message; }
-
-      if (results[2].status === 'fulfilled') reviewsData = results[2].value;
-      else { dbConnected = false; firstError = firstError || results[2].reason.message; }
-
-      if (results[3].status === 'fulfilled') settingsData = results[3].value;
-      else { dbConnected = false; firstError = firstError || results[3].reason.message; }
-
-      if (results[4].status === 'fulfilled') pageContentData = results[4].value;
-      else { dbConnected = false; firstError = firstError || results[4].reason.message; }
-
-      /* Connection status */
-      if (dbConnected) {
-        setConnectionStatus(true);
+      /* Process services result */
+      if (allResults[0].status === 'fulfilled') {
+        servicesData = allResults[0].value;
       } else {
-        setConnectionStatus(false, firstError);
-        showToast('Database connection issue: ' + firstError + '. Showing offline data.', 'error');
+        isOnline = false;
+        firstErrorMessage = firstErrorMessage || allResults[0].reason.message;
       }
 
-      /* Render services */
+      /* Process contacts result */
+      if (allResults[1].status === 'fulfilled') {
+        contactsData = allResults[1].value;
+      } else {
+        isOnline = false;
+        firstErrorMessage = firstErrorMessage || allResults[1].reason.message;
+      }
+
+      /* Process reviews result */
+      if (allResults[2].status === 'fulfilled') {
+        reviewsData = allResults[2].value;
+      } else {
+        isOnline = false;
+        firstErrorMessage = firstErrorMessage || allResults[2].reason.message;
+      }
+
+      /* Process settings result */
+      if (allResults[3].status === 'fulfilled') {
+        settingsData = allResults[3].value;
+      } else {
+        isOnline = false;
+        firstErrorMessage = firstErrorMessage || allResults[3].reason.message;
+      }
+
+      /* Process page content result */
+      if (allResults[4].status === 'fulfilled') {
+        pageContentData = allResults[4].value;
+      } else {
+        isOnline = false;
+        firstErrorMessage = firstErrorMessage || allResults[4].reason.message;
+      }
+
+      /* Update connection status indicator */
+      if (isOnline) {
+        updateConnectionStatus(true);
+      } else {
+        updateConnectionStatus(false, firstErrorMessage);
+        showToast(
+          'Database connection issue: ' + firstErrorMessage + '. Showing offline data.',
+          'error'
+        );
+      }
+
+      /* ── Render Services ── */
       renderServices(servicesData || FALLBACK_SERVICES);
 
-      /* Render contacts */
+      /* ── Render Contacts ── */
       renderContacts(contactsData || FALLBACK_CONTACTS);
 
-      /* Render reviews */
+      /* ── Render Reviews ── */
       renderReviews(reviewsData || FALLBACK_REVIEWS);
 
-      /* Build settings map */
+      /* ── Build Settings Map ── */
       var settingsMap = {};
       if (settingsData && Array.isArray(settingsData)) {
-        settingsData.forEach(function(s) { settingsMap[s.setting_key] = s.setting_value; });
+        for (var si = 0; si < settingsData.length; si++) {
+          var row = settingsData[si];
+          settingsMap[row.setting_key] = row.setting_value;
+        }
       }
 
-      /* FIX #1: use !== undefined so empty string is respected */
-      var heroText = (settingsMap.hero_text !== undefined) ? settingsMap.hero_text : FALLBACK_HERO_TEXT;
-      document.getElementById('heroText').textContent = heroText || FALLBACK_HERO_TEXT;
+      /* ── Apply Hero Text (using !== undefined for empty string respect) ── */
+      var heroTextValue;
+      if (settingsMap.hero_text !== undefined) {
+        heroTextValue = settingsMap.hero_text;
+      } else {
+        heroTextValue = FALLBACK_HERO_TEXT;
+      }
+      document.getElementById('heroParagraph').textContent = heroTextValue || FALLBACK_HERO_TEXT;
 
-      var profileImage = (settingsMap.profile_image !== undefined) ? settingsMap.profile_image : FALLBACK_PROFILE_IMAGE;
-      setProfileImage(profileImage);
+      /* ── Apply Profile Image (using !== undefined for empty string respect) ── */
+      var profileImageValue;
+      if (settingsMap.profile_image !== undefined) {
+        profileImageValue = settingsMap.profile_image;
+      } else {
+        profileImageValue = FALLBACK_PROFILE_IMAGE;
+      }
+      setProfileImage(profileImageValue);
 
-      /* FIX #3: apply background image */
-      var bgImage = (settingsMap.background_image !== undefined) ? settingsMap.background_image : '';
-      applyBackgroundImage(bgImage);
+      /* ── Update Favicon with profile image ── */
+      if (profileImageValue && profileImageValue.trim()) {
+        updateFavicon(profileImageValue);
+      }
 
-      /* Apply page content (layout editor text) */
-      var pcMap = {};
+      /* ── Apply Background Image (using !== undefined for empty string respect) ── */
+      var bgImageValue;
+      if (settingsMap.background_image !== undefined) {
+        bgImageValue = settingsMap.background_image;
+      } else {
+        bgImageValue = '';
+      }
+      applyBackgroundImage(bgImageValue);
+
+      /* ── Build Page Content Map and Apply ── */
+      var pageContentMap = {};
       if (pageContentData && Array.isArray(pageContentData)) {
-        pageContentData.forEach(function(row) { pcMap[row.element_key] = row.content; });
+        for (var pi = 0; pi < pageContentData.length; pi++) {
+          var pcRow = pageContentData[pi];
+          pageContentMap[pcRow.element_key] = pcRow.content;
+        }
       }
-      applyPageContent(pcMap);
+      applyPageContent(pageContentMap);
     }
 
-    /* ══════════════════════════════════════
-       Scroll Reveal (IntersectionObserver)
-       ══════════════════════════════════════ */
-    var revealObserver = null;
+    /* ══════════════════════════════════════════════════════════════
+       SCROLL REVEAL — IntersectionObserver
+       Elements with .scroll-reveal fade up when they enter viewport
+       ══════════════════════════════════════════════════════════════ */
+    var scrollRevealObserver = null;
 
-    function observeReveals() {
-      if (!revealObserver) {
-        revealObserver = new IntersectionObserver(function(entries) {
-          entries.forEach(function(entry) {
-            if (entry.isIntersecting) {
-              entry.target.classList.add('revealed');
-              revealObserver.unobserve(entry.target);
+    function observeScrollReveals() {
+      if (!scrollRevealObserver) {
+        scrollRevealObserver = new IntersectionObserver(
+          function(entries) {
+            for (var i = 0; i < entries.length; i++) {
+              var entry = entries[i];
+              if (entry.isIntersecting) {
+                entry.target.classList.add('revealed');
+                /* Stop observing once revealed — one-time animation */
+                scrollRevealObserver.unobserve(entry.target);
+              }
             }
-          });
-        }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+          },
+          {
+            threshold: 0.08,
+            rootMargin: '0px 0px -50px 0px'
+          }
+        );
       }
-      document.querySelectorAll('.reveal:not(.revealed)').forEach(function(el) {
-        revealObserver.observe(el);
-      });
+
+      /* Observe all elements that haven't been revealed yet */
+      var elements = document.querySelectorAll('.scroll-reveal:not(.revealed)');
+      for (var i = 0; i < elements.length; i++) {
+        scrollRevealObserver.observe(elements[i]);
+      }
     }
 
-    /* ══════════════════════════════════════
-       Navigation
-       ══════════════════════════════════════ */
-    document.querySelectorAll('a[href^="#"]').forEach(function(link) {
-      link.addEventListener('click', function(e) {
-        var href = this.getAttribute('href');
-        if (href === '#') return;
-        e.preventDefault();
-        var target = document.querySelector(href);
-        if (target) {
-          var offset = 80;
-          var top = target.getBoundingClientRect().top + window.scrollY - offset;
-          window.scrollTo({ top: top, behavior: 'smooth' });
-        }
-        document.getElementById('navMenu').classList.remove('open');
-        document.getElementById('hamburger').classList.remove('active');
-      });
-    });
+    /* ══════════════════════════════════════════════════════════════
+       NAVIGATION — Smooth Scroll & Active Link Tracking
+       ══════════════════════════════════════════════════════════════ */
 
-    /* Active nav link on scroll */
+    /* Smooth scroll for all anchor links */
+    var allAnchorLinks = document.querySelectorAll('a[href^="#"]');
+    for (var ai = 0; ai < allAnchorLinks.length; ai++) {
+      (function(link) {
+        link.addEventListener('click', function(e) {
+          var href = link.getAttribute('href');
+          if (!href || href === '#') return;
+
+          var targetElement = document.querySelector(href);
+          if (!targetElement) return;
+
+          e.preventDefault();
+
+          /* Calculate scroll position with header offset */
+          var headerHeight = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--header-h'), 10) || 72;
+          var targetTop = targetElement.getBoundingClientRect().top + window.pageYOffset - headerHeight - 12;
+
+          window.scrollTo({
+            top: targetTop,
+            behavior: 'smooth'
+          });
+
+          /* Close mobile nav if open */
+          closeMobileNav();
+        });
+      })(allAnchorLinks[ai]);
+    }
+
+    /* Track active nav link based on scroll position */
+    var sectionElements = document.querySelectorAll('section[id]');
+    var navLinkElements = document.querySelectorAll('.nav-link');
+
+    function updateActiveNavLink() {
+      var scrollPosition = window.pageYOffset || window.scrollY;
+      var headerOffset = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--header-h'), 10) || 72;
+      var triggerPoint = scrollPosition + headerOffset + 100;
+
+      for (var i = 0; i < sectionElements.length; i++) {
+        var section = sectionElements[i];
+        var sectionTop = section.offsetTop;
+        var sectionHeight = section.offsetHeight;
+        var sectionId = section.getAttribute('id');
+
+        if (triggerPoint >= sectionTop && triggerPoint < sectionTop + sectionHeight) {
+          for (var j = 0; j < navLinkElements.length; j++) {
+            var navLink = navLinkElements[j];
+            var navHref = navLink.getAttribute('href');
+            if (navHref === '#' + sectionId) {
+              navLink.classList.add('active');
+            } else {
+              navLink.classList.remove('active');
+            }
+          }
+          break;
+        }
+      }
+    }
+
+    /* Header shadow on scroll */
+    function updateHeaderOnScroll() {
+      var header = document.getElementById('siteHeader');
+      if (window.pageYOffset > 20) {
+        header.classList.add('scrolled');
+      } else {
+        header.classList.remove('scrolled');
+      }
+    }
+
+    /* Combined scroll handler — throttled with requestAnimationFrame */
+    var scrollTicking = false;
     window.addEventListener('scroll', function() {
-      var sections = document.querySelectorAll('section[id]');
-      var scrollPos = window.scrollY + 120;
-      sections.forEach(function(section) {
-        var top = section.offsetTop;
-        var height = section.offsetHeight;
-        var id = section.getAttribute('id');
-        var link = document.querySelector('.nav-link[href="#' + id + '"]');
-        if (link) {
-          link.classList.toggle('active', scrollPos >= top && scrollPos < top + height);
+      if (!scrollTicking) {
+        requestAnimationFrame(function() {
+          updateActiveNavLink();
+          updateHeaderOnScroll();
+          scrollTicking = false;
+        });
+        scrollTicking = true;
+      }
+    }, { passive: true });
+
+    /* ══════════════════════════════════════════════════════════════
+       MOBILE HAMBURGER MENU
+       ══════════════════════════════════════════════════════════════ */
+    var hamburgerBtn = document.getElementById('hamburgerBtn');
+    var navLinksContainer = document.getElementById('navLinks');
+
+    function openMobileNav() {
+      hamburgerBtn.classList.add('open');
+      hamburgerBtn.setAttribute('aria-expanded', 'true');
+      navLinksContainer.classList.add('open');
+    }
+
+    function closeMobileNav() {
+      hamburgerBtn.classList.remove('open');
+      hamburgerBtn.setAttribute('aria-expanded', 'false');
+      navLinksContainer.classList.remove('open');
+    }
+
+    function toggleMobileNav() {
+      if (navLinksContainer.classList.contains('open')) {
+        closeMobileNav();
+      } else {
+        openMobileNav();
+      }
+    }
+
+    hamburgerBtn.addEventListener('click', toggleMobileNav);
+
+    /* Close mobile nav when clicking a nav link */
+    var mobileNavLinks = navLinksContainer.querySelectorAll('.nav-link');
+    for (var mli = 0; mli < mobileNavLinks.length; mli++) {
+      (function(navLink) {
+        navLink.addEventListener('click', function() {
+          closeMobileNav();
+        });
+      })(mobileNavLinks[mli]);
+    }
+
+    /* Close mobile nav when clicking outside */
+    document.addEventListener('click', function(e) {
+      if (navLinksContainer.classList.contains('open')) {
+        var isInsideNav = navLinksContainer.contains(e.target);
+        var isHamburger = hamburgerBtn.contains(e.target);
+        if (!isInsideNav && !isHamburger) {
+          closeMobileNav();
         }
-      });
+      }
     });
 
-    /* Hamburger menu */
-    document.getElementById('hamburger').addEventListener('click', function() {
-      this.classList.toggle('active');
-      document.getElementById('navMenu').classList.toggle('open');
+    /* Close mobile nav on Escape key */
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape' && navLinksContainer.classList.contains('open')) {
+        closeMobileNav();
+        hamburgerBtn.focus();
+      }
     });
 
-    /* ══════════════════════════════════════
-       Init
-       ══════════════════════════════════════ */
+    /* ══════════════════════════════════════════════════════════════
+       INITIALIZATION
+       Wait for DOM to be ready, then start loading all data
+       ══════════════════════════════════════════════════════════════ */
     document.addEventListener('DOMContentLoaded', function() {
-      observeReveals();
+      /* Initialize scroll reveal observer for static elements */
+      observeScrollReveals();
+
+      /* Run initial active link check */
+      updateActiveNavLink();
+      updateHeaderOnScroll();
+
+      /* Load all data from Supabase */
       loadAllData();
     });
   </script>
