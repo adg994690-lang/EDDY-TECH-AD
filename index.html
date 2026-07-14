@@ -1,2475 +1,2101 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>EDDY TECH</title>
-  <meta name="description" content="EDDY TECH — Professional digital solutions by Eddy. Website development, video editing, promo videos, and event media.">
-  <meta name="theme-color" content="#08080d">
-
-  <!-- Favicon: dynamically updated from Supabase profile_image setting -->
-  <link rel="icon" type="image/png" sizes="32x32" id="favicon32" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%2300e68a'/><text x='50%25' y='55%25' dominant-baseline='middle' text-anchor='middle' font-family='sans-serif' font-weight='bold' font-size='18' fill='%2308080d'>E</text></svg>">
-  <link rel="icon" type="image/png" sizes="16x16" id="favicon16" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><rect width='16' height='16' rx='4' fill='%2300e68a'/><text x='50%25' y='55%25' dominant-baseline='middle' text-anchor='middle' font-family='sans-serif' font-weight='bold' font-size='10' fill='%2308080d'>E</text></svg>">
-  <link rel="apple-touch-icon" sizes="180x180" id="appleIcon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 180 180'><rect width='180' height='180' rx='40' fill='%2300e68a'/><text x='50%25' y='55%25' dominant-baseline='middle' text-anchor='middle' font-family='sans-serif' font-weight='bold' font-size='100' fill='%2308080d'>E</text></svg>">
-
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@800;900&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-
-  <style>
-    /* ══════════════════════════════════════════════════════════════
-       CSS CUSTOM PROPERTIES
-       ══════════════════════════════════════════════════════════════ */
-    :root {
-      --bg: #08080d;
-      --bg-elevated: #0c0c14;
-      --bg-card: #0f0f17;
-      --bg-card-hover: #131320;
-      --bg-input: rgba(255, 255, 255, 0.04);
-      --bg-input-focus: rgba(255, 255, 255, 0.06);
-      --bg-alt: #0a0a11;
-      --fg: #e8e8f0;
-      --fg-secondary: #c0c0d0;
-      --fg-muted: #7a7a96;
-      --fg-dim: #55556a;
-      --accent: #00e68a;
-      --accent-rgb: 0, 230, 138;
-      --accent-dim: rgba(0, 230, 138, 0.10);
-      --accent-soft: rgba(0, 230, 138, 0.18);
-      --accent-glow: rgba(0, 230, 138, 0.25);
-      --gold: #ffb800;
-      --gold-rgb: 255, 184, 0;
-      --gold-dim: rgba(255, 184, 0, 0.12);
-      --danger: #ff4466;
-      --danger-rgb: 255, 68, 102;
-      --danger-dim: rgba(255, 68, 102, 0.12);
-      --border: #1a1a2e;
-      --border-light: #222240;
-      --border-accent: rgba(0, 230, 138, 0.2);
-      --radius-xs: 6px;
-      --radius-sm: 8px;
-      --radius: 12px;
-      --radius-lg: 16px;
-      --radius-xl: 24px;
-      --radius-full: 100px;
-      --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.3);
-      --shadow: 0 4px 24px rgba(0, 0, 0, 0.4), 0 1px 3px rgba(0, 0, 0, 0.3);
-      --shadow-lg: 0 8px 40px rgba(0, 0, 0, 0.5), 0 2px 8px rgba(0, 0, 0, 0.3);
-      --shadow-glow: 0 4px 20px rgba(0, 230, 138, 0.2);
-      --shadow-card-hover: 0 12px 48px rgba(0, 0, 0, 0.55), 0 4px 12px rgba(0, 230, 138, 0.08);
-      --font-heading: 'Outfit', sans-serif;
-      --font-body: 'Space Grotesk', sans-serif;
-      --header-h: 72px;
-      --container-max: 1120px;
-      --ease-fast: 0.2s ease;
-      --ease: 0.3s ease;
-      --ease-slow: 0.5s ease;
-      --ease-bounce: 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
-    }
-
-    /* ══════════════════════════════════════════════════════════════
-       RESET & BASE
-       ══════════════════════════════════════════════════════════════ */
-    *, *::before, *::after {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
-    html {
-      scroll-behavior: smooth;
-      scroll-padding-top: calc(var(--header-h) + 16px);
-    }
-
-    body {
-      font-family: var(--font-body);
-      background: var(--bg);
-      color: var(--fg);
-      line-height: 1.65;
-      overflow-x: hidden;
-      -webkit-font-smoothing: antialiased;
-      -moz-osx-font-smoothing: grayscale;
-    }
-
-    a {
-      color: inherit;
-      text-decoration: none;
-      transition: color var(--ease-fast);
-    }
-
-    img {
-      max-width: 100%;
-      display: block;
-    }
-
-    button {
-      font-family: var(--font-body);
-      cursor: pointer;
-      border: none;
-      background: none;
-    }
-
-    input, textarea, select {
-      font-family: var(--font-body);
-    }
-
-    ::selection {
-      background: rgba(var(--accent-rgb), 0.3);
-      color: #fff;
-    }
-
-    ::-webkit-scrollbar {
-      width: 7px;
-    }
-    ::-webkit-scrollbar-track {
-      background: var(--bg);
-    }
-    ::-webkit-scrollbar-thumb {
-      background: var(--border-light);
-      border-radius: 4px;
-    }
-    ::-webkit-scrollbar-thumb:hover {
-      background: var(--fg-dim);
-    }
-
-    .container {
-      width: 100%;
-      max-width: var(--container-max);
-      margin: 0 auto;
-      padding: 0 24px;
-    }
-
-    /* ══════════════════════════════════════════════════════════════
-       SKELETON LOADING ANIMATIONS
-       ══════════════════════════════════════════════════════════════ */
-    .skeleton {
-      background: linear-gradient(90deg, #12121e 25%, #1c1c30 37%, #12121e 63%);
-      background-size: 400% 100%;
-      animation: skelShimmer 1.8s ease-in-out infinite;
-      border-radius: var(--radius-sm);
-    }
-
-    @keyframes skelShimmer {
-      0% { background-position: 100% 50%; }
-      100% { background-position: 0% 50%; }
-    }
-
-    .skel-line {
-      height: 14px;
-      margin-bottom: 10px;
-      display: block;
-      border-radius: 4px;
-    }
-    .skel-line.full { width: 100%; }
-    .skel-line.w90 { width: 90%; }
-    .skel-line.w75 { width: 75%; }
-    .skel-line.w60 { width: 60%; }
-    .skel-line.w45 { width: 45%; }
-    .skel-line.w30 { width: 30%; }
-    .skel-line.h18 { height: 18px; }
-    .skel-line.h12 { height: 12px; }
-
-    .skel-circle {
-      border-radius: 50%;
-      flex-shrink: 0;
-    }
-
-    .skel-card {
-      background: var(--bg-card);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 30px 26px;
-      box-shadow: var(--shadow);
-    }
-
-    /* ══════════════════════════════════════════════════════════════
-       HEADER / NAVIGATION BAR
-       ══════════════════════════════════════════════════════════════ */
-    .site-header {
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      z-index: 1000;
-      height: var(--header-h);
-      background: rgba(8, 8, 13, 0.72);
-      backdrop-filter: blur(24px) saturate(1.3);
-      -webkit-backdrop-filter: blur(24px) saturate(1.3);
-      border-bottom: 1px solid var(--border);
-      transition: background var(--ease), box-shadow var(--ease);
-    }
-
-    .site-header.scrolled {
-      background: rgba(8, 8, 13, 0.94);
-      box-shadow: 0 2px 24px rgba(0, 0, 0, 0.5);
-    }
-
-    .nav-inner {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      height: 100%;
-    }
-
-    .logo-link {
-      display: flex;
-      align-items: center;
-    }
-
-    .logo {
-      font-family: var(--font-heading);
-      font-weight: 900;
-      font-size: 1.35rem;
-      letter-spacing: -0.5px;
-      user-select: none;
-    }
-
-    .logo-green { color: var(--accent); }
-    .logo-white { color: #ffffff; }
-
-    /* Desktop navigation links */
-    .nav-links {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-
-    .nav-link {
-      font-size: 0.88rem;
-      font-weight: 500;
-      color: var(--fg-muted);
-      padding: 8px 18px;
-      border-radius: var(--radius-full);
-      transition: all var(--ease-fast);
-      position: relative;
-    }
-
-    .nav-link:hover {
-      color: var(--fg-secondary);
-      background: rgba(255, 255, 255, 0.04);
-    }
-
-    .nav-link.active {
-      color: var(--accent);
-      background: var(--accent-dim);
-    }
-
-    /* Right side of nav */
-    .nav-right {
-      display: flex;
-      align-items: center;
-      gap: 14px;
-    }
-
-    /* Profile image circle in header */
-    .profile-circle {
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-      overflow: hidden;
-      background: var(--accent-dim);
-      border: 2px solid rgba(var(--accent-rgb), 0.35);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-family: var(--font-heading);
-      font-weight: 900;
-      font-size: 0.95rem;
-      color: var(--accent);
-      flex-shrink: 0;
-      transition: border-color var(--ease-fast), transform var(--ease-fast), box-shadow var(--ease-fast);
-    }
-
-    .profile-circle:hover {
-      border-color: rgba(var(--accent-rgb), 0.7);
-      transform: scale(1.06);
-      box-shadow: 0 0 16px rgba(var(--accent-rgb), 0.2);
-    }
-
-    .profile-circle img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
-
-    /* Hamburger menu button (mobile) */
-    .hamburger {
-      display: none;
-      flex-direction: column;
-      gap: 5px;
-      padding: 6px;
-      cursor: pointer;
-      background: none;
-      border: none;
-    }
-
-    .hamburger-line {
-      display: block;
-      width: 24px;
-      height: 2px;
-      background: var(--fg);
-      border-radius: 2px;
-      transition: all var(--ease);
-      transform-origin: center;
-    }
-
-    .hamburger.open .hamburger-line:nth-child(1) {
-      transform: translateY(7px) rotate(45deg);
-    }
-    .hamburger.open .hamburger-line:nth-child(2) {
-      opacity: 0;
-      transform: scaleX(0);
-    }
-    .hamburger.open .hamburger-line:nth-child(3) {
-      transform: translateY(-7px) rotate(-45deg);
-    }
-
-    /* Mobile nav menu */
-    @media (max-width: 768px) {
-      .hamburger { display: flex; }
-
-      .nav-links {
-        position: fixed;
-        top: var(--header-h);
-        left: 0;
-        right: 0;
-        background: rgba(8, 8, 13, 0.96);
-        backdrop-filter: blur(24px);
-        -webkit-backdrop-filter: blur(24px);
-        flex-direction: column;
-        align-items: stretch;
-        padding: 8px 16px;
-        gap: 4px;
-        max-height: 0;
-        overflow: hidden;
-        transition: max-height var(--ease), padding var(--ease), border-color var(--ease);
-        border-bottom: 1px solid transparent;
-        z-index: 999;
-      }
-
-      .nav-links.open {
-        max-height: 320px;
-        padding: 16px;
-        border-bottom-color: var(--border);
-      }
-
-      .nav-link {
-        padding: 14px 18px;
-        font-size: 0.95rem;
-        border-radius: var(--radius-sm);
-      }
-    }
-
-    /* ══════════════════════════════════════════════════════════════
-       HERO SECTION
-       ══════════════════════════════════════════════════════════════ */
-    .hero {
-      position: relative;
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      overflow: hidden;
-      padding: calc(var(--header-h) + 40px) 24px 80px;
-      background-size: cover;
-      background-position: center;
-      background-repeat: no-repeat;
-    }
-
-    /* Grid pattern overlay */
-    .hero-grid-overlay {
-      position: absolute;
-      inset: 0;
-      pointer-events: none;
-      background-image:
-        linear-gradient(rgba(255, 255, 255, 0.022) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(255, 255, 255, 0.022) 1px, transparent 1px);
-      background-size: 64px 64px;
-      z-index: 1;
-    }
-
-    /* Gradient overlay for when background image is set */
-    .hero-gradient-overlay {
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(
-        180deg,
-        rgba(8, 8, 13, 0.7) 0%,
-        rgba(8, 8, 13, 0.5) 40%,
-        rgba(8, 8, 13, 0.85) 100%
-      );
-      pointer-events: none;
-      z-index: 1;
-      display: none;
-    }
-
-    /* Animated glow behind hero text */
-    .hero-glow {
-      position: absolute;
-      width: 650px;
-      height: 650px;
-      border-radius: 50%;
-      background: radial-gradient(
-        circle,
-        rgba(var(--accent-rgb), 0.12) 0%,
-        rgba(var(--accent-rgb), 0.04) 40%,
-        transparent 70%
-      );
-      animation: heroGlowPulse 6s ease-in-out infinite;
-      pointer-events: none;
-      z-index: 0;
-    }
-
-    @keyframes heroGlowPulse {
-      0%, 100% {
-        transform: scale(1);
-        opacity: 0.6;
-      }
-      50% {
-        transform: scale(1.18);
-        opacity: 1;
-      }
-    }
-
-    /* Secondary glow offset */
-    .hero-glow-secondary {
-      position: absolute;
-      width: 400px;
-      height: 400px;
-      border-radius: 50%;
-      background: radial-gradient(
-        circle,
-        rgba(var(--accent-rgb), 0.06) 0%,
-        transparent 65%
-      );
-      top: 20%;
-      right: 10%;
-      animation: heroGlowPulse 8s ease-in-out infinite reverse;
-      pointer-events: none;
-      z-index: 0;
-    }
-
-    .hero-content {
-      position: relative;
-      z-index: 2;
-      max-width: 760px;
-    }
-
-    /* Tag pill above hero title */
-    .hero-tag-pill {
-      display: inline-flex;
-      align-items: center;
-      gap: 10px;
-      background: var(--accent-dim);
-      border: 1px solid rgba(var(--accent-rgb), 0.18);
-      padding: 9px 22px;
-      border-radius: var(--radius-full);
-      font-size: 0.8rem;
-      font-weight: 600;
-      color: var(--accent);
-      margin-bottom: 30px;
-      letter-spacing: 0.8px;
-      text-transform: uppercase;
-    }
-
-    .pulse-dot {
-      width: 8px;
-      height: 8px;
-      background: var(--accent);
-      border-radius: 50%;
-      animation: pulseDot 2s ease-in-out infinite;
-      flex-shrink: 0;
-    }
-
-    @keyframes pulseDot {
-      0%, 100% {
-        box-shadow: 0 0 0 0 rgba(var(--accent-rgb), 0.5);
-      }
-      50% {
-        box-shadow: 0 0 0 8px rgba(var(--accent-rgb), 0);
-      }
-    }
-
-    /* Hero heading */
-    .hero-title {
-      font-family: var(--font-heading);
-      font-weight: 900;
-      font-size: clamp(2.4rem, 6vw, 4.2rem);
-      line-height: 1.08;
-      margin-bottom: 26px;
-      letter-spacing: -1.5px;
-    }
-
-    .hero-title .accent-text {
-      color: var(--accent);
-      position: relative;
-    }
-
-    .hero-title .accent-text::after {
-      content: '';
-      position: absolute;
-      bottom: -2px;
-      left: 0;
-      right: 0;
-      height: 3px;
-      background: var(--accent);
-      border-radius: 2px;
-      opacity: 0.4;
-    }
-
-    /* Hero paragraph text */
-    .hero-paragraph {
-      font-size: 1.05rem;
-      color: var(--fg-muted);
-      max-width: 580px;
-      margin: 0 auto 40px;
-      line-height: 1.75;
-    }
-
-    /* Primary CTA button */
-    .btn-primary {
-      display: inline-flex;
-      align-items: center;
-      gap: 10px;
-      background: var(--accent);
-      color: #08080d;
-      font-family: var(--font-body);
-      font-weight: 700;
-      font-size: 0.95rem;
-      padding: 15px 36px;
-      border-radius: var(--radius-full);
-      border: none;
-      cursor: pointer;
-      box-shadow: var(--shadow-glow);
-      transition: all var(--ease);
-      letter-spacing: 0.2px;
-    }
-
-    .btn-primary:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 8px 32px rgba(var(--accent-rgb), 0.35);
-      background: #00cc7a;
-    }
-
-    .btn-primary:active {
-      transform: translateY(-1px);
-    }
-
-    .btn-primary:disabled {
-      opacity: 0.5;
-      cursor: not-allowed;
-      transform: none;
-      box-shadow: none;
-    }
-
-    .btn-primary .btn-icon {
-      font-size: 0.85rem;
-      transition: transform var(--ease);
-    }
-
-    .btn-primary:hover .btn-icon {
-      transform: translateY(2px);
-    }
-
-    /* Button spinner */
-    .btn-spinner {
-      display: inline-block;
-      width: 16px;
-      height: 16px;
-      border: 2.5px solid rgba(8, 8, 13, 0.25);
-      border-top-color: #08080d;
-      border-radius: 50%;
-      animation: btnSpin 0.6s linear infinite;
-    }
-
-    @keyframes btnSpin {
-      to { transform: rotate(360deg); }
-    }
-
-    /* ══════════════════════════════════════════════════════════════
-       SECTIONS (Generic)
-       ══════════════════════════════════════════════════════════════ */
-    .site-section {
-      padding: 100px 0;
-    }
-
-    .site-section.alt-bg {
-      background: var(--bg-alt);
-    }
-
-    .section-header {
-      text-align: center;
-      margin-bottom: 56px;
-    }
-
-    .section-label {
-      display: inline-block;
-      font-size: 0.76rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 2.5px;
-      color: var(--accent);
-      margin-bottom: 14px;
-    }
-
-    .section-title {
-      font-family: var(--font-heading);
-      font-weight: 900;
-      font-size: clamp(1.8rem, 4vw, 2.7rem);
-      letter-spacing: -0.5px;
-      line-height: 1.15;
-    }
-
-    /* ══════════════════════════════════════════════════════════════
-       SERVICE CARDS
-       ══════════════════════════════════════════════════════════════ */
-    .services-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(245px, 1fr));
-      gap: 22px;
-    }
-
-    .service-card {
-      background: var(--bg-card);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 32px 26px;
-      box-shadow: var(--shadow);
-      transition: all var(--ease);
-      position: relative;
-      overflow: hidden;
-    }
-
-    /* Green top line that animates in on hover */
-    .service-card::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      height: 3px;
-      background: linear-gradient(90deg, var(--accent), rgba(var(--accent-rgb), 0.5));
-      transform: scaleX(0);
-      transform-origin: left center;
-      transition: transform var(--ease);
-    }
-
-    .service-card:hover {
-      transform: translateY(-8px);
-      box-shadow: var(--shadow-card-hover);
-      border-color: var(--border-accent);
-      background: var(--bg-card-hover);
-    }
-
-    .service-card:hover::before {
-      transform: scaleX(1);
-    }
-
-    .service-card-icon {
-      width: 54px;
-      height: 54px;
-      border-radius: var(--radius-sm);
-      background: var(--accent-dim);
-      border: 1px solid rgba(var(--accent-rgb), 0.08);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.3rem;
-      color: var(--accent);
-      margin-bottom: 22px;
-      transition: all var(--ease);
-    }
-
-    .service-card:hover .service-card-icon {
-      background: var(--accent-soft);
-      border-color: rgba(var(--accent-rgb), 0.15);
-      transform: scale(1.06);
-    }
-
-    .service-card-title {
-      font-family: var(--font-heading);
-      font-weight: 800;
-      font-size: 1.12rem;
-      margin-bottom: 10px;
-      line-height: 1.3;
-    }
-
-    .service-card-desc {
-      font-size: 0.87rem;
-      color: var(--fg-muted);
-      line-height: 1.65;
-    }
-
-    /* ══════════════════════════════════════════════════════════════
-       CONTACT CARDS
-       ══════════════════════════════════════════════════════════════ */
-    .contacts-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
-      gap: 22px;
-    }
-
-    .contact-card {
-      background: var(--bg-card);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 28px;
-      box-shadow: var(--shadow);
-      display: flex;
-      align-items: flex-start;
-      gap: 18px;
-      transition: all var(--ease);
-    }
-
-    .contact-card:hover {
-      border-color: var(--border-accent);
-      transform: translateY(-4px);
-      box-shadow: var(--shadow-card-hover);
-      background: var(--bg-card-hover);
-    }
-
-    .contact-card-icon {
-      width: 48px;
-      height: 48px;
-      border-radius: var(--radius-sm);
-      background: var(--accent-dim);
-      border: 1px solid rgba(var(--accent-rgb), 0.08);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.1rem;
-      color: var(--accent);
-      flex-shrink: 0;
-      transition: all var(--ease);
-    }
-
-    .contact-card:hover .contact-card-icon {
-      background: var(--accent-soft);
-      transform: scale(1.05);
-    }
-
-    .contact-card-title {
-      font-family: var(--font-heading);
-      font-weight: 800;
-      font-size: 0.95rem;
-      margin-bottom: 5px;
-    }
-
-    .contact-card-link {
-      font-size: 0.88rem;
-      color: var(--fg-muted);
-      transition: color var(--ease-fast);
-      word-break: break-all;
-      line-height: 1.5;
-    }
-
-    .contact-card-link:hover {
-      color: var(--accent);
-    }
-
-    /* Special email button style */
-    .contact-card-link.email-link {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      color: var(--accent);
-      font-weight: 600;
-      padding: 6px 0;
-      border-bottom: 1px dashed rgba(var(--accent-rgb), 0.3);
-      transition: all var(--ease-fast);
-    }
-
-    .contact-card-link.email-link:hover {
-      border-bottom-color: var(--accent);
-      gap: 10px;
-    }
-
-    .contact-card-link.email-link .email-arrow {
-      font-size: 0.75rem;
-      transition: transform var(--ease-fast);
-    }
-
-    .contact-card-link.email-link:hover .email-arrow {
-      transform: translateX(3px);
-    }
-
-    /* ══════════════════════════════════════════════════════════════
-       REVIEWS SECTION
-       ══════════════════════════════════════════════════════════════ */
-    .review-form-wrapper {
-      background: var(--bg-card);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 34px;
-      margin-bottom: 48px;
-      box-shadow: var(--shadow);
-      max-width: 580px;
-      margin-left: auto;
-      margin-right: auto;
-    }
-
-    /* Interactive star rating */
-    .star-rating {
-      display: flex;
-      gap: 8px;
-      margin-bottom: 22px;
-    }
-
-    .star-rating .star {
-      font-size: 1.6rem;
-      color: #2a2a3e;
-      cursor: pointer;
-      transition: color var(--ease-fast), transform var(--ease-fast);
-      padding: 2px;
-    }
-
-    .star-rating .star:hover {
-      transform: scale(1.2);
-    }
-
-    .star-rating .star.lit {
-      color: var(--gold);
-    }
-
-    /* Form inputs */
-    .form-field {
-      width: 100%;
-      background: var(--bg-input);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-sm);
-      padding: 13px 18px;
-      color: var(--fg);
-      font-size: 0.9rem;
-      transition: border-color var(--ease), background var(--ease), box-shadow var(--ease);
-      outline: none;
-      margin-bottom: 14px;
-    }
-
-    .form-field:focus {
-      border-color: rgba(var(--accent-rgb), 0.5);
-      background: var(--bg-input-focus);
-      box-shadow: 0 0 0 3px rgba(var(--accent-rgb), 0.08);
-    }
-
-    .form-field::placeholder {
-      color: var(--fg-dim);
-    }
-
-    .form-textarea {
-      min-height: 110px;
-      resize: vertical;
-      line-height: 1.6;
-    }
-
-    /* Reviews list */
-    .reviews-list {
-      display: flex;
-      flex-direction: column;
-      gap: 18px;
-      max-width: 580px;
-      margin: 0 auto;
-    }
-
-    .review-card {
-      background: var(--bg-card);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 24px 26px;
-      box-shadow: var(--shadow);
-      transition: border-color var(--ease);
-    }
-
-    .review-card:hover {
-      border-color: var(--border-light);
-    }
-
-    .review-card-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: 10px;
-      gap: 12px;
-    }
-
-    .review-card-name {
-      font-family: var(--font-heading);
-      font-weight: 800;
-      font-size: 1rem;
-    }
-
-    .review-card-date {
-      font-size: 0.76rem;
-      color: var(--fg-dim);
-      white-space: nowrap;
-    }
-
-    .review-card-stars {
-      margin-bottom: 12px;
-      display: flex;
-      gap: 3px;
-    }
-
-    .review-card-stars .star-filled {
-      font-size: 0.88rem;
-      color: var(--gold);
-    }
-
-    .review-card-stars .star-empty {
-      font-size: 0.88rem;
-      color: #2a2a3e;
-    }
-
-    .review-card-text {
-      font-size: 0.9rem;
-      color: var(--fg-muted);
-      line-height: 1.7;
-    }
-
-    /* ══════════════════════════════════════════════════════════════
-       FOOTER
-       ══════════════════════════════════════════════════════════════ */
-    .site-footer {
-      text-align: center;
-      padding: 40px 24px;
-      border-top: 1px solid var(--border);
-      font-size: 0.85rem;
-      color: var(--fg-muted);
-    }
-
-    .site-footer a {
-      color: var(--accent);
-      transition: opacity var(--ease-fast);
-    }
-
-    .site-footer a:hover {
-      opacity: 0.8;
-    }
-
-    /* ══════════════════════════════════════════════════════════════
-       TOAST NOTIFICATIONS
-       ══════════════════════════════════════════════════════════════ */
-    #toastContainer {
-      position: fixed;
-      bottom: 24px;
-      right: 24px;
-      z-index: 9999;
-      display: flex;
-      flex-direction: column-reverse;
-      gap: 10px;
-      pointer-events: none;
-    }
-
-    .toast-notification {
-      pointer-events: auto;
-      background: #181828;
-      border: 1px solid var(--border);
-      border-radius: var(--radius-sm);
-      padding: 14px 20px;
-      min-width: 280px;
-      max-width: 420px;
-      box-shadow: 0 10px 36px rgba(0, 0, 0, 0.55);
-      font-size: 0.86rem;
-      display: flex;
-      align-items: flex-start;
-      gap: 12px;
-      animation: toastSlideIn 0.35s cubic-bezier(0.34, 1.2, 0.64, 1) forwards;
-      line-height: 1.5;
-    }
-
-    .toast-notification.dismissing {
-      animation: toastSlideOut 0.28s ease forwards;
-    }
-
-    .toast-notification.toast-success {
-      border-left: 3px solid var(--accent);
-    }
-
-    .toast-notification.toast-error {
-      border-left: 3px solid var(--danger);
-    }
-
-    .toast-notification .toast-icon {
-      font-size: 1rem;
-      margin-top: 2px;
-      flex-shrink: 0;
-    }
-
-    .toast-notification.toast-success .toast-icon {
-      color: var(--accent);
-    }
-
-    .toast-notification.toast-error .toast-icon {
-      color: var(--danger);
-    }
-
-    .toast-notification .toast-message {
-      flex: 1;
-    }
-
-    @keyframes toastSlideIn {
-      from {
-        opacity: 0;
-        transform: translateY(20px) scale(0.96);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0) scale(1);
-      }
-    }
-
-    @keyframes toastSlideOut {
-      from {
-        opacity: 1;
-        transform: translateY(0) scale(1);
-      }
-      to {
-        opacity: 0;
-        transform: translateY(16px) scale(0.96);
-      }
-    }
-
-    /* ══════════════════════════════════════════════════════════════
-       CONNECTION STATUS INDICATOR
-       ══════════════════════════════════════════════════════════════ */
-    #connectionStatus {
-      position: fixed;
-      bottom: 20px;
-      left: 20px;
-      z-index: 900;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      background: rgba(15, 15, 23, 0.92);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-full);
-      padding: 8px 16px;
-      font-size: 0.7rem;
-      color: var(--fg-muted);
-      transition: all var(--ease);
-    }
-
-    .connection-dot {
-      width: 7px;
-      height: 7px;
-      border-radius: 50%;
-      background: var(--fg-dim);
-      flex-shrink: 0;
-      transition: all var(--ease);
-    }
-
-    .connection-dot.online {
-      background: var(--accent);
-      box-shadow: 0 0 8px rgba(var(--accent-rgb), 0.6);
-    }
-
-    .connection-dot.offline {
-      background: var(--danger);
-      box-shadow: 0 0 8px rgba(var(--danger-rgb), 0.6);
-      animation: connectionPulse 1.5s ease-in-out infinite;
-    }
-
-    @keyframes connectionPulse {
-      0%, 100% { opacity: 1; }
-      50% { opacity: 0.5; }
-    }
-
-    /* ══════════════════════════════════════════════════════════════
-       SCROLL REVEAL ANIMATIONS
-       ══════════════════════════════════════════════════════════════ */
-    .scroll-reveal {
-      opacity: 0;
-      transform: translateY(32px);
-      transition: opacity 0.7s ease, transform 0.7s ease;
-      will-change: opacity, transform;
-    }
-
-    .scroll-reveal.revealed {
-      opacity: 1;
-      transform: translateY(0);
-    }
-
-    .scroll-reveal.delay-1 { transition-delay: 0.08s; }
-    .scroll-reveal.delay-2 { transition-delay: 0.16s; }
-    .scroll-reveal.delay-3 { transition-delay: 0.24s; }
-    .scroll-reveal.delay-4 { transition-delay: 0.32s; }
-
-    /* ══════════════════════════════════════════════════════════════
-       REDUCED MOTION
-       ══════════════════════════════════════════════════════════════ */
-    @media (prefers-reduced-motion: reduce) {
-      .scroll-reveal {
-        opacity: 1;
-        transform: none;
-        transition: none;
-      }
-      .hero-glow,
-      .hero-glow-secondary {
-        animation: none;
-      }
-      .pulse-dot {
-        animation: none;
-      }
-      .skeleton {
-        animation: none;
-      }
-      .connection-dot.offline {
-        animation: none;
-      }
-      html {
-        scroll-behavior: auto;
-      }
-    }
-
-    /* ══════════════════════════════════════════════════════════════
-       RESPONSIVE BREAKPOINTS
-       ══════════════════════════════════════════════════════════════ */
-    @media (max-width: 768px) {
-      :root {
-        --header-h: 64px;
-      }
-
-      .site-section {
-        padding: 72px 0;
-      }
-
-      .section-header {
-        margin-bottom: 40px;
-      }
-
-      .hero {
-        padding: calc(var(--header-h) + 32px) 20px 60px;
-      }
-
-      .hero-tag-pill {
-        font-size: 0.72rem;
-        padding: 7px 16px;
-        margin-bottom: 22px;
-      }
-
-      .hero-paragraph {
-        font-size: 0.95rem;
-      }
-
-      .review-form-wrapper {
-        padding: 22px;
-        margin-left: 12px;
-        margin-right: 12px;
-      }
-    }
-
-    @media (max-width: 520px) {
-      .container {
-        padding: 0 16px;
-      }
-
-      .services-grid {
-        grid-template-columns: 1fr;
-        gap: 16px;
-      }
-
-      .contacts-grid {
-        grid-template-columns: 1fr;
-        gap: 16px;
-      }
-
-      .service-card {
-        padding: 26px 22px;
-      }
-
-      .contact-card {
-        padding: 22px;
-      }
-
-      .review-card {
-        padding: 20px;
-      }
-
-      .reviews-list {
-        margin-left: 8px;
-        margin-right: 8px;
-      }
-
-      #connectionStatus {
-        bottom: 12px;
-        left: 12px;
-        font-size: 0.65rem;
-        padding: 6px 12px;
-      }
-
-      #toastContainer {
-        bottom: 12px;
-        right: 12px;
-        left: 12px;
-      }
-
-      .toast-notification {
-        min-width: auto;
-        max-width: none;
-        font-size: 0.82rem;
-      }
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EDDY TECH — Digital Solutions</title>
+    <link rel="icon" id="favicon-32" type="image/png" sizes="32x32" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%2300e68a'/%3E%3Ctext x='16' y='23' text-anchor='middle' font-family='sans-serif' font-weight='bold' font-size='20' fill='%2308080d'%3EE%3C/text%3E%3C/svg%3E">
+    <link rel="icon" id="favicon-16" type="image/png" sizes="16x16" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Crect width='16' height='16' rx='3' fill='%2300e68a'/%3E%3Ctext x='8' y='12' text-anchor='middle' font-family='sans-serif' font-weight='bold' font-size='11' fill='%2308080d'%3EE%3C/text%3E%3C/svg%3E">
+    <link rel="apple-touch-icon" id="favicon-apple" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 180 180'%3E%3Crect width='180' height='180' rx='36' fill='%2300e68a'/%3E%3Ctext x='90' y='128' text-anchor='middle' font-family='sans-serif' font-weight='bold' font-size='110' fill='%2308080d'%3EE%3C/text%3E%3C/svg%3E">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800;900&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        /* ══════════════════════════════════════════
+           CSS VARIABLES & RESET
+           ══════════════════════════════════════════ */
+        :root {
+            --bg: #08080d;
+            --bg-elevated: #0e0e15;
+            --bg-card: #111119;
+            --fg: #e8e8ed;
+            --fg-muted: #8a8a9a;
+            --accent: #00e68a;
+            --accent-dim: #00b36b;
+            --accent-glow: rgba(0, 230, 138, 0.25);
+            --accent-glow-strong: rgba(0, 230, 138, 0.45);
+            --gold: #ffb800;
+            --danger: #ff4466;
+            --border: rgba(255, 255, 255, 0.06);
+            --border-accent: rgba(0, 230, 138, 0.2);
+            --shadow-card: 0 4px 24px rgba(0, 0, 0, 0.5), 0 1px 4px rgba(0, 0, 0, 0.3);
+            --shadow-card-hover: 0 12px 48px rgba(0, 0, 0, 0.6), 0 2px 8px rgba(0, 0, 0, 0.4), 0 0 30px rgba(0, 230, 138, 0.1);
+            --shadow-btn: 0 4px 16px rgba(0, 230, 138, 0.3), 0 0 0 1px rgba(0, 230, 138, 0.15);
+            --shadow-btn-hover: 0 6px 28px rgba(0, 230, 138, 0.45), 0 0 0 1px rgba(0, 230, 138, 0.3);
+            --radius: 12px;
+            --radius-sm: 8px;
+            --radius-lg: 16px;
+            --header-h: 72px;
+            --font-heading: 'Outfit', sans-serif;
+            --font-body: 'Space Grotesk', sans-serif;
+        }
+
+        *, *::before, *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            scroll-padding-top: calc(var(--header-h) + 20px);
+        }
+
+        ::selection {
+            background: rgba(0, 230, 138, 0.3);
+            color: #fff;
+        }
+
+        body {
+            font-family: var(--font-body);
+            background: var(--bg);
+            color: var(--fg);
+            line-height: 1.6;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: var(--bg);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: rgba(0, 230, 138, 0.2);
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: rgba(0, 230, 138, 0.4);
+        }
+
+        /* ══════════════════════════════════════════
+           REDUCED MOTION
+           ══════════════════════════════════════════ */
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+                scroll-behavior: auto !important;
+            }
+        }
+
+        /* ══════════════════════════════════════════
+           KEYFRAMES
+           ══════════════════════════════════════════ */
+        @keyframes pulseGlow {
+            0%, 100% { transform: scale(1); opacity: 0.5; }
+            50% { transform: scale(1.15); opacity: 0.8; }
+        }
+
+        @keyframes pulseGlowSlow {
+            0%, 100% { transform: scale(1); opacity: 0.3; }
+            50% { transform: scale(1.08); opacity: 0.55; }
+        }
+
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes shimmer {
+            0% { background-position: -400px 0; }
+            100% { background-position: 400px 0; }
+        }
+
+        @keyframes slideUpToast {
+            from { opacity: 0; transform: translateY(20px) scale(0.95); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+
+        @keyframes slideDownToast {
+            from { opacity: 1; transform: translateY(0) scale(1); }
+            to { opacity: 0; transform: translateY(20px) scale(0.95); }
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        @keyframes pulseDot {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(0, 230, 138, 0.5); }
+            50% { box-shadow: 0 0 0 6px rgba(0, 230, 138, 0); }
+        }
+
+        @keyframes pulseDotRed {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(255, 68, 102, 0.5); }
+            50% { box-shadow: 0 0 0 6px rgba(255, 68, 102, 0); }
+        }
+
+        @keyframes bounceDown {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(5px); }
+        }
+
+        @keyframes scaleXIn {
+            from { transform: scaleX(0); }
+            to { transform: scaleX(1); }
+        }
+
+        /* ══════════════════════════════════════════
+           SKELETON LOADING
+           ══════════════════════════════════════════ */
+        .skeleton {
+            background: linear-gradient(90deg, var(--bg-card) 25%, rgba(255,255,255,0.05) 50%, var(--bg-card) 75%);
+            background-size: 800px 100%;
+            animation: shimmer 1.5s infinite linear;
+            border-radius: var(--radius-sm);
+        }
+
+        .skeleton-card {
+            background: var(--bg-card);
+            border-radius: var(--radius);
+            padding: 28px;
+            border: 1px solid var(--border);
+        }
+
+        .skeleton-circle {
+            border-radius: 50%;
+        }
+
+        /* ══════════════════════════════════════════
+           TOAST NOTIFICATIONS
+           ══════════════════════════════════════════ */
+        #toast-container {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            z-index: 10000;
+            display: flex;
+            flex-direction: column-reverse;
+            gap: 10px;
+            pointer-events: none;
+            max-width: 400px;
+        }
+
+        .toast {
+            pointer-events: auto;
+            background: var(--bg-elevated);
+            color: var(--fg);
+            padding: 14px 20px;
+            border-radius: var(--radius-sm);
+            border: 1px solid var(--border);
+            box-shadow: 0 8px 32px rgba(0,0,0,0.5);
+            font-size: 14px;
+            line-height: 1.5;
+            cursor: pointer;
+            animation: slideUpToast 0.3s ease-out forwards;
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            word-break: break-word;
+        }
+
+        .toast.toast-exit {
+            animation: slideDownToast 0.25s ease-in forwards;
+        }
+
+        .toast-error {
+            border-left: 3px solid var(--danger);
+        }
+
+        .toast-success {
+            border-left: 3px solid var(--accent);
+        }
+
+        .toast i {
+            margin-top: 2px;
+            flex-shrink: 0;
+        }
+
+        /* ══════════════════════════════════════════
+           CONNECTION STATUS
+           ══════════════════════════════════════════ */
+        #connection-status {
+            position: fixed;
+            bottom: 16px;
+            left: 16px;
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: var(--bg-elevated);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 6px 14px;
+            font-size: 11px;
+            color: var(--fg-muted);
+            box-shadow: 0 4px 16px rgba(0,0,0,0.4);
+            transition: all 0.3s ease;
+        }
+
+        #connection-status .dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            flex-shrink: 0;
+            transition: background 0.3s;
+        }
+
+        #connection-status.connected .dot {
+            background: var(--accent);
+            box-shadow: 0 0 8px var(--accent-glow);
+            animation: pulseDot 2s infinite;
+        }
+
+        #connection-status.offline .dot {
+            background: var(--danger);
+            box-shadow: 0 0 8px rgba(255, 68, 102, 0.4);
+            animation: pulseDotRed 1.5s infinite;
+        }
+
+        /* ══════════════════════════════════════════
+           HEADER / NAVIGATION
+           ══════════════════════════════════════════ */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: var(--header-h);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            padding: 0 32px;
+            background: rgba(8, 8, 13, 0.6);
+            backdrop-filter: blur(16px) saturate(1.4);
+            -webkit-backdrop-filter: blur(16px) saturate(1.4);
+            border-bottom: 1px solid transparent;
+            transition: background 0.3s, border-color 0.3s, box-shadow 0.3s;
+        }
+
+        header.scrolled {
+            background: rgba(8, 8, 13, 0.92);
+            border-bottom-color: var(--border);
+            box-shadow: 0 4px 24px rgba(0,0,0,0.4);
+        }
+
+        .nav-inner {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
+            max-width: 1280px;
+            margin: 0 auto;
+        }
+
+        .logo {
+            font-family: var(--font-heading);
+            font-weight: 900;
+            font-size: 24px;
+            letter-spacing: -0.5px;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 2px;
+        }
+
+        .logo-eddy {
+            color: var(--accent);
+        }
+
+        .logo-tech {
+            color: var(--fg);
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--fg-muted);
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            padding: 8px 16px;
+            border-radius: var(--radius-sm);
+            transition: color 0.2s, background 0.2s;
+            position: relative;
+        }
+
+        .nav-links a:hover {
+            color: var(--fg);
+            background: rgba(255,255,255,0.04);
+        }
+
+        .nav-links a.active {
+            color: var(--accent);
+            background: rgba(0, 230, 138, 0.08);
+        }
+
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .profile-circle {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: 2px solid var(--accent-dim);
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: transform 0.25s, border-color 0.25s, box-shadow 0.25s;
+            background: var(--bg-card);
+            flex-shrink: 0;
+        }
+
+        .profile-circle:hover {
+            transform: scale(1.1);
+            border-color: var(--accent);
+            box-shadow: 0 0 16px var(--accent-glow);
+        }
+
+        .profile-circle img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .profile-circle .profile-letter {
+            font-family: var(--font-heading);
+            font-weight: 900;
+            font-size: 18px;
+            color: var(--accent);
+            line-height: 1;
+        }
+
+        /* Hamburger */
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            cursor: pointer;
+            padding: 8px;
+            background: none;
+            border: none;
+            z-index: 1001;
+        }
+
+        .hamburger span {
+            display: block;
+            width: 24px;
+            height: 2px;
+            background: var(--fg);
+            border-radius: 2px;
+            transition: transform 0.3s, opacity 0.3s;
+            transform-origin: center;
+        }
+
+        .hamburger.open span:nth-child(1) {
+            transform: translateY(7px) rotate(45deg);
+        }
+
+        .hamburger.open span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .hamburger.open span:nth-child(3) {
+            transform: translateY(-7px) rotate(-45deg);
+        }
+
+        /* Mobile Menu */
+        .mobile-menu {
+            display: none;
+            position: fixed;
+            top: var(--header-h);
+            left: 0;
+            right: 0;
+            background: rgba(8, 8, 13, 0.96);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border);
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease;
+            z-index: 999;
+        }
+
+        .mobile-menu.open {
+            max-height: 400px;
+        }
+
+        .mobile-menu a {
+            display: block;
+            padding: 14px 32px;
+            color: var(--fg-muted);
+            text-decoration: none;
+            font-size: 15px;
+            font-weight: 500;
+            border-bottom: 1px solid var(--border);
+            transition: color 0.2s, background 0.2s;
+        }
+
+        .mobile-menu a:hover,
+        .mobile-menu a.active {
+            color: var(--accent);
+            background: rgba(0, 230, 138, 0.05);
+        }
+
+        @media (max-width: 768px) {
+            header {
+                padding: 0 16px;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            .hamburger {
+                display: flex;
+            }
+
+            .mobile-menu {
+                display: block;
+            }
+        }
+
+        /* ══════════════════════════════════════════
+           HERO SECTION
+           ══════════════════════════════════════════ */
+        #hero {
+            position: relative;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 120px 24px 80px;
+            overflow: hidden;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+
+        .hero-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(180deg, rgba(8,8,13,0.85) 0%, rgba(8,8,13,0.7) 40%, rgba(8,8,13,0.95) 100%);
+            z-index: 1;
+            display: none;
+        }
+
+        .hero-grid-pattern {
+            position: absolute;
+            inset: 0;
+            z-index: 2;
+            opacity: 0.04;
+            background-image:
+                linear-gradient(rgba(255,255,255,0.3) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255,255,255,0.3) 1px, transparent 1px);
+            background-size: 60px 60px;
+            pointer-events: none;
+        }
+
+        .hero-glow-1 {
+            position: absolute;
+            width: 600px;
+            height: 600px;
+            border-radius: 50%;
+            background: radial-gradient(circle, var(--accent-glow) 0%, transparent 70%);
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 0;
+            animation: pulseGlow 4s ease-in-out infinite;
+            pointer-events: none;
+        }
+
+        .hero-glow-2 {
+            position: absolute;
+            width: 350px;
+            height: 350px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(0, 230, 138, 0.12) 0%, transparent 70%);
+            top: 35%;
+            right: 10%;
+            z-index: 0;
+            animation: pulseGlowSlow 6s ease-in-out infinite;
+            pointer-events: none;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 3;
+            max-width: 720px;
+            animation: fadeUp 0.8s ease-out;
+        }
+
+        .hero-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(0, 230, 138, 0.08);
+            border: 1px solid var(--border-accent);
+            border-radius: 50px;
+            padding: 8px 20px;
+            font-size: 13px;
+            color: var(--accent);
+            font-weight: 500;
+            margin-bottom: 28px;
+        }
+
+        .hero-tag .tag-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--accent);
+            animation: pulseDot 2s infinite;
+        }
+
+        .hero-title {
+            font-family: var(--font-heading);
+            font-weight: 900;
+            font-size: clamp(36px, 6vw, 64px);
+            line-height: 1.1;
+            margin-bottom: 24px;
+            color: var(--fg);
+        }
+
+        .hero-title .highlight {
+            color: var(--accent);
+            position: relative;
+            display: inline-block;
+        }
+
+        .hero-title .highlight::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: var(--accent);
+            border-radius: 2px;
+            opacity: 0.5;
+        }
+
+        .hero-desc {
+            font-size: 16px;
+            color: var(--fg-muted);
+            line-height: 1.7;
+            margin-bottom: 36px;
+            max-width: 560px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .hero-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: var(--accent);
+            color: var(--bg);
+            font-family: var(--font-body);
+            font-weight: 600;
+            font-size: 15px;
+            padding: 14px 32px;
+            border-radius: 50px;
+            text-decoration: none;
+            border: none;
+            cursor: pointer;
+            box-shadow: var(--shadow-btn);
+            transition: box-shadow 0.3s, transform 0.2s;
+        }
+
+        .hero-btn:hover {
+            box-shadow: var(--shadow-btn-hover);
+            transform: translateY(-2px);
+        }
+
+        .hero-btn i {
+            transition: transform 0.3s;
+        }
+
+        .hero-btn:hover i {
+            animation: bounceDown 0.6s ease infinite;
+        }
+
+        /* ══════════════════════════════════════════
+           SECTION COMMON
+           ══════════════════════════════════════════ */
+        .section {
+            padding: 100px 24px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-label {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--accent);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 12px;
+        }
+
+        .section-title {
+            font-family: var(--font-heading);
+            font-weight: 800;
+            font-size: clamp(28px, 4vw, 42px);
+            color: var(--fg);
+            margin-bottom: 48px;
+        }
+
+        /* Scroll reveal */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* ══════════════════════════════════════════
+           ADS SECTION
+           ══════════════════════════════════════════ */
+        #ads-section {
+            display: none;
+            padding: 40px 24px 0;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .ads-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 24px;
+        }
+
+        .ad-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            overflow: hidden;
+            box-shadow: var(--shadow-card);
+            transition: box-shadow 0.3s, transform 0.3s;
+        }
+
+        .ad-card:hover {
+            box-shadow: var(--shadow-card-hover);
+        }
+
+        .ad-card.sz-large {
+            grid-column: 1 / -1;
+        }
+
+        .ad-card.sh-square {
+            border-radius: 4px;
+        }
+
+        .ad-card.sh-sharp {
+            border-radius: 0;
+        }
+
+        .ad-card .ad-media {
+            width: 100%;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .ad-card .ad-media img {
+            width: 100%;
+            display: block;
+            transition: transform 0.4s;
+        }
+
+        .ad-card:hover .ad-media img {
+            transform: scale(1.03);
+        }
+
+        .ad-card .ad-media video {
+            width: 100%;
+            display: block;
+        }
+
+        .ad-card .ad-media iframe {
+            width: 100%;
+            aspect-ratio: 16/9;
+            border: none;
+            display: block;
+        }
+
+        .ad-card .ad-body {
+            padding: 20px;
+        }
+
+        .ad-body.ad-al-left {
+            text-align: left;
+        }
+
+        .ad-body.ad-al-center {
+            text-align: center;
+        }
+
+        .ad-body.ad-al-right {
+            text-align: right;
+        }
+
+        .ad-body h3 {
+            font-family: var(--font-heading);
+            font-weight: 700;
+            font-size: 18px;
+            color: var(--fg);
+            margin-bottom: 8px;
+        }
+
+        .ad-body p {
+            font-size: 14px;
+            color: var(--fg-muted);
+            line-height: 1.6;
+            margin-bottom: 14px;
+        }
+
+        .ad-link-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(0, 230, 138, 0.1);
+            color: var(--accent);
+            font-size: 13px;
+            font-weight: 600;
+            padding: 8px 20px;
+            border-radius: 50px;
+            text-decoration: none;
+            border: 1px solid var(--border-accent);
+            transition: background 0.2s, gap 0.3s;
+        }
+
+        .ad-link-btn:hover {
+            background: rgba(0, 230, 138, 0.18);
+            gap: 12px;
+        }
+
+        /* ══════════════════════════════════════════
+           SERVICES SECTION
+           ══════════════════════════════════════════ */
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            gap: 24px;
+        }
+
+        .service-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 32px 28px;
+            box-shadow: var(--shadow-card);
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.35s, box-shadow 0.35s, border-color 0.35s;
+        }
+
+        .service-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: var(--accent);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.4s ease;
+        }
+
+        .service-card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-card-hover);
+            border-color: var(--border-accent);
+        }
+
+        .service-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .service-card .svc-icon {
+            width: 52px;
+            height: 52px;
+            border-radius: var(--radius-sm);
+            background: rgba(0, 230, 138, 0.08);
+            border: 1px solid var(--border-accent);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+            color: var(--accent);
+            margin-bottom: 20px;
+            transition: transform 0.3s, background 0.3s;
+        }
+
+        .service-card:hover .svc-icon {
+            transform: scale(1.1);
+            background: rgba(0, 230, 138, 0.14);
+        }
+
+        .service-card h3 {
+            font-family: var(--font-heading);
+            font-weight: 700;
+            font-size: 19px;
+            color: var(--fg);
+            margin-bottom: 12px;
+        }
+
+        .service-card p {
+            font-size: 14px;
+            color: var(--fg-muted);
+            line-height: 1.65;
+        }
+
+        /* ══════════════════════════════════════════
+           CONTACTS SECTION
+           ══════════════════════════════════════════ */
+        .contacts-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 24px;
+        }
+
+        .contact-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 28px;
+            box-shadow: var(--shadow-card);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .contact-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-card-hover);
+        }
+
+        .contact-card .ct-icon {
+            width: 44px;
+            height: 44px;
+            border-radius: var(--radius-sm);
+            background: rgba(0, 230, 138, 0.08);
+            border: 1px solid var(--border-accent);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            color: var(--accent);
+            margin-bottom: 16px;
+        }
+
+        .contact-card h3 {
+            font-family: var(--font-heading);
+            font-weight: 700;
+            font-size: 16px;
+            color: var(--fg);
+            margin-bottom: 10px;
+        }
+
+        .contact-card .ct-value {
+            font-size: 14px;
+            color: var(--fg-muted);
+        }
+
+        .contact-card .ct-value a {
+            color: var(--fg-muted);
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        .contact-card .ct-value a:hover {
+            color: var(--accent);
+        }
+
+        .email-special-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--accent) !important;
+            font-weight: 500;
+            border-bottom: 1px dashed var(--accent-dim);
+            padding-bottom: 2px;
+            transition: gap 0.3s;
+        }
+
+        .email-special-link:hover {
+            gap: 12px;
+        }
+
+        .email-special-link i {
+            font-size: 13px;
+        }
+
+        /* ══════════════════════════════════════════
+           MESSAGE SECTION
+           ══════════════════════════════════════════ */
+        .message-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 36px;
+            box-shadow: var(--shadow-card);
+            max-width: 580px;
+            margin: 0 auto;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--fg-muted);
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            padding: 12px 16px;
+            color: var(--fg);
+            font-family: var(--font-body);
+            font-size: 14px;
+            transition: border-color 0.2s, box-shadow 0.2s;
+            outline: none;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            border-color: var(--accent-dim);
+            box-shadow: 0 0 0 3px rgba(0, 230, 138, 0.1);
+        }
+
+        .form-group input::placeholder,
+        .form-group textarea::placeholder {
+            color: rgba(138, 138, 154, 0.5);
+        }
+
+        .form-group textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        .btn-primary {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: var(--accent);
+            color: var(--bg);
+            font-family: var(--font-body);
+            font-weight: 600;
+            font-size: 14px;
+            padding: 12px 28px;
+            border-radius: 50px;
+            border: none;
+            cursor: pointer;
+            box-shadow: var(--shadow-btn);
+            transition: box-shadow 0.3s, transform 0.2s, opacity 0.2s;
+        }
+
+        .btn-primary:hover:not(:disabled) {
+            box-shadow: var(--shadow-btn-hover);
+            transform: translateY(-1px);
+        }
+
+        .btn-primary:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .btn-primary .spinner {
+            width: 16px;
+            height: 16px;
+            border: 2px solid transparent;
+            border-top-color: var(--bg);
+            border-radius: 50%;
+            animation: spin 0.6s linear infinite;
+            display: none;
+        }
+
+        .btn-primary.loading .spinner {
+            display: block;
+        }
+
+        .btn-primary.loading .btn-text {
+            display: none;
+        }
+
+        .msg-success {
+            background: rgba(0, 230, 138, 0.08);
+            border: 1px solid var(--border-accent);
+            border-radius: var(--radius-sm);
+            padding: 14px 20px;
+            color: var(--accent);
+            font-size: 14px;
+            margin-top: 16px;
+            animation: fadeUp 0.4s ease-out;
+            display: none;
+        }
+
+        .msg-success.show {
+            display: block;
+        }
+
+        /* ══════════════════════════════════════════
+           REVIEWS SECTION
+           ══════════════════════════════════════════ */
+        .review-form-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 36px;
+            box-shadow: var(--shadow-card);
+            max-width: 580px;
+            margin: 0 auto 48px;
+        }
+
+        .star-rating-input {
+            display: flex;
+            gap: 6px;
+            margin-bottom: 20px;
+        }
+
+        .star-rating-input .star-btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 28px;
+            color: rgba(255, 255, 255, 0.12);
+            transition: color 0.15s, transform 0.15s;
+            padding: 2px;
+            outline: none;
+        }
+
+        .star-rating-input .star-btn:hover {
+            transform: scale(1.15);
+        }
+
+        .star-rating-input .star-btn.active {
+            color: var(--gold);
+        }
+
+        .star-rating-input .star-btn.hovered {
+            color: var(--gold);
+            opacity: 0.75;
+        }
+
+        .star-rating-input .star-btn:focus-visible {
+            outline: 2px solid var(--accent);
+            outline-offset: 2px;
+            border-radius: 4px;
+        }
+
+        .reviews-list {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .review-item {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 24px;
+            box-shadow: var(--shadow-card);
+        }
+
+        .review-item .rev-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 12px;
+        }
+
+        .review-item .rev-name {
+            font-family: var(--font-heading);
+            font-weight: 700;
+            font-size: 16px;
+            color: var(--fg);
+        }
+
+        .review-item .rev-date {
+            font-size: 12px;
+            color: var(--fg-muted);
+        }
+
+        .review-item .rev-stars {
+            color: var(--gold);
+            font-size: 14px;
+            margin-bottom: 10px;
+            letter-spacing: 2px;
+        }
+
+        .review-item .rev-text {
+            font-size: 14px;
+            color: var(--fg-muted);
+            line-height: 1.65;
+        }
+
+        /* ══════════════════════════════════════════
+           FOOTER
+           ══════════════════════════════════════════ */
+        footer {
+            border-top: 1px solid var(--border);
+            padding: 32px 24px;
+            text-align: center;
+            color: var(--fg-muted);
+            font-size: 13px;
+        }
+
+        /* ══════════════════════════════════════════
+           RESPONSIVE
+           ══════════════════════════════════════════ */
+        @media (max-width: 640px) {
+            .section {
+                padding: 72px 16px;
+            }
+
+            .hero-content {
+                padding: 0 8px;
+            }
+
+            .services-grid,
+            .contacts-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .ads-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .message-card,
+            .review-form-card {
+                padding: 24px;
+            }
+
+            #connection-status {
+                font-size: 10px;
+                padding: 4px 10px;
+            }
+        }
+
+        @media (min-width: 769px) and (max-width: 1024px) {
+            .services-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+    </style>
 </head>
 <body>
 
-  <!-- ══════════════════════════════════════════════════════════════
-       TOAST NOTIFICATION CONTAINER
-       ══════════════════════════════════════════════════════════════ -->
-  <div id="toastContainer" aria-live="polite"></div>
+    <!-- Toast Container -->
+    <div id="toast-container"></div>
 
-  <!-- ══════════════════════════════════════════════════════════════
-       CONNECTION STATUS INDICATOR
-       ══════════════════════════════════════════════════════════════ -->
-  <div id="connectionStatus" role="status">
-    <span class="connection-dot" id="connectionDot"></span>
-    <span id="connectionText">Connecting...</span>
-  </div>
+    <!-- Connection Status -->
+    <div id="connection-status" class="offline">
+        <span class="dot"></span>
+        <span class="status-text">Connecting...</span>
+    </div>
 
-  <!-- ══════════════════════════════════════════════════════════════
-       SITE HEADER / NAVIGATION
-       ══════════════════════════════════════════════════════════════ -->
-  <header class="site-header" id="siteHeader">
-    <div class="container nav-inner">
-      <a href="#" class="logo-link" aria-label="EDDY TECH Home">
-        <span class="logo">
-          <span class="logo-green">EDDY</span><span class="logo-white">TECH</span>
-        </span>
-      </a>
+    <!-- Header -->
+    <header id="main-header">
+        <nav class="nav-inner">
+            <a href="#hero" class="logo">
+                <span class="logo-eddy">EDDY</span><span class="logo-tech">TECH</span>
+            </a>
+            <ul class="nav-links" id="nav-links">
+                <li><a href="#hero" class="active" data-section="hero">Home</a></li>
+                <li><a href="#services" data-section="services">Services</a></li>
+                <li><a href="#contacts" data-section="contacts">Contact</a></li>
+                <li><a href="#messages" data-section="messages">Message</a></li>
+                <li><a href="#reviews" data-section="reviews">Reviews</a></li>
+            </ul>
+            <div class="nav-right">
+                <div class="profile-circle" id="profile-circle" title="Profile">
+                    <span class="profile-letter">E</span>
+                </div>
+                <button class="hamburger" id="hamburger-btn" aria-label="Toggle menu">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+            </div>
+        </nav>
+    </header>
 
-      <nav class="nav-links" id="navLinks" role="navigation" aria-label="Main navigation">
-        <a href="#home" class="nav-link active">Home</a>
-        <a href="#services" class="nav-link">Services</a>
-        <a href="#contact" class="nav-link">Contact</a>
-        <a href="#reviews" class="nav-link">Reviews</a>
-      </nav>
+    <!-- Mobile Menu -->
+    <div class="mobile-menu" id="mobile-menu">
+        <a href="#hero" class="active" data-section="hero">Home</a>
+        <a href="#services" data-section="services">Services</a>
+        <a href="#contacts" data-section="contacts">Contact</a>
+        <a href="#messages" data-section="messages">Message</a>
+        <a href="#reviews" data-section="reviews">Reviews</a>
+    </div>
 
-      <div class="nav-right">
-        <div class="profile-circle" id="profileCircle" aria-label="Profile">
-          <span>E</span>
+    <!-- Hero Section -->
+    <section id="hero">
+        <div class="hero-overlay" id="hero-overlay"></div>
+        <div class="hero-grid-pattern"></div>
+        <div class="hero-glow-1"></div>
+        <div class="hero-glow-2"></div>
+        <div class="hero-content">
+            <div class="hero-tag">
+                <span class="tag-dot"></span>
+                <span id="hero-tagline">Digital Solutions by Eddy</span>
+            </div>
+            <h1 class="hero-title" id="hero-title">Welcome to <span class="highlight" id="hero-highlight">EDDY TECH</span></h1>
+            <p class="hero-desc" id="hero-desc">Founded by Eddy — the owner of AMBO MARKET, the premier local platform to buy and sell things. We bring your digital vision to life with professional precision.</p>
+            <a href="#services" class="hero-btn" id="hero-btn">
+                <span class="btn-text">Explore Services</span>
+                <i class="fas fa-arrow-down"></i>
+            </a>
         </div>
-        <button class="hamburger" id="hamburgerBtn" aria-label="Toggle navigation menu" aria-expanded="false">
-          <span class="hamburger-line"></span>
-          <span class="hamburger-line"></span>
-          <span class="hamburger-line"></span>
-        </button>
-      </div>
-    </div>
-  </header>
+    </section>
 
-  <!-- ══════════════════════════════════════════════════════════════
-       HERO SECTION
-       ══════════════════════════════════════════════════════════════ -->
-  <section class="hero" id="home">
-    <div class="hero-grid-overlay"></div>
-    <div class="hero-gradient-overlay" id="heroGradientOverlay"></div>
-    <div class="hero-glow"></div>
-    <div class="hero-glow-secondary"></div>
+    <!-- Ads Section -->
+    <section id="ads-section">
+        <div class="ads-grid" id="ads-grid"></div>
+    </section>
 
-    <div class="container hero-content">
-      <div class="hero-tag-pill scroll-reveal">
-        <span class="pulse-dot"></span>
-        <span id="heroTagline">Digital Solutions by Eddy</span>
-      </div>
-
-      <h1 class="hero-title scroll-reveal delay-1" id="heroTitle">
-        <!-- Populated by JavaScript -->
-      </h1>
-
-      <p class="hero-paragraph scroll-reveal delay-2" id="heroParagraph">
-        <span class="skel-line full"></span>
-        <span class="skel-line w75"></span>
-        <span class="skel-line w45"></span>
-      </p>
-
-      <div class="scroll-reveal delay-3">
-        <a href="#services" class="btn-primary" id="heroCtaBtn">
-          <span id="heroCtaText">Explore Services</span>
-          <i class="fas fa-arrow-down btn-icon"></i>
-        </a>
-      </div>
-    </div>
-  </section>
-
-  <!-- ══════════════════════════════════════════════════════════════
-       SERVICES SECTION
-       ══════════════════════════════════════════════════════════════ -->
-  <section class="site-section" id="services">
-    <div class="container">
-      <div class="section-header scroll-reveal">
-        <span class="section-label" id="servicesLabel">What We Do</span>
-        <h2 class="section-title" id="servicesTitle">Our Services</h2>
-      </div>
-      <div class="services-grid" id="servicesGrid">
-        <!-- Populated by JavaScript / skeletons shown initially -->
-      </div>
-    </div>
-  </section>
-
-  <!-- ══════════════════════════════════════════════════════════════
-       CONTACT SECTION
-       ══════════════════════════════════════════════════════════════ -->
-  <section class="site-section alt-bg" id="contact">
-    <div class="container">
-      <div class="section-header scroll-reveal">
-        <span class="section-label" id="contactsLabel">Reach Out</span>
-        <h2 class="section-title" id="contactsTitle">Get In Touch</h2>
-      </div>
-      <div class="contacts-grid" id="contactsGrid">
-        <!-- Populated by JavaScript / skeletons shown initially -->
-      </div>
-    </div>
-  </section>
-
-  <!-- ══════════════════════════════════════════════════════════════
-       REVIEWS SECTION
-       ══════════════════════════════════════════════════════════════ -->
-  <section class="site-section" id="reviews">
-    <div class="container">
-      <div class="section-header scroll-reveal">
-        <span class="section-label" id="reviewsLabel">Testimonials</span>
-        <h2 class="section-title" id="reviewsTitle">Client Reviews</h2>
-      </div>
-
-      <!-- Review submission form -->
-      <div class="review-form-wrapper scroll-reveal">
-        <div class="star-rating" id="starRating" role="radiogroup" aria-label="Rating">
-          <i class="fas fa-star star" data-value="1" role="radio" aria-label="1 star" tabindex="0"></i>
-          <i class="fas fa-star star" data-value="2" role="radio" aria-label="2 stars" tabindex="0"></i>
-          <i class="fas fa-star star" data-value="3" role="radio" aria-label="3 stars" tabindex="0"></i>
-          <i class="fas fa-star star" data-value="4" role="radio" aria-label="4 stars" tabindex="0"></i>
-          <i class="fas fa-star star" data-value="5" role="radio" aria-label="5 stars" tabindex="0"></i>
+    <!-- Services Section -->
+    <section id="services" class="section">
+        <div class="reveal">
+            <p class="section-label" id="services-label">What We Do</p>
+            <h2 class="section-title" id="services-title">Our Services</h2>
         </div>
-
-        <input
-          type="text"
-          class="form-field"
-          id="reviewNameInput"
-          placeholder="Your name"
-          maxlength="100"
-          autocomplete="name"
-        >
-
-        <textarea
-          class="form-field form-textarea"
-          id="reviewTextInput"
-          placeholder="Write your review..."
-          maxlength="1000"
-        ></textarea>
-
-        <button class="btn-primary" id="submitReviewBtn" style="width:100%;justify-content:center;">
-          Submit Review
-        </button>
-      </div>
-
-      <!-- Reviews list -->
-      <div class="reviews-list" id="reviewsList">
-        <!-- Populated by JavaScript / skeletons shown initially -->
-      </div>
-    </div>
-  </section>
-
-  <!-- ══════════════════════════════════════════════════════════════
-       FOOTER
-       ══════════════════════════════════════════════════════════════ -->
-  <footer class="site-footer">
-    <div class="container">
-      <p id="footerText">&copy; 2025 EDDY TECH. All rights reserved.</p>
-    </div>
-  </footer>
-
-
-  <!-- ══════════════════════════════════════════════════════════════
-       JAVASCRIPT — All Application Logic
-       ══════════════════════════════════════════════════════════════ -->
-  <script>
-    /* ══════════════════════════════════════════════════════════════
-       CONFIGURATION & SUPABASE CREDENTIALS
-       ══════════════════════════════════════════════════════════════ */
-    var SUPABASE_URL = 'https://kyhgwsatvkazvtdqbmeb.supabase.co';
-    var SUPABASE_KEY = 'sb_publishable_wvwTKSI76Rfkzh8sC3uW0g_V_0C8xb7';
-    var REST_BASE = SUPABASE_URL + '/rest/v1';
-
-    /* Default headers for all Supabase REST API calls */
-    var DEFAULT_HEADERS = {
-      'apikey': SUPABASE_KEY,
-      'Authorization': 'Bearer ' + SUPABASE_KEY
-    };
-
-    /* Headers for POST/PATCH requests with JSON body */
-    var JSON_HEADERS = {
-      'Content-Type': 'application/json'
-    };
-
-    /* Headers for POST requests that return the created row */
-    var POST_RETURN_HEADERS = {
-      'Content-Type': 'application/json',
-      'Prefer': 'return=representation'
-    };
-
-    /* ══════════════════════════════════════════════════════════════
-       DEFAULT MAILTO LINK — Opens email client with pre-filled
-       subject line and body text for direct email contact
-       ══════════════════════════════════════════════════════════════ */
-    var DEFAULT_EMAIL_MAILTO = 'mailto:eddygech@gmail.com?subject=Eddytech%20contact%20&body=Founded%20by%20Eddy%20%E2%80%94%20the%20owner%20of%20AMBO%20MARKET%2C%20the%20premier%20local%20platform%20to%20buy%20and%20sell%20things.%20We%20bring%20your%20digital%20vision%20to%20life%20with%20professional%20precision.%0A%7BGEDION%20GETACEHW%7D';
-
-    /* ══════════════════════════════════════════════════════════════
-       FALLBACK DATA — Used when Supabase is unreachable
-       ══════════════════════════════════════════════════════════════ */
-    var FALLBACK_SERVICES = [
-      {
-        title: 'Website Development',
-        description: 'We build modern, responsive websites that elevate your brand and drive results. From landing pages to full-stack applications.',
-        icon: 'fa-code',
-        sort_order: 1
-      },
-      {
-        title: 'Video & Image Editing',
-        description: 'Professional editing that transforms raw footage and images into polished, captivating visual content for any platform.',
-        icon: 'fa-film',
-        sort_order: 2
-      },
-      {
-        title: 'Promo Videos',
-        description: 'Eye-catching promotional videos that capture attention, communicate your message, and leave a lasting impression on your audience.',
-        icon: 'fa-video',
-        sort_order: 3
-      },
-      {
-        title: 'Event Media',
-        description: 'Complete event coverage with professional photography and videography services. We capture every moment so you can relive it.',
-        icon: 'fa-camera',
-        sort_order: 4
-      }
-    ];
-
-    var FALLBACK_CONTACTS = [
-      {
-        icon: 'fa-phone',
-        title: 'Phone',
-        value: '+251959634128',
-        link: 'tel:+251959634128'
-      },
-      {
-        icon: 'fa-envelope',
-        title: 'Email',
-        value: 'eddygech@gmail.com',
-        link: DEFAULT_EMAIL_MAILTO
-      },
-      {
-        icon: 'fa-paper-plane',
-        title: 'Telegram',
-        value: '@Threecreatives3c',
-        link: 'https://t.me/Threecreatives3c'
-      }
-    ];
-
-    var FALLBACK_REVIEWS = [
-      {
-        name: 'Abel Tadesse',
-        rating: 5,
-        text: 'EDDY TECH delivered an outstanding website for my business. Professional, fast, and the attention to detail was incredible. Highly recommended to anyone looking for quality digital services!',
-        review_date: new Date(Date.now() - 15 * 86400000).toISOString().split('T')[0]
-      },
-      {
-        name: 'Hanna Mekonnen',
-        rating: 5,
-        text: 'The video editing service was top-notch. They understood exactly what I needed and exceeded my expectations. The final product was beyond what I imagined. Will definitely come back!',
-        review_date: new Date(Date.now() - 7 * 86400000).toISOString().split('T')[0]
-      },
-      {
-        name: 'Dawit Assefa',
-        rating: 4,
-        text: 'Great work on our event coverage. The photos and videos were amazing quality. Communication was smooth throughout the process and delivery was on time.',
-        review_date: new Date(Date.now() - 3 * 86400000).toISOString().split('T')[0]
-      }
-    ];
-
-    var FALLBACK_HERO_TEXT = 'Founded by Eddy \u2014 the owner of AMBO MARKET, the premier local platform to buy and sell things. We bring your digital vision to life with professional precision.';
-
-    var FALLBACK_PROFILE_IMAGE = 'https://z-cdn-media.chatglm.cn/files/2b930774-8985-4506-8d33-04f9ac025bb5.png?auth_key=1883920902-502ba23644bb44718856b5f5a981382f-0-0549443c9e150a2d0140a2dd0b98bf05';
-
-    var FALLBACK_PAGE_CONTENT = {
-      hero_tagline: 'Digital Solutions by Eddy',
-      hero_title: 'Welcome to EDDY TECH',
-      hero_title_highlight: 'EDDY TECH',
-      hero_button_text: 'Explore Services',
-      services_label: 'What We Do',
-      services_title: 'Our Services',
-      contacts_label: 'Reach Out',
-      contacts_title: 'Get In Touch',
-      reviews_label: 'Testimonials',
-      reviews_title: 'Client Reviews',
-      footer_text: '\u00A9 2025 EDDY TECH. All rights reserved.'
-    };
-
-    /* ══════════════════════════════════════════════════════════════
-       UTILITY FUNCTIONS
-       ══════════════════════════════════════════════════════════════ */
-
-    /**
-     * Escape HTML special characters to prevent XSS
-     * @param {string} str - Raw string
-     * @returns {string} Escaped HTML string
-     */
-    function escapeHtml(str) {
-      if (!str) return '';
-      var div = document.createElement('div');
-      div.appendChild(document.createTextNode(str));
-      return div.innerHTML;
-    }
-
-    /**
-     * Format a date string into a human-readable format
-     * @param {string} dateStr - ISO date string or date-only string
-     * @returns {string} Formatted date like "Jan 15, 2025"
-     */
-    function formatDate(dateStr) {
-      if (!dateStr) return '';
-      var dateStrClean = dateStr.indexOf('T') > -1 ? dateStr : dateStr + 'T00:00:00';
-      var d = new Date(dateStrClean);
-      if (isNaN(d.getTime())) return dateStr;
-      return d.toLocaleDateString('en-US', {
-        year: 'numeric',
-        month: 'short',
-        day: 'numeric'
-      });
-    }
-
-    /**
-     * Generate HTML for star rating display
-     * @param {number} rating - Number from 1 to 5
-     * @returns {string} HTML string with filled and empty stars
-     */
-    function renderStarsHTML(rating) {
-      var html = '';
-      for (var i = 1; i <= 5; i++) {
-        if (i <= rating) {
-          html += '<i class="fas fa-star star-filled"></i>';
-        } else {
-          html += '<i class="fas fa-star star-empty"></i>';
-        }
-      }
-      return html;
-    }
-
-    /**
-     * Enhance a mailto: link to include default subject and body
-     * if the link doesn't already have query parameters
-     * @param {string} link - The mailto link from the database
-     * @returns {string} Enhanced or original mailto link
-     */
-    function enhanceMailtoLink(link) {
-      if (!link) return link;
-      /* Only process mailto: links */
-      if (link.indexOf('mailto:') !== 0) return link;
-      /* If the link already has query params (subject/body), use it as-is */
-      if (link.indexOf('?') > -1) return link;
-      /* Extract the email address part */
-      var emailPart = link.replace('mailto:', '').trim();
-      /* Return the full mailto with default subject and body */
-      return DEFAULT_EMAIL_MAILTO;
-    }
-
-    /**
-     * Check if a link is a mailto: link
-     * @param {string} link - URL string
-     * @returns {boolean}
-     */
-    function isMailtoLink(link) {
-      return link && link.indexOf('mailto:') === 0;
-    }
-
-    /* ══════════════════════════════════════════════════════════════
-       SUPABASE FETCH HELPER
-       Sends requests with proper headers, parses response,
-       and throws descriptive errors on failure.
-       ══════════════════════════════════════════════════════════════ */
-    async function supabaseFetch(url, options) {
-      options = options || {};
-      /* Merge default headers with any custom headers */
-      var mergedHeaders = {};
-      for (var key in DEFAULT_HEADERS) {
-        mergedHeaders[key] = DEFAULT_HEADERS[key];
-      }
-      if (options.headers) {
-        for (var hk in options.headers) {
-          mergedHeaders[hk] = options.headers[hk];
-        }
-      }
-
-      var response = await fetch(url, {
-        method: options.method || 'GET',
-        headers: mergedHeaders,
-        body: options.body || undefined
-      });
-
-      /* Handle non-OK responses */
-      if (!response.ok) {
-        var errorMessage;
-        try {
-          var errorData = await response.json();
-          errorMessage = errorData.message || errorData.msg || errorData.error || JSON.stringify(errorData);
-        } catch (parseErr) {
-          errorMessage = response.statusText || ('HTTP Error ' + response.status);
-        }
-        throw new Error(errorMessage);
-      }
-
-      /* Parse JSON response, handle empty body for DELETE/PATCH */
-      var responseText = await response.text();
-      if (!responseText || responseText.trim() === '') {
-        return [];
-      }
-
-      try {
-        return JSON.parse(responseText);
-      } catch (parseErr) {
-        throw new Error('Invalid JSON response from server');
-      }
-    }
-
-    /* ══════════════════════════════════════════════════════════════
-       TOAST NOTIFICATION SYSTEM
-       Shows slide-up notifications that auto-dismiss after 4s
-       ══════════════════════════════════════════════════════════════ */
-    function showToast(message, type) {
-      type = type || 'success';
-      var container = document.getElementById('toastContainer');
-      var toast = document.createElement('div');
-      toast.className = 'toast-notification toast-' + type;
-
-      var iconClass;
-      if (type === 'success') {
-        iconClass = 'fa-check-circle';
-      } else {
-        iconClass = 'fa-exclamation-circle';
-      }
-
-      toast.innerHTML =
-        '<i class="fas ' + iconClass + ' toast-icon"></i>' +
-        '<span class="toast-message">' + escapeHtml(message) + '</span>';
-
-      container.appendChild(toast);
-
-      /* Auto-dismiss after 4 seconds */
-      var dismissTimer = setTimeout(function() {
-        dismissToast(toast);
-      }, 4000);
-
-      /* Store timer so we can clear it if manually dismissed */
-      toast._dismissTimer = dismissTimer;
-    }
-
-    function dismissToast(toastElement) {
-      if (!toastElement || toastElement._dismissed) return;
-      toastElement._dismissed = true;
-      clearTimeout(toastElement._dismissTimer);
-      toastElement.classList.add('dismissing');
-      setTimeout(function() {
-        if (toastElement.parentNode) {
-          toastElement.parentNode.removeChild(toastElement);
-        }
-      }, 300);
-    }
-
-    /* ══════════════════════════════════════════════════════════════
-       CONNECTION STATUS INDICATOR
-       Shows green dot when connected, red with error when offline
-       ══════════════════════════════════════════════════════════════ */
-    function updateConnectionStatus(isOnline, errorMessage) {
-      var dot = document.getElementById('connectionDot');
-      var text = document.getElementById('connectionText');
-
-      if (isOnline) {
-        dot.className = 'connection-dot online';
-        text.textContent = 'Connected to database';
-      } else {
-        dot.className = 'connection-dot offline';
-        text.textContent = 'Offline \u2014 ' + (errorMessage || 'Unknown error');
-      }
-    }
-
-    /* ══════════════════════════════════════════════════════════════
-       SKELETON LOADING RENDERERS
-       Show animated placeholders while data loads from Supabase
-       ══════════════════════════════════════════════════════════════ */
-    function renderServiceSkeletons(count) {
-      var html = '';
-      for (var i = 0; i < count; i++) {
-        html +=
-          '<div class="skel-card">' +
-            '<div class="skeleton skel-circle" style="width:52px;height:52px;margin-bottom:20px"></div>' +
-            '<div class="skeleton skel-line h18 w60" style="margin-bottom:12px"></div>' +
-            '<div class="skeleton skel-line full"></div>' +
-            '<div class="skeleton skel-line w75"></div>' +
-            '<div class="skeleton skel-line w45"></div>' +
-          '</div>';
-      }
-      return html;
-    }
-
-    function renderContactSkeletons(count) {
-      var html = '';
-      for (var i = 0; i < count; i++) {
-        html +=
-          '<div class="skel-card" style="display:flex;align-items:flex-start;gap:18px;padding:28px">' +
-            '<div class="skeleton skel-circle" style="width:46px;height:46px"></div>' +
-            '<div style="flex:1">' +
-              '<div class="skeleton skel-line h18 w40" style="margin-bottom:8px"></div>' +
-              '<div class="skeleton skel-line w90"></div>' +
-              '<div class="skeleton skel-line w60"></div>' +
-            '</div>' +
-          '</div>';
-      }
-      return html;
-    }
-
-    function renderReviewSkeletons(count) {
-      var html = '';
-      for (var i = 0; i < count; i++) {
-        html +=
-          '<div class="skel-card" style="padding:24px">' +
-            '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">' +
-              '<div class="skeleton skel-line h18" style="width:120px;margin-bottom:0"></div>' +
-              '<div class="skeleton skel-line h12" style="width:90px;margin-bottom:0"></div>' +
-            '</div>' +
-            '<div class="skeleton skel-line h18" style="width:130px;margin-bottom:12px"></div>' +
-            '<div class="skeleton skel-line full"></div>' +
-            '<div class="skeleton skel-line w75"></div>' +
-          '</div>';
-      }
-      return html;
-    }
-
-    /* ══════════════════════════════════════════════════════════════
-       DATA RENDERERS — Services
-       ══════════════════════════════════════════════════════════════ */
-    function renderServices(services) {
-      var grid = document.getElementById('servicesGrid');
-
-      if (!services || services.length === 0) {
-        grid.innerHTML = '<p style="color:var(--fg-muted);text-align:center;grid-column:1/-1;padding:40px 0;">No services available yet.</p>';
-        return;
-      }
-
-      var html = '';
-      for (var i = 0; i < services.length; i++) {
-        var s = services[i];
-        var delayClass = 'delay-' + Math.min((i % 4) + 1, 4);
-        var iconClass = escapeHtml(s.icon || 'fa-gear');
-
-        html +=
-          '<div class="service-card scroll-reveal ' + delayClass + '">' +
-            '<div class="service-card-icon">' +
-              '<i class="fas ' + iconClass + '"></i>' +
-            '</div>' +
-            '<h3 class="service-card-title">' + escapeHtml(s.title) + '</h3>' +
-            '<p class="service-card-desc">' + escapeHtml(s.description) + '</p>' +
-          '</div>';
-      }
-
-      grid.innerHTML = html;
-      observeScrollReveals();
-    }
-
-    /* ══════════════════════════════════════════════════════════════
-       DATA RENDERERS — Contacts
-       Includes special handling for mailto: links to show
-       "send us an email" styled button instead of plain link
-       ══════════════════════════════════════════════════════════════ */
-    function renderContacts(contacts) {
-      var grid = document.getElementById('contactsGrid');
-
-      if (!contacts || contacts.length === 0) {
-        grid.innerHTML = '<p style="color:var(--fg-muted);text-align:center;grid-column:1/-1;padding:40px 0;">No contact info available yet.</p>';
-        return;
-      }
-
-      var html = '';
-      for (var i = 0; i < contacts.length; i++) {
-        var c = contacts[i];
-        var delayClass = 'delay-' + Math.min((i % 3) + 1, 3);
-        var iconClass = escapeHtml(c.icon || 'fa-phone');
-        var linkHref = '';
-        var linkHTML = '';
-
-        /* Check if this contact has a mailto: link */
-        if (c.link && isMailtoLink(c.link)) {
-          /* Enhance the mailto link with subject/body if needed */
-          var fullMailto = enhanceMailtoLink(c.link);
-          linkHref = fullMailto;
-          linkHTML =
-            '<a href="' + escapeHtml(fullMailto) + '" class="contact-card-link email-link">' +
-              '<i class="fas fa-paper-plane" style="font-size:0.8rem"></i> ' +
-              'Send us an email ' +
-              '<i class="fas fa-arrow-right email-arrow"></i>' +
-            '</a>';
-        } else if (c.link) {
-          linkHref = c.link;
-          linkHTML =
-            '<a href="' + escapeHtml(c.link) + '" target="_blank" rel="noopener noreferrer" class="contact-card-link">' +
-              escapeHtml(c.value) +
-            '</a>';
-        } else {
-          linkHTML =
-            '<span class="contact-card-link">' + escapeHtml(c.value) + '</span>';
-        }
-
-        html +=
-          '<div class="contact-card scroll-reveal ' + delayClass + '">' +
-            '<div class="contact-card-icon">' +
-              '<i class="fas ' + iconClass + '"></i>' +
-            '</div>' +
-            '<div>' +
-              '<h4 class="contact-card-title">' + escapeHtml(c.title) + '</h4>' +
-              linkHTML +
-            '</div>' +
-          '</div>';
-      }
-
-      grid.innerHTML = html;
-      observeScrollReveals();
-    }
-
-    /* ══════════════════════════════════════════════════════════════
-       DATA RENDERERS — Reviews
-       ══════════════════════════════════════════════════════════════ */
-    function renderReviews(reviews) {
-      var list = document.getElementById('reviewsList');
-
-      if (!reviews || reviews.length === 0) {
-        list.innerHTML = '<p style="color:var(--fg-muted);text-align:center;padding:40px 0;">No reviews yet. Be the first to leave one!</p>';
-        return;
-      }
-
-      var html = '';
-      for (var i = 0; i < reviews.length; i++) {
-        var r = reviews[i];
-        var dateValue = r.review_date || r.created_at;
-        var displayDate = formatDate(dateValue);
-
-        html +=
-          '<div class="review-card scroll-reveal">' +
-            '<div class="review-card-header">' +
-              '<span class="review-card-name">' + escapeHtml(r.name) + '</span>' +
-              '<span class="review-card-date">' + escapeHtml(displayDate) + '</span>' +
-            '</div>' +
-            '<div class="review-card-stars">' + renderStarsHTML(r.rating) + '</div>' +
-            '<p class="review-card-text">' + escapeHtml(r.text) + '</p>' +
-          '</div>';
-      }
-
-      list.innerHTML = html;
-      observeScrollReveals();
-    }
-
-    /* ══════════════════════════════════════════════════════════════
-       PAGE CONTENT APPLIER
-       Reads page_content map and updates all text elements.
-       Uses !== undefined checks so empty strings are respected
-       (fixes the "remove image shows fallback" bug)
-       ══════════════════════════════════════════════════════════════ */
-    function applyPageContent(contentMap) {
-      /* Hero tagline */
-      if (contentMap.hero_tagline !== undefined) {
-        document.getElementById('heroTagline').textContent = contentMap.hero_tagline || FALLBACK_PAGE_CONTENT.hero_tagline;
-      }
-
-      /* Hero title with highlight word in green */
-      var titleText = (contentMap.hero_title !== undefined) ? contentMap.hero_title : FALLBACK_PAGE_CONTENT.hero_title;
-      var highlightText = (contentMap.hero_title_highlight !== undefined) ? contentMap.hero_title_highlight : FALLBACK_PAGE_CONTENT.hero_title_highlight;
-
-      var titleEl = document.getElementById('heroTitle');
-      if (titleText && highlightText && titleText.indexOf(highlightText) !== -1) {
-        var escapedFullTitle = escapeHtml(titleText);
-        var escapedHighlight = escapeHtml(highlightText);
-        titleEl.innerHTML = escapedFullTitle.replace(escapedHighlight, '<span class="accent-text">' + escapedHighlight + '</span>');
-      } else {
-        titleEl.textContent = titleText || FALLBACK_PAGE_CONTENT.hero_title;
-      }
-
-      /* Hero CTA button text */
-      if (contentMap.hero_button_text !== undefined) {
-        document.getElementById('heroCtaText').textContent = contentMap.hero_button_text || FALLBACK_PAGE_CONTENT.hero_button_text;
-      }
-
-      /* Services section labels */
-      if (contentMap.services_label !== undefined) {
-        document.getElementById('servicesLabel').textContent = contentMap.services_label || FALLBACK_PAGE_CONTENT.services_label;
-      }
-      if (contentMap.services_title !== undefined) {
-        document.getElementById('servicesTitle').textContent = contentMap.services_title || FALLBACK_PAGE_CONTENT.services_title;
-      }
-
-      /* Contacts section labels */
-      if (contentMap.contacts_label !== undefined) {
-        document.getElementById('contactsLabel').textContent = contentMap.contacts_label || FALLBACK_PAGE_CONTENT.contacts_label;
-      }
-      if (contentMap.contacts_title !== undefined) {
-        document.getElementById('contactsTitle').textContent = contentMap.contacts_title || FALLBACK_PAGE_CONTENT.contacts_title;
-      }
-
-      /* Reviews section labels */
-      if (contentMap.reviews_label !== undefined) {
-        document.getElementById('reviewsLabel').textContent = contentMap.reviews_label || FALLBACK_PAGE_CONTENT.reviews_label;
-      }
-      if (contentMap.reviews_title !== undefined) {
-        document.getElementById('reviewsTitle').textContent = contentMap.reviews_title || FALLBACK_PAGE_CONTENT.reviews_title;
-      }
-
-      /* Footer text */
-      if (contentMap.footer_text !== undefined) {
-        document.getElementById('footerText').textContent = contentMap.footer_text || FALLBACK_PAGE_CONTENT.footer_text;
-      }
-    }
-
-    /* ══════════════════════════════════════════════════════════════
-       PROFILE IMAGE SETTER
-       Uses proper DOM element creation with addEventListener
-       for error handling (fixes inline onerror quote bug)
-       ══════════════════════════════════════════════════════════════ */
-    function setProfileImage(imageUrl) {
-      var circle = document.getElementById('profileCircle');
-
-      if (imageUrl && imageUrl.trim()) {
-        var img = document.createElement('img');
-        img.alt = 'EDDY TECH Profile';
-        img.src = imageUrl;
-
-        /* Proper error handler — no inline onerror */
-        img.addEventListener('error', function() {
-          circle.innerHTML = '<span>E</span>';
-        });
-
-        /* On successful load, replace circle content with image */
-        img.addEventListener('load', function() {
-          circle.innerHTML = '';
-          circle.appendChild(img);
-        });
-
-        circle.innerHTML = '';
-        circle.appendChild(img);
-      } else {
-        /* No image set — show the letter E */
-        circle.innerHTML = '<span>E</span>';
-      }
-    }
-
-    /* ══════════════════════════════════════════════════════════════
-       FAVICON UPDATER
-       Dynamically sets the browser tab icon from the profile image
-       URL loaded from Supabase. Falls back to SVG placeholder.
-       ══════════════════════════════════════════════════════════════ */
-    function updateFavicon(imageUrl) {
-      if (!imageUrl || !imageUrl.trim()) return;
-
-      var favicon32 = document.getElementById('favicon32');
-      var favicon16 = document.getElementById('favicon16');
-      var appleIcon = document.getElementById('appleIcon');
-
-      if (favicon32) favicon32.href = imageUrl;
-      if (favicon16) favicon16.href = imageUrl;
-      if (appleIcon) appleIcon.href = imageUrl;
-    }
-
-    /* ══════════════════════════════════════════════════════════════
-       BACKGROUND IMAGE APPLIER
-       Sets the hero section background image from the settings.
-       Shows a gradient overlay when background is set for readability.
-       ══════════════════════════════════════════════════════════════ */
-    function applyBackgroundImage(bgImageUrl) {
-      var heroEl = document.getElementById('home');
-      var gradientOverlay = document.getElementById('heroGradientOverlay');
-
-      if (bgImageUrl && bgImageUrl.trim()) {
-        heroEl.style.backgroundImage = 'url(' + escapeHtml(bgImageUrl) + ')';
-        heroEl.style.backgroundSize = 'cover';
-        heroEl.style.backgroundPosition = 'center';
-        heroEl.style.backgroundRepeat = 'no-repeat';
-        /* Show gradient overlay for text readability over the image */
-        if (gradientOverlay) {
-          gradientOverlay.style.display = 'block';
-        }
-      } else {
-        heroEl.style.backgroundImage = '';
-        heroEl.style.backgroundSize = '';
-        heroEl.style.backgroundPosition = '';
-        heroEl.style.backgroundRepeat = '';
-        /* Hide gradient overlay when no background image */
-        if (gradientOverlay) {
-          gradientOverlay.style.display = 'none';
-        }
-      }
-    }
-
-    /* ══════════════════════════════════════════════════════════════
-       STAR RATING INTERACTION
-       Handles hover preview and click-to-select for the 5 stars
-       ══════════════════════════════════════════════════════════════ */
-    var selectedStarRating = 0;
-    var starRatingContainer = document.getElementById('starRating');
-    var starElements = starRatingContainer.querySelectorAll('.star');
-
-    function updateStarVisual(ratingValue) {
-      for (var i = 0; i < starElements.length; i++) {
-        var star = starElements[i];
-        var starValue = parseInt(star.getAttribute('data-value'), 10);
-        if (starValue <= ratingValue) {
-          star.classList.add('lit');
-        } else {
-          star.classList.remove('lit');
-        }
-      }
-    }
-
-    /* Hover: preview the rating */
-    for (var si = 0; si < starElements.length; si++) {
-      (function(star) {
-        star.addEventListener('mouseenter', function() {
-          var val = parseInt(star.getAttribute('data-value'), 10);
-          updateStarVisual(val);
-        });
-
-        /* Click: lock in the rating */
-        star.addEventListener('click', function() {
-          selectedStarRating = parseInt(star.getAttribute('data-value'), 10);
-          updateStarVisual(selectedStarRating);
-        });
-
-        /* Keyboard support */
-        star.addEventListener('keydown', function(e) {
-          if (e.key === 'Enter' || e.key === ' ') {
-            e.preventDefault();
-            selectedStarRating = parseInt(star.getAttribute('data-value'), 10);
-            updateStarVisual(selectedStarRating);
-          }
-        });
-      })(starElements[si]);
-    }
-
-    /* Mouse leave: revert to selected rating */
-    starRatingContainer.addEventListener('mouseleave', function() {
-      updateStarVisual(selectedStarRating);
-    });
-
-    /* ══════════════════════════════════════════════════════════════
-       REVIEW SUBMISSION
-       Validates inputs, shows spinner, POSTs to Supabase,
-       then refreshes the review list from the database
-       ══════════════════════════════════════════════════════════════ */
-    var submitReviewBtn = document.getElementById('submitReviewBtn');
-    var reviewNameInput = document.getElementById('reviewNameInput');
-    var reviewTextInput = document.getElementById('reviewTextInput');
-
-    submitReviewBtn.addEventListener('click', async function() {
-      var nameValue = reviewNameInput.value.trim();
-      var textValue = reviewTextInput.value.trim();
-
-      /* Validation */
-      if (!selectedStarRating) {
-        showToast('Please select a star rating.', 'error');
-        return;
-      }
-      if (!nameValue) {
-        showToast('Please enter your name.', 'error');
-        reviewNameInput.focus();
-        return;
-      }
-      if (!textValue) {
-        showToast('Please write your review.', 'error');
-        reviewTextInput.focus();
-        return;
-      }
-
-      /* Show loading state and disable button */
-      submitReviewBtn.disabled = true;
-      submitReviewBtn.innerHTML = '<span class="btn-spinner"></span> Submitting...';
-
-      try {
-        /* POST the new review to Supabase */
-        await supabaseFetch(REST_BASE + '/reviews', {
-          method: 'POST',
-          headers: POST_RETURN_HEADERS,
-          body: JSON.stringify({
-            name: nameValue,
-            rating: selectedStarRating,
-            text: textValue
-          })
-        });
-
-        /* Success — reset form and refresh list */
-        showToast('Review submitted successfully! Thank you.', 'success');
-        reviewNameInput.value = '';
-        reviewTextInput.value = '';
-        selectedStarRating = 0;
-        updateStarVisual(0);
-
-        /* Reload only the reviews from Supabase */
-        await loadReviewsOnly();
-      } catch (error) {
-        showToast('Failed to submit review: ' + error.message, 'error');
-      } finally {
-        /* Always restore the button */
-        submitReviewBtn.disabled = false;
-        submitReviewBtn.innerHTML = 'Submit Review';
-      }
-    });
-
-    /* ══════════════════════════════════════════════════════════════
-       DATA LOADER — Reviews Only
-       Used after submitting a new review to refresh just the list
-       ══════════════════════════════════════════════════════════════ */
-    async function loadReviewsOnly() {
-      try {
-        var data = await supabaseFetch(
-          REST_BASE + '/reviews?select=*&order=created_at.desc'
-        );
-        renderReviews(data);
-      } catch (error) {
-        renderReviews(FALLBACK_REVIEWS);
-      }
-    }
-
-    /* ══════════════════════════════════════════════════════════════
-       MAIN DATA LOADER — Loads Everything on Page Load
-       Fetches all 5 data sources in parallel using Promise.allSettled
-       so partial failures don't break the entire page
-       ══════════════════════════════════════════════════════════════ */
-    async function loadAllData() {
-      var isOnline = true;
-      var firstErrorMessage = '';
-
-      /* Show skeleton placeholders while loading */
-      document.getElementById('servicesGrid').innerHTML = renderServiceSkeletons(4);
-      document.getElementById('contactsGrid').innerHTML = renderContactSkeletons(3);
-      document.getElementById('reviewsList').innerHTML = renderReviewSkeletons(3);
-
-      /* Fetch all 5 data sources in parallel */
-      var allResults = await Promise.allSettled([
-        /* 0: Services */
-        supabaseFetch(REST_BASE + '/services?select=*&order=sort_order.asc,id.asc'),
-        /* 1: Contacts */
-        supabaseFetch(REST_BASE + '/contacts?select=*&order=sort_order.asc,id.asc'),
-        /* 2: Reviews */
-        supabaseFetch(REST_BASE + '/reviews?select=*&order=created_at.desc'),
-        /* 3: Settings */
-        supabaseFetch(REST_BASE + '/settings?select=setting_key,setting_value'),
-        /* 4: Page Content */
-        supabaseFetch(REST_BASE + '/page_content?select=element_key,content')
-      ]);
-
-      var servicesData = null;
-      var contactsData = null;
-      var reviewsData = null;
-      var settingsData = null;
-      var pageContentData = null;
-
-      /* Process services result */
-      if (allResults[0].status === 'fulfilled') {
-        servicesData = allResults[0].value;
-      } else {
-        isOnline = false;
-        firstErrorMessage = firstErrorMessage || allResults[0].reason.message;
-      }
-
-      /* Process contacts result */
-      if (allResults[1].status === 'fulfilled') {
-        contactsData = allResults[1].value;
-      } else {
-        isOnline = false;
-        firstErrorMessage = firstErrorMessage || allResults[1].reason.message;
-      }
-
-      /* Process reviews result */
-      if (allResults[2].status === 'fulfilled') {
-        reviewsData = allResults[2].value;
-      } else {
-        isOnline = false;
-        firstErrorMessage = firstErrorMessage || allResults[2].reason.message;
-      }
-
-      /* Process settings result */
-      if (allResults[3].status === 'fulfilled') {
-        settingsData = allResults[3].value;
-      } else {
-        isOnline = false;
-        firstErrorMessage = firstErrorMessage || allResults[3].reason.message;
-      }
-
-      /* Process page content result */
-      if (allResults[4].status === 'fulfilled') {
-        pageContentData = allResults[4].value;
-      } else {
-        isOnline = false;
-        firstErrorMessage = firstErrorMessage || allResults[4].reason.message;
-      }
-
-      /* Update connection status indicator */
-      if (isOnline) {
-        updateConnectionStatus(true);
-      } else {
-        updateConnectionStatus(false, firstErrorMessage);
-        showToast(
-          'Database connection issue: ' + firstErrorMessage + '. Showing offline data.',
-          'error'
-        );
-      }
-
-      /* ── Render Services ── */
-      renderServices(servicesData || FALLBACK_SERVICES);
-
-      /* ── Render Contacts ── */
-      renderContacts(contactsData || FALLBACK_CONTACTS);
-
-      /* ── Render Reviews ── */
-      renderReviews(reviewsData || FALLBACK_REVIEWS);
-
-      /* ── Build Settings Map ── */
-      var settingsMap = {};
-      if (settingsData && Array.isArray(settingsData)) {
-        for (var si = 0; si < settingsData.length; si++) {
-          var row = settingsData[si];
-          settingsMap[row.setting_key] = row.setting_value;
-        }
-      }
-
-      /* ── Apply Hero Text (using !== undefined for empty string respect) ── */
-      var heroTextValue;
-      if (settingsMap.hero_text !== undefined) {
-        heroTextValue = settingsMap.hero_text;
-      } else {
-        heroTextValue = FALLBACK_HERO_TEXT;
-      }
-      document.getElementById('heroParagraph').textContent = heroTextValue || FALLBACK_HERO_TEXT;
-
-      /* ── Apply Profile Image (using !== undefined for empty string respect) ── */
-      var profileImageValue;
-      if (settingsMap.profile_image !== undefined) {
-        profileImageValue = settingsMap.profile_image;
-      } else {
-        profileImageValue = FALLBACK_PROFILE_IMAGE;
-      }
-      setProfileImage(profileImageValue);
-
-      /* ── Update Favicon with profile image ── */
-      if (profileImageValue && profileImageValue.trim()) {
-        updateFavicon(profileImageValue);
-      }
-
-      /* ── Apply Background Image (using !== undefined for empty string respect) ── */
-      var bgImageValue;
-      if (settingsMap.background_image !== undefined) {
-        bgImageValue = settingsMap.background_image;
-      } else {
-        bgImageValue = '';
-      }
-      applyBackgroundImage(bgImageValue);
-
-      /* ── Build Page Content Map and Apply ── */
-      var pageContentMap = {};
-      if (pageContentData && Array.isArray(pageContentData)) {
-        for (var pi = 0; pi < pageContentData.length; pi++) {
-          var pcRow = pageContentData[pi];
-          pageContentMap[pcRow.element_key] = pcRow.content;
-        }
-      }
-      applyPageContent(pageContentMap);
-    }
-
-    /* ══════════════════════════════════════════════════════════════
-       SCROLL REVEAL — IntersectionObserver
-       Elements with .scroll-reveal fade up when they enter viewport
-       ══════════════════════════════════════════════════════════════ */
-    var scrollRevealObserver = null;
-
-    function observeScrollReveals() {
-      if (!scrollRevealObserver) {
-        scrollRevealObserver = new IntersectionObserver(
-          function(entries) {
-            for (var i = 0; i < entries.length; i++) {
-              var entry = entries[i];
-              if (entry.isIntersecting) {
-                entry.target.classList.add('revealed');
-                /* Stop observing once revealed — one-time animation */
-                scrollRevealObserver.unobserve(entry.target);
-              }
+        <div class="services-grid" id="services-grid">
+            <!-- Skeleton placeholders -->
+            <div class="skeleton-card reveal"><div class="skeleton" style="width:52px;height:52px;border-radius:8px;margin-bottom:20px;"></div><div class="skeleton" style="width:60%;height:20px;margin-bottom:12px;"></div><div class="skeleton" style="width:100%;height:14px;margin-bottom:8px;"></div><div class="skeleton" style="width:85%;height:14px;"></div></div>
+            <div class="skeleton-card reveal"><div class="skeleton" style="width:52px;height:52px;border-radius:8px;margin-bottom:20px;"></div><div class="skeleton" style="width:70%;height:20px;margin-bottom:12px;"></div><div class="skeleton" style="width:100%;height:14px;margin-bottom:8px;"></div><div class="skeleton" style="width:90%;height:14px;"></div></div>
+            <div class="skeleton-card reveal"><div class="skeleton" style="width:52px;height:52px;border-radius:8px;margin-bottom:20px;"></div><div class="skeleton" style="width:50%;height:20px;margin-bottom:12px;"></div><div class="skeleton" style="width:100%;height:14px;margin-bottom:8px;"></div><div class="skeleton" style="width:80%;height:14px;"></div></div>
+            <div class="skeleton-card reveal"><div class="skeleton" style="width:52px;height:52px;border-radius:8px;margin-bottom:20px;"></div><div class="skeleton" style="width:65%;height:20px;margin-bottom:12px;"></div><div class="skeleton" style="width:100%;height:14px;margin-bottom:8px;"></div><div class="skeleton" style="width:75%;height:14px;"></div></div>
+        </div>
+    </section>
+
+    <!-- Contacts Section -->
+    <section id="contacts" class="section">
+        <div class="reveal">
+            <p class="section-label" id="contacts-label">Reach Out</p>
+            <h2 class="section-title" id="contacts-title">Get In Touch</h2>
+        </div>
+        <div class="contacts-grid" id="contacts-grid">
+            <!-- Skeleton placeholders -->
+            <div class="skeleton-card reveal"><div class="skeleton" style="width:44px;height:44px;border-radius:8px;margin-bottom:16px;"></div><div class="skeleton" style="width:50%;height:16px;margin-bottom:10px;"></div><div class="skeleton" style="width:70%;height:14px;"></div></div>
+            <div class="skeleton-card reveal"><div class="skeleton" style="width:44px;height:44px;border-radius:8px;margin-bottom:16px;"></div><div class="skeleton" style="width:40%;height:16px;margin-bottom:10px;"></div><div class="skeleton" style="width:80%;height:14px;"></div></div>
+            <div class="skeleton-card reveal"><div class="skeleton" style="width:44px;height:44px;border-radius:8px;margin-bottom:16px;"></div><div class="skeleton" style="width:45%;height:16px;margin-bottom:10px;"></div><div class="skeleton" style="width:60%;height:14px;"></div></div>
+        </div>
+    </section>
+
+    <!-- Messages Section -->
+    <section id="messages" class="section">
+        <div class="reveal">
+            <p class="section-label" id="messages-label">Send a Message</p>
+            <h2 class="section-title" id="messages-title">Get In Touch With Us</h2>
+        </div>
+        <div class="message-card reveal">
+            <form id="message-form" novalidate>
+                <div class="form-group">
+                    <label for="msg-name">Name *</label>
+                    <input type="text" id="msg-name" placeholder="Your name" maxlength="100" required>
+                </div>
+                <div class="form-group">
+                    <label for="msg-email">Email</label>
+                    <input type="email" id="msg-email" placeholder="you@example.com" maxlength="200">
+                </div>
+                <div class="form-group">
+                    <label for="msg-text">Message *</label>
+                    <textarea id="msg-text" placeholder="Write your message here..." maxlength="2000" required></textarea>
+                </div>
+                <button type="submit" class="btn-primary" id="msg-submit-btn">
+                    <span class="btn-text">Send Message</span>
+                    <span class="spinner"></span>
+                    <i class="fas fa-paper-plane btn-text"></i>
+                </button>
+            </form>
+            <div class="msg-success" id="msg-success">
+                <i class="fas fa-check-circle"></i> Your message has been sent successfully!
+            </div>
+        </div>
+    </section>
+
+    <!-- Reviews Section -->
+    <section id="reviews" class="section">
+        <div class="reveal">
+            <p class="section-label" id="reviews-label">Testimonials</p>
+            <h2 class="section-title" id="reviews-title">Client Reviews</h2>
+        </div>
+        <div class="review-form-card reveal">
+            <div class="star-rating-input" id="star-input" role="radiogroup" aria-label="Rating">
+                <button type="button" class="star-btn" data-value="1" role="radio" aria-label="1 star" tabindex="0"><i class="fas fa-star"></i></button>
+                <button type="button" class="star-btn" data-value="2" role="radio" aria-label="2 stars" tabindex="0"><i class="fas fa-star"></i></button>
+                <button type="button" class="star-btn" data-value="3" role="radio" aria-label="3 stars" tabindex="0"><i class="fas fa-star"></i></button>
+                <button type="button" class="star-btn" data-value="4" role="radio" aria-label="4 stars" tabindex="0"><i class="fas fa-star"></i></button>
+                <button type="button" class="star-btn" data-value="5" role="radio" aria-label="5 stars" tabindex="0"><i class="fas fa-star"></i></button>
+            </div>
+            <div class="form-group">
+                <label for="rev-name">Name *</label>
+                <input type="text" id="rev-name" placeholder="Your name" maxlength="100" required>
+            </div>
+            <div class="form-group">
+                <label for="rev-text">Your Review *</label>
+                <textarea id="rev-text" placeholder="Share your experience..." maxlength="2000" required></textarea>
+            </div>
+            <button type="button" class="btn-primary" id="rev-submit-btn">
+                <span class="btn-text">Submit Review</span>
+                <span class="spinner"></span>
+                <i class="fas fa-star btn-text"></i>
+            </button>
+        </div>
+        <div class="reviews-list" id="reviews-list">
+            <!-- Skeleton placeholders -->
+            <div class="review-item reveal"><div class="rev-header"><div class="skeleton" style="width:120px;height:18px;"></div><div class="skeleton" style="width:80px;height:14px;"></div></div><div class="skeleton" style="width:100px;height:16px;margin-bottom:10px;"></div><div class="skeleton" style="width:100%;height:14px;margin-bottom:6px;"></div><div class="skeleton" style="width:75%;height:14px;"></div></div>
+            <div class="review-item reveal"><div class="rev-header"><div class="skeleton" style="width:140px;height:18px;"></div><div class="skeleton" style="width:80px;height:14px;"></div></div><div class="skeleton" style="width:100px;height:16px;margin-bottom:10px;"></div><div class="skeleton" style="width:100%;height:14px;margin-bottom:6px;"></div><div class="skeleton" style="width:85%;height:14px;"></div></div>
+            <div class="review-item reveal"><div class="rev-header"><div class="skeleton" style="width:110px;height:18px;"></div><div class="skeleton" style="width:80px;height:14px;"></div></div><div class="skeleton" style="width:80px;height:16px;margin-bottom:10px;"></div><div class="skeleton" style="width:100%;height:14px;margin-bottom:6px;"></div><div class="skeleton" style="width:70%;height:14px;"></div></div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p id="footer-text">&copy; 2025 EDDY TECH. All rights reserved.</p>
+    </footer>
+
+    <script>
+        /* ══════════════════════════════════════════
+           CONFIGURATION & CONSTANTS
+           ══════════════════════════════════════════ */
+        const SUPABASE_URL = 'https://kyhgwsatvkazvtdqbmeb.supabase.co';
+        const SUPABASE_KEY = 'sb_publishable_wvwTKSI76Rfkzh8sC3uW0g_V_0C8xb7';
+        const REST_BASE = SUPABASE_URL + '/rest/v1/';
+        const DEFAULT_MAILTO = 'mailto:eddygech@gmail.com?subject=Eddytech%20contact%20&body=Founded%20by%20Eddy%20%E2%80%94%20the%20owner%20of%20AMBO%20MARKET%2C%20the%20premier%20local%20platform%20to%20buy%20and%20sell%20things.%20We%20bring%20your%20digital%20vision%20to%20life%20with%20professional%20precision.%0A%7BGEDION%20GETACEHW%7D';
+
+        /* ══════════════════════════════════════════
+           FALLBACK DATA
+           ══════════════════════════════════════════ */
+        const FALLBACK_SERVICES = [
+            { id: 1, title: 'Website Development', description: 'We build fast, responsive, and modern websites that elevate your brand and convert visitors into loyal customers. From landing pages to full-stack web applications, we deliver pixel-perfect results.', icon: 'fa-code', sort_order: 1 },
+            { id: 2, title: 'Video & Image Editing', description: 'Professional photo retouching, color grading, and video editing that transforms raw footage into polished, shareable content that captivates your audience.', icon: 'fa-film', sort_order: 2 },
+            { id: 3, title: 'Promo Videos', description: 'Eye-catching promotional videos crafted to showcase your products, services, or events. We handle scripting, shooting, and post-production for maximum impact.', icon: 'fa-video', sort_order: 3 },
+            { id: 4, title: 'Event Media Coverage', description: 'Complete event documentation including live photography, video coverage, and real-time social media content creation to capture every important moment.', icon: 'fa-camera', sort_order: 4 }
+        ];
+
+        const FALLBACK_CONTACTS = [
+            { id: 1, icon: 'fa-phone', title: 'Phone', value: '+251959634128', link: 'tel:+251959634128', sort_order: 1 },
+            { id: 2, icon: 'fa-envelope', title: 'Email', value: 'eddygech@gmail.com', link: DEFAULT_MAILTO, sort_order: 2 },
+            { id: 3, icon: 'fa-paper-plane', title: 'Telegram', value: '@Threecreatives3c', link: 'https://t.me/Threecreatives3c', sort_order: 3 }
+        ];
+
+        const FALLBACK_REVIEWS = [
+            { id: 1, name: 'Abel Tadesse', rating: 5, text: 'EDDY TECH delivered an incredible website for my business. The design was modern, the code was clean, and the whole process was smooth from start to finish. Highly recommended for anyone looking for quality web development.', review_date: '2025-01-15', created_at: '2025-01-15T10:00:00Z' },
+            { id: 2, name: 'Hanna Mekonnen', rating: 5, text: 'Their video editing skills are top-notch. They turned our raw event footage into a stunning promotional video that got us so many compliments. Professional team with real talent.', review_date: '2025-02-20', created_at: '2025-02-20T14:30:00Z' },
+            { id: 3, name: 'Dawit Assefa', rating: 4, text: 'Great service and fast turnaround. The promo video they created for our product launch exceeded expectations. Communication was clear and they delivered right on schedule.', review_date: '2025-03-10', created_at: '2025-03-10T09:15:00Z' }
+        ];
+
+        const FALLBACK_SETTINGS = {
+            hero_text: 'Founded by Eddy — the owner of AMBO MARKET, the premier local platform to buy and sell things. We bring your digital vision to life with professional precision.',
+            profile_image: '',
+            background_image: ''
+        };
+
+        const FALLBACK_PAGE_CONTENT = {
+            hero_tagline: 'Digital Solutions by Eddy',
+            hero_title: 'Welcome to EDDY TECH',
+            hero_title_highlight: 'EDDY TECH',
+            hero_button_text: 'Explore Services',
+            services_label: 'What We Do',
+            services_title: 'Our Services',
+            contacts_label: 'Reach Out',
+            contacts_title: 'Get In Touch',
+            messages_label: 'Send a Message',
+            messages_title: 'Get In Touch With Us',
+            reviews_label: 'Testimonials',
+            reviews_title: 'Client Reviews',
+            footer_text: '\u00A9 2025 EDDY TECH. All rights reserved.'
+        };
+
+        /* ══════════════════════════════════════════
+           FETCH HELPER
+           ══════════════════════════════════════════ */
+        async function supabaseFetch(url, options) {
+            const headers = {
+                'apikey': SUPABASE_KEY,
+                'Authorization': 'Bearer ' + SUPABASE_KEY,
+                ...(options && options.headers ? options.headers : {})
+            };
+            const opts = {
+                ...(options || {}),
+                headers: headers
+            };
+            try {
+                const response = await fetch(url, opts);
+                if (!response.ok) {
+                    let errMsg = response.statusText;
+                    try {
+                        const errData = await response.json();
+                        errMsg = errData.message || errData.msg || errMsg;
+                    } catch (e) {
+                        /* use statusText */
+                    }
+                    throw new Error(errMsg + ' (HTTP ' + response.status + ')');
+                }
+                const text = await response.text();
+                if (!text) return [];
+                return JSON.parse(text);
+            } catch (err) {
+                if (err instanceof SyntaxError) {
+                    return [];
+                }
+                throw err;
             }
-          },
-          {
-            threshold: 0.08,
-            rootMargin: '0px 0px -50px 0px'
-          }
-        );
-      }
+        }
 
-      /* Observe all elements that haven't been revealed yet */
-      var elements = document.querySelectorAll('.scroll-reveal:not(.revealed)');
-      for (var i = 0; i < elements.length; i++) {
-        scrollRevealObserver.observe(elements[i]);
-      }
-    }
+        /* ══════════════════════════════════════════
+           TOAST SYSTEM
+           ══════════════════════════════════════════ */
+        function showToast(message, type) {
+            type = type || 'error';
+            const container = document.getElementById('toast-container');
+            const toast = document.createElement('div');
+            toast.className = 'toast toast-' + type;
+            const iconClass = type === 'success' ? 'fa-check-circle' : 'fa-exclamation-circle';
+            const iconColor = type === 'success' ? 'var(--accent)' : 'var(--danger)';
+            toast.innerHTML = '<i class="fas ' + iconClass + '" style="color:' + iconColor + '"></i><span>' + escapeHtml(message) + '</span>';
+            toast.addEventListener('click', function() {
+                dismissToast(toast);
+            });
+            container.appendChild(toast);
+            setTimeout(function() {
+                dismissToast(toast);
+            }, 4000);
+        }
 
-    /* ══════════════════════════════════════════════════════════════
-       NAVIGATION — Smooth Scroll & Active Link Tracking
-       ══════════════════════════════════════════════════════════════ */
+        function dismissToast(toast) {
+            if (toast.classList.contains('toast-exit')) return;
+            toast.classList.add('toast-exit');
+            setTimeout(function() {
+                if (toast.parentNode) toast.parentNode.removeChild(toast);
+            }, 250);
+        }
 
-    /* Smooth scroll for all anchor links */
-    var allAnchorLinks = document.querySelectorAll('a[href^="#"]');
-    for (var ai = 0; ai < allAnchorLinks.length; ai++) {
-      (function(link) {
-        link.addEventListener('click', function(e) {
-          var href = link.getAttribute('href');
-          if (!href || href === '#') return;
+        function escapeHtml(str) {
+            var div = document.createElement('div');
+            div.appendChild(document.createTextNode(str));
+            return div.innerHTML;
+        }
 
-          var targetElement = document.querySelector(href);
-          if (!targetElement) return;
-
-          e.preventDefault();
-
-          /* Calculate scroll position with header offset */
-          var headerHeight = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--header-h'), 10) || 72;
-          var targetTop = targetElement.getBoundingClientRect().top + window.pageYOffset - headerHeight - 12;
-
-          window.scrollTo({
-            top: targetTop,
-            behavior: 'smooth'
-          });
-
-          /* Close mobile nav if open */
-          closeMobileNav();
-        });
-      })(allAnchorLinks[ai]);
-    }
-
-    /* Track active nav link based on scroll position */
-    var sectionElements = document.querySelectorAll('section[id]');
-    var navLinkElements = document.querySelectorAll('.nav-link');
-
-    function updateActiveNavLink() {
-      var scrollPosition = window.pageYOffset || window.scrollY;
-      var headerOffset = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--header-h'), 10) || 72;
-      var triggerPoint = scrollPosition + headerOffset + 100;
-
-      for (var i = 0; i < sectionElements.length; i++) {
-        var section = sectionElements[i];
-        var sectionTop = section.offsetTop;
-        var sectionHeight = section.offsetHeight;
-        var sectionId = section.getAttribute('id');
-
-        if (triggerPoint >= sectionTop && triggerPoint < sectionTop + sectionHeight) {
-          for (var j = 0; j < navLinkElements.length; j++) {
-            var navLink = navLinkElements[j];
-            var navHref = navLink.getAttribute('href');
-            if (navHref === '#' + sectionId) {
-              navLink.classList.add('active');
+        /* ══════════════════════════════════════════
+           CONNECTION STATUS
+           ══════════════════════════════════════════ */
+        function setConnectionStatus(connected, message) {
+            var el = document.getElementById('connection-status');
+            var textEl = el.querySelector('.status-text');
+            if (connected) {
+                el.className = 'connected';
+                textEl.textContent = 'Connected to database';
             } else {
-              navLink.classList.remove('active');
+                el.className = 'offline';
+                textEl.textContent = 'Offline \u2014 ' + (message || 'Unknown error');
             }
-          }
-          break;
         }
-      }
-    }
 
-    /* Header shadow on scroll */
-    function updateHeaderOnScroll() {
-      var header = document.getElementById('siteHeader');
-      if (window.pageYOffset > 20) {
-        header.classList.add('scrolled');
-      } else {
-        header.classList.remove('scrolled');
-      }
-    }
+        /* ══════════════════════════════════════════
+           HEADER SCROLL BEHAVIOR
+           ══════════════════════════════════════════ */
+        var headerEl = document.getElementById('main-header');
 
-    /* Combined scroll handler — throttled with requestAnimationFrame */
-    var scrollTicking = false;
-    window.addEventListener('scroll', function() {
-      if (!scrollTicking) {
-        requestAnimationFrame(function() {
-          updateActiveNavLink();
-          updateHeaderOnScroll();
-          scrollTicking = false;
-        });
-        scrollTicking = true;
-      }
-    }, { passive: true });
-
-    /* ══════════════════════════════════════════════════════════════
-       MOBILE HAMBURGER MENU
-       ══════════════════════════════════════════════════════════════ */
-    var hamburgerBtn = document.getElementById('hamburgerBtn');
-    var navLinksContainer = document.getElementById('navLinks');
-
-    function openMobileNav() {
-      hamburgerBtn.classList.add('open');
-      hamburgerBtn.setAttribute('aria-expanded', 'true');
-      navLinksContainer.classList.add('open');
-    }
-
-    function closeMobileNav() {
-      hamburgerBtn.classList.remove('open');
-      hamburgerBtn.setAttribute('aria-expanded', 'false');
-      navLinksContainer.classList.remove('open');
-    }
-
-    function toggleMobileNav() {
-      if (navLinksContainer.classList.contains('open')) {
-        closeMobileNav();
-      } else {
-        openMobileNav();
-      }
-    }
-
-    hamburgerBtn.addEventListener('click', toggleMobileNav);
-
-    /* Close mobile nav when clicking a nav link */
-    var mobileNavLinks = navLinksContainer.querySelectorAll('.nav-link');
-    for (var mli = 0; mli < mobileNavLinks.length; mli++) {
-      (function(navLink) {
-        navLink.addEventListener('click', function() {
-          closeMobileNav();
-        });
-      })(mobileNavLinks[mli]);
-    }
-
-    /* Close mobile nav when clicking outside */
-    document.addEventListener('click', function(e) {
-      if (navLinksContainer.classList.contains('open')) {
-        var isInsideNav = navLinksContainer.contains(e.target);
-        var isHamburger = hamburgerBtn.contains(e.target);
-        if (!isInsideNav && !isHamburger) {
-          closeMobileNav();
+        function handleHeaderScroll() {
+            if (window.scrollY > 20) {
+                headerEl.classList.add('scrolled');
+            } else {
+                headerEl.classList.remove('scrolled');
+            }
         }
-      }
-    });
 
-    /* Close mobile nav on Escape key */
-    document.addEventListener('keydown', function(e) {
-      if (e.key === 'Escape' && navLinksContainer.classList.contains('open')) {
-        closeMobileNav();
-        hamburgerBtn.focus();
-      }
-    });
+        window.addEventListener('scroll', handleHeaderScroll, { passive: true });
 
-    /* ══════════════════════════════════════════════════════════════
-       INITIALIZATION
-       Wait for DOM to be ready, then start loading all data
-       ══════════════════════════════════════════════════════════════ */
-    document.addEventListener('DOMContentLoaded', function() {
-      /* Initialize scroll reveal observer for static elements */
-      observeScrollReveals();
+        /* ══════════════════════════════════════════
+           ACTIVE NAV TRACKING
+           ══════════════════════════════════════════ */
+        var sections = ['hero', 'services', 'contacts', 'messages', 'reviews'];
+        var navLinksDesktop = document.querySelectorAll('#nav-links a');
+        var navLinksMobile = document.querySelectorAll('#mobile-menu a');
+        var currentActiveSection = 'hero';
+        var ticking = false;
 
-      /* Run initial active link check */
-      updateActiveNavLink();
-      updateHeaderOnScroll();
+        function updateActiveNav() {
+            var scrollPos = window.scrollY + 120;
+            var newActive = 'hero';
+            for (var i = sections.length - 1; i >= 0; i--) {
+                var sec = document.getElementById(sections[i]);
+                if (sec && sec.offsetTop <= scrollPos) {
+                    newActive = sections[i];
+                    break;
+                }
+            }
+            if (newActive !== currentActiveSection) {
+                currentActiveSection = newActive;
+                navLinksDesktop.forEach(function(link) {
+                    link.classList.toggle('active', link.getAttribute('data-section') === newActive);
+                });
+                navLinksMobile.forEach(function(link) {
+                    link.classList.toggle('active', link.getAttribute('data-section') === newActive);
+                });
+            }
+            ticking = false;
+        }
 
-      /* Load all data from Supabase */
-      loadAllData();
-    });
-  </script>
+        window.addEventListener('scroll', function() {
+            if (!ticking) {
+                requestAnimationFrame(updateActiveNav);
+                ticking = true;
+            }
+        }, { passive: true });
+
+        /* ══════════════════════════════════════════
+           HAMBURGER MENU
+           ══════════════════════════════════════════ */
+        var hamburgerBtn = document.getElementById('hamburger-btn');
+        var mobileMenu = document.getElementById('mobile-menu');
+
+        hamburgerBtn.addEventListener('click', function() {
+            hamburgerBtn.classList.toggle('open');
+            mobileMenu.classList.toggle('open');
+        });
+
+        navLinksMobile.forEach(function(link) {
+            link.addEventListener('click', function() {
+                hamburgerBtn.classList.remove('open');
+                mobileMenu.classList.remove('open');
+            });
+        });
+
+        document.addEventListener('click', function(e) {
+            if (!mobileMenu.contains(e.target) && !hamburgerBtn.contains(e.target)) {
+                hamburgerBtn.classList.remove('open');
+                mobileMenu.classList.remove('open');
+            }
+        });
+
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                hamburgerBtn.classList.remove('open');
+                mobileMenu.classList.remove('open');
+            }
+        });
+
+        /* ══════════════════════════════════════════
+           SCROLL REVEAL (IntersectionObserver)
+           ══════════════════════════════════════════ */
+        function initScrollReveal() {
+            var observer = new IntersectionObserver(function(entries) {
+                entries.forEach(function(entry) {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+
+            document.querySelectorAll('.reveal').forEach(function(el) {
+                observer.observe(el);
+            });
+        }
+
+        /* ══════════════════════════════════════════
+           PROFILE IMAGE
+           ══════════════════════════════════════════ */
+        function setProfileImage(imageUrl) {
+            var circle = document.getElementById('profile-circle');
+            circle.innerHTML = '';
+            if (imageUrl && imageUrl.trim() !== '') {
+                var img = document.createElement('img');
+                img.src = imageUrl;
+                img.alt = 'Profile';
+                img.addEventListener('error', function() {
+                    circle.innerHTML = '<span class="profile-letter">E</span>';
+                });
+                circle.appendChild(img);
+            } else {
+                circle.innerHTML = '<span class="profile-letter">E</span>';
+            }
+        }
+
+        /* ══════════════════════════════════════════
+           FAVICON UPDATE
+           ══════════════════════════════════════════ */
+        function updateFavicons(imageUrl) {
+            if (imageUrl && imageUrl.trim() !== '') {
+                var f32 = document.getElementById('favicon-32');
+                var f16 = document.getElementById('favicon-16');
+                var fApple = document.getElementById('favicon-apple');
+                if (f32) f32.href = imageUrl;
+                if (f16) f16.href = imageUrl;
+                if (fApple) fApple.href = imageUrl;
+            }
+        }
+
+        /* ══════════════════════════════════════════
+           RENDER SERVICES
+           ══════════════════════════════════════════ */
+        function renderServices(services) {
+            var grid = document.getElementById('services-grid');
+            grid.innerHTML = '';
+            services.sort(function(a, b) {
+                return (a.sort_order || 0) - (b.sort_order || 0) || a.id - b.id;
+            });
+            services.forEach(function(svc) {
+                var card = document.createElement('div');
+                card.className = 'service-card reveal';
+                card.innerHTML = '<div class="svc-icon"><i class="fas ' + escapeHtml(svc.icon || 'fa-gear') + '"></i></div>' +
+                    '<h3>' + escapeHtml(svc.title) + '</h3>' +
+                    '<p>' + escapeHtml(svc.description) + '</p>';
+                grid.appendChild(card);
+            });
+            initScrollReveal();
+        }
+
+        /* ══════════════════════════════════════════
+           RENDER CONTACTS
+           ══════════════════════════════════════════ */
+        function renderContacts(contacts) {
+            var grid = document.getElementById('contacts-grid');
+            grid.innerHTML = '';
+            contacts.sort(function(a, b) {
+                return (a.sort_order || 0) - (b.sort_order || 0) || a.id - b.id;
+            });
+            contacts.forEach(function(ct) {
+                var card = document.createElement('div');
+                card.className = 'contact-card reveal';
+                var valueHtml = '';
+                var link = ct.link || '';
+                if (link !== '' && link.startsWith('mailto:')) {
+                    var finalMailto = link;
+                    if (finalMailto.indexOf('?') === -1) {
+                        finalMailto = DEFAULT_MAILTO;
+                    }
+                    valueHtml = '<a href="' + escapeHtml(finalMailto) + '" class="email-special-link"><i class="fas fa-paper-plane"></i> Send us an email <i class="fas fa-arrow-right" style="font-size:11px;"></i></a>';
+                } else if (link !== '') {
+                    valueHtml = '<a href="' + escapeHtml(link) + '" target="_blank" rel="noopener">' + escapeHtml(ct.value) + '</a>';
+                } else {
+                    valueHtml = escapeHtml(ct.value);
+                }
+                card.innerHTML = '<div class="ct-icon"><i class="fas ' + escapeHtml(ct.icon || 'fa-phone') + '"></i></div>' +
+                    '<h3>' + escapeHtml(ct.title) + '</h3>' +
+                    '<div class="ct-value">' + valueHtml + '</div>';
+                grid.appendChild(card);
+            });
+            initScrollReveal();
+        }
+
+        /* ══════════════════════════════════════════
+           RENDER ADS
+           ══════════════════════════════════════════ */
+        function renderAds(ads) {
+            var section = document.getElementById('ads-section');
+            var grid = document.getElementById('ads-grid');
+            grid.innerHTML = '';
+            if (!ads || ads.length === 0) {
+                section.style.display = 'none';
+                return;
+            }
+            section.style.display = 'block';
+            ads.sort(function(a, b) {
+                return (a.sort_order || 0) - (b.sort_order || 0) || a.id - b.id;
+            });
+            ads.forEach(function(ad) {
+                var sizeClass = 'sz-' + (ad.card_size || 'medium');
+                var shapeClass = 'sh-' + (ad.card_shape || 'rounded');
+                var alignClass = 'ad-al-' + (ad.alignment || 'center');
+                var card = document.createElement('div');
+                card.className = 'ad-card ' + sizeClass + ' ' + shapeClass + ' reveal';
+                var mediaHtml = '';
+                var bodyHtml = '';
+                var videoUrl = ad.video_url || '';
+                var imageUrl = ad.image_url || '';
+                var linkUrl = ad.link_url || '';
+
+                /* Check if YouTube URL */
+                var youtubeId = null;
+                if (videoUrl) {
+                    var ytMatch = videoUrl.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/)([a-zA-Z0-9_-]{11})/);
+                    if (ytMatch) {
+                        youtubeId = ytMatch[1];
+                    }
+                }
+
+                if (youtubeId) {
+                    mediaHtml = '<div class="ad-media"><iframe src="https://www.youtube.com/embed/' + youtubeId + '" allowfullscreen loading="lazy"></iframe></div>';
+                } else if (videoUrl) {
+                    mediaHtml = '<div class="ad-media"><video controls preload="metadata"><source src="' + escapeHtml(videoUrl) + '"></video></div>';
+                } else if (imageUrl) {
+                    mediaHtml = '<div class="ad-media"><img src="' + escapeHtml(imageUrl) + '" alt="' + escapeHtml(ad.title || 'Advertisement') + '" loading="lazy"></div>';
+                }
+
+                bodyHtml = '<div class="ad-body ' + alignClass + '">';
+                if (ad.title) bodyHtml += '<h3>' + escapeHtml(ad.title) + '</h3>';
+                if (ad.description) bodyHtml += '<p>' + escapeHtml(ad.description) + '</p>';
+                if (linkUrl && youtubeId) {
+                    bodyHtml += '<a href="' + escapeHtml(linkUrl) + '" target="_blank" rel="noopener" class="ad-link-btn"><span>Visit Link</span><i class="fas fa-arrow-right" style="font-size:11px;"></i></a>';
+                }
+                bodyHtml += '</div>';
+
+                if (linkUrl && !youtubeId && !videoUrl) {
+                    card.innerHTML = '<a href="' + escapeHtml(linkUrl) + '" target="_blank" rel="noopener" style="text-decoration:none;color:inherit;display:block;">' + mediaHtml + bodyHtml + '</a>';
+                } else {
+                    card.innerHTML = mediaHtml + bodyHtml;
+                }
+                grid.appendChild(card);
+            });
+            initScrollReveal();
+        }
+
+        /* ══════════════════════════════════════════
+           RENDER REVIEWS
+           ══════════════════════════════════════════ */
+        function renderReviews(reviews) {
+            var list = document.getElementById('reviews-list');
+            list.innerHTML = '';
+            reviews.sort(function(a, b) {
+                return new Date(b.created_at) - new Date(a.created_at);
+            });
+            reviews.forEach(function(rev) {
+                var item = document.createElement('div');
+                item.className = 'review-item reveal';
+                var starsHtml = '';
+                for (var i = 1; i <= 5; i++) {
+                    if (i <= rev.rating) {
+                        starsHtml += '<i class="fas fa-star"></i> ';
+                    } else {
+                        starsHtml += '<i class="far fa-star" style="opacity:0.2;"></i> ';
+                    }
+                }
+                var dateStr = 'Unknown date';
+                if (rev.review_date) {
+                    try {
+                        dateStr = new Date(rev.review_date + 'T00:00:00').toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
+                    } catch (e) {
+                        dateStr = rev.review_date;
+                    }
+                }
+                item.innerHTML = '<div class="rev-header"><span class="rev-name">' + escapeHtml(rev.name) + '</span><span class="rev-date">' + dateStr + '</span></div>' +
+                    '<div class="rev-stars">' + starsHtml + '</div>' +
+                    '<p class="rev-text">' + escapeHtml(rev.text) + '</p>';
+                list.appendChild(item);
+            });
+            initScrollReveal();
+        }
+
+        /* ══════════════════════════════════════════
+           APPLY PAGE CONTENT
+           ══════════════════════════════════════════ */
+        function applyPageContent(pcMap) {
+            function getVal(key) {
+                return pcMap[key] !== undefined ? pcMap[key] : FALLBACK_PAGE_CONTENT[key];
+            }
+            document.getElementById('hero-tagline').textContent = getVal('hero_tagline');
+            var titleText = getVal('hero_title');
+            var highlightText = getVal('hero_title_highlight');
+            var heroTitleEl = document.getElementById('hero-title');
+            if (highlightText && titleText.indexOf(highlightText) !== -1) {
+                heroTitleEl.innerHTML = escapeHtml(titleText.replace(highlightText, '|||HIGHLIGHT|||')).replace('|||HIGHLIGHT|||', '<span class="highlight" id="hero-highlight">' + escapeHtml(highlightText) + '</span>');
+            } else {
+                heroTitleEl.innerHTML = escapeHtml(titleText);
+            }
+            document.getElementById('hero-btn').querySelector('.btn-text').textContent = getVal('hero_button_text');
+            document.getElementById('services-label').textContent = getVal('services_label');
+            document.getElementById('services-title').textContent = getVal('services_title');
+            document.getElementById('contacts-label').textContent = getVal('contacts_label');
+            document.getElementById('contacts-title').textContent = getVal('contacts_title');
+            document.getElementById('messages-label').textContent = getVal('messages_label');
+            document.getElementById('messages-title').textContent = getVal('messages_title');
+            document.getElementById('reviews-label').textContent = getVal('reviews_label');
+            document.getElementById('reviews-title').textContent = getVal('reviews_title');
+            document.getElementById('footer-text').textContent = getVal('footer_text');
+        }
+
+        /* ══════════════════════════════════════════
+           APPLY SETTINGS
+           ══════════════════════════════════════════ */
+        function applySettings(settingsMap) {
+            var heroText = settingsMap.hero_text !== undefined ? settingsMap.hero_text : FALLBACK_SETTINGS.hero_text;
+            document.getElementById('hero-desc').textContent = heroText;
+
+            var profileImg = settingsMap.profile_image !== undefined ? settingsMap.profile_image : FALLBACK_SETTINGS.profile_image;
+            setProfileImage(profileImg);
+            updateFavicons(profileImg);
+
+            var bgImg = settingsMap.background_image !== undefined ? settingsMap.background_image : FALLBACK_SETTINGS.background_image;
+            var heroSection = document.getElementById('hero');
+            var overlay = document.getElementById('hero-overlay');
+            if (bgImg && bgImg.trim() !== '') {
+                heroSection.style.backgroundImage = 'url(' + bgImg + ')';
+                overlay.style.display = 'block';
+            } else {
+                heroSection.style.backgroundImage = 'none';
+                overlay.style.display = 'none';
+            }
+        }
+
+        /* ══════════════════════════════════════════
+           STAR RATING INTERACTION
+           ══════════════════════════════════════════ */
+        var selectedRating = 0;
+        var starButtons = document.querySelectorAll('#star-input .star-btn');
+
+        starButtons.forEach(function(btn) {
+            btn.addEventListener('mouseenter', function() {
+                var val = parseInt(btn.getAttribute('data-value'));
+                starButtons.forEach(function(b) {
+                    var bVal = parseInt(b.getAttribute('data-value'));
+                    b.classList.remove('hovered');
+                    if (bVal <= val && bVal > selectedRating) {
+                        b.classList.add('hovered');
+                    }
+                });
+            });
+
+            btn.addEventListener('mouseleave', function() {
+                starButtons.forEach(function(b) {
+                    b.classList.remove('hovered');
+                });
+            });
+
+            btn.addEventListener('click', function() {
+                selectedRating = parseInt(btn.getAttribute('data-value'));
+                starButtons.forEach(function(b) {
+                    var bVal = parseInt(b.getAttribute('data-value'));
+                    b.classList.toggle('active', bVal <= selectedRating);
+                });
+            });
+
+            btn.addEventListener('keydown', function(e) {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    btn.click();
+                }
+            });
+        });
+
+        /* ══════════════════════════════════════════
+           MESSAGE FORM SUBMIT
+           ══════════════════════════════════════════ */
+        var messageForm = document.getElementById('message-form');
+        var msgSubmitBtn = document.getElementById('msg-submit-btn');
+        var msgSuccess = document.getElementById('msg-success');
+        var msgSuccessTimeout = null;
+
+        messageForm.addEventListener('submit', async function(e) {
+            e.preventDefault();
+            var name = document.getElementById('msg-name').value.trim();
+            var email = document.getElementById('msg-email').value.trim();
+            var message = document.getElementById('msg-text').value.trim();
+
+            if (!name) {
+                showToast('Please enter your name.', 'error');
+                return;
+            }
+            if (!message) {
+                showToast('Please enter a message.', 'error');
+                return;
+            }
+
+            msgSubmitBtn.classList.add('loading');
+            msgSubmitBtn.disabled = true;
+
+            try {
+                await supabaseFetch(REST_BASE + 'messages', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json', 'Prefer': 'return=representation' },
+                    body: JSON.stringify({ name: name, email: email, message: message })
+                });
+                document.getElementById('msg-name').value = '';
+                document.getElementById('msg-email').value = '';
+                document.getElementById('msg-text').value = '';
+                msgSuccess.classList.add('show');
+                if (msgSuccessTimeout) clearTimeout(msgSuccessTimeout);
+                msgSuccessTimeout = setTimeout(function() {
+                    msgSuccess.classList.remove('show');
+                }, 5000);
+            } catch (err) {
+                showToast('Failed to send message: ' + err.message, 'error');
+            } finally {
+                msgSubmitBtn.classList.remove('loading');
+                msgSubmitBtn.disabled = false;
+            }
+        });
+
+        /* ══════════════════════════════════════════
+           REVIEW FORM SUBMIT
+           ══════════════════════════════════════════ */
+        var revSubmitBtn = document.getElementById('rev-submit-btn');
+
+        revSubmitBtn.addEventListener('click', async function() {
+            if (selectedRating === 0) {
+                showToast('Please select a star rating.', 'error');
+                return;
+            }
+            var name = document.getElementById('rev-name').value.trim();
+            var text = document.getElementById('rev-text').value.trim();
+
+            if (!name) {
+                showToast('Please enter your name.', 'error');
+                return;
+            }
+            if (!text) {
+                showToast('Please write a review.', 'error');
+                return;
+            }
+
+            revSubmitBtn.classList.add('loading');
+            revSubmitBtn.disabled = true;
+
+            try {
+                await supabaseFetch(REST_BASE + 'reviews', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json', 'Prefer': 'return=representation' },
+                    body: JSON.stringify({ name: name, rating: selectedRating, text: text })
+                });
+                selectedRating = 0;
+                starButtons.forEach(function(b) { b.classList.remove('active'); });
+                document.getElementById('rev-name').value = '';
+                document.getElementById('rev-text').value = '';
+                showToast('Review submitted successfully!', 'success');
+                /* Refresh reviews */
+                try {
+                    var freshReviews = await supabaseFetch(REST_BASE + 'reviews?select=*&order=created_at.desc');
+                    renderReviews(freshReviews);
+                } catch (err2) {
+                    /* keep existing */
+                }
+            } catch (err) {
+                showToast('Failed to submit review: ' + err.message, 'error');
+            } finally {
+                revSubmitBtn.classList.remove('loading');
+                revSubmitBtn.disabled = false;
+            }
+        });
+
+        /* ══════════════════════════════════════════
+           DATA LOADING ON DOMCONTENTLOADED
+           ══════════════════════════════════════════ */
+        document.addEventListener('DOMContentLoaded', function() {
+            initScrollReveal();
+
+            var fetchServices = supabaseFetch(REST_BASE + 'services?select=*&order=sort_order.asc,id.asc');
+            var fetchContacts = supabaseFetch(REST_BASE + 'contacts?select=*&order=sort_order.asc,id.asc');
+            var fetchReviews = supabaseFetch(REST_BASE + 'reviews?select=*&order=created_at.desc');
+            var fetchSettings = supabaseFetch(REST_BASE + 'settings?select=*');
+            var fetchPageContent = supabaseFetch(REST_BASE + 'page_content?select=*');
+            var fetchAds = supabaseFetch(REST_BASE + 'ads?select=*&is_active=eq.true&order=sort_order.asc,id.asc');
+
+            Promise.allSettled([fetchServices, fetchContacts, fetchReviews, fetchSettings, fetchPageContent, fetchAds])
+                .then(function(results) {
+                    var hasAnySuccess = false;
+                    var allErrors = [];
+
+                    /* Process Services */
+                    if (results[0].status === 'fulfilled') {
+                        hasAnySuccess = true;
+                        renderServices(results[0].value);
+                    } else {
+                        allErrors.push('Services: ' + results[0].reason.message);
+                        renderServices(FALLBACK_SERVICES);
+                    }
+
+                    /* Process Contacts */
+                    if (results[1].status === 'fulfilled') {
+                        hasAnySuccess = true;
+                        renderContacts(results[1].value);
+                    } else {
+                        allErrors.push('Contacts: ' + results[1].reason.message);
+                        renderContacts(FALLBACK_CONTACTS);
+                    }
+
+                    /* Process Reviews */
+                    if (results[2].status === 'fulfilled') {
+                        hasAnySuccess = true;
+                        renderReviews(results[2].value);
+                    } else {
+                        allErrors.push('Reviews: ' + results[2].reason.message);
+                        renderReviews(FALLBACK_REVIEWS);
+                    }
+
+                    /* Process Settings */
+                    var settingsMap = {};
+                    if (results[3].status === 'fulfilled') {
+                        hasAnySuccess = true;
+                        var settingsArr = results[3].value;
+                        settingsArr.forEach(function(s) {
+                            settingsMap[s.setting_key] = s.setting_value;
+                        });
+                    } else {
+                        allErrors.push('Settings: ' + results[3].reason.message);
+                    }
+                    applySettings(settingsMap);
+
+                    /* Process Page Content */
+                    var pcMap = {};
+                    if (results[4].status === 'fulfilled') {
+                        hasAnySuccess = true;
+                        var pcArr = results[4].value;
+                        pcArr.forEach(function(p) {
+                            pcMap[p.element_key] = p.content;
+                        });
+                    } else {
+                        allErrors.push('Page Content: ' + results[4].reason.message);
+                    }
+                    applyPageContent(pcMap);
+
+                    /* Process Ads */
+                    if (results[5].status === 'fulfilled') {
+                        hasAnySuccess = true;
+                        renderAds(results[5].value);
+                    } else {
+                        allErrors.push('Ads: ' + results[5].reason.message);
+                        renderAds([]);
+                    }
+
+                    /* Connection status */
+                    if (hasAnySuccess) {
+                        setConnectionStatus(true);
+                    } else {
+                        setConnectionStatus(false, 'All requests failed');
+                    }
+
+                    /* Show errors as toasts */
+                    allErrors.forEach(function(errMsg) {
+                        showToast(errMsg, 'error');
+                    });
+                });
+        });
+    </script>
 </body>
 </html>
