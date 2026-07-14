@@ -11,141 +11,485 @@
 <script src="https://code.iconify.design/3/3.1.0/iconify.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
-:root{
-  --primary:#2563eb;--secondary:#1d4ed8;--accent:#60a5fa;
-  --bg:#050505;--bg2:#0a0a0a;--text:#fff;--text2:#9ca3af;
-  --card-bg:#111;--card-border:rgba(255,255,255,0.08);
-  --card-radius:16px;--card-pad:28px;--card-shadow:0 4px 24px rgba(0,0,0,0.4);
-  --font:'Inter',sans-serif;--cols:3;
+/* ====== CSS VARIABLES — match database keys exactly ====== */
+:root {
+  --primary-color: #2563eb;
+  --secondary-color: #1d4ed8;
+  --accent-color: #60a5fa;
+  --bg-color: #050505;
+  --bg-secondary: #0a0a0a;
+  --text-color: #ffffff;
+  --text-secondary: #9ca3af;
+  --card-bg: #111111;
+  --card-border-color: rgba(255,255,255,0.08);
+  --card-border-radius: 16px;
+  --card-padding: 28px;
+  --card-shadow: 0 4px 24px rgba(0,0,0,0.4);
+  --card-columns: 3;
+  --font-family: 'Inter', sans-serif;
 }
-*{margin:0;padding:0;box-sizing:border-box;}
-html{scroll-behavior:smooth;}
-body{font-family:var(--font);background:var(--bg);color:var(--text);line-height:1.6;overflow-x:hidden;}
-a{color:var(--accent);text-decoration:none;transition:color .2s;}
-a:hover{color:#fff;}
-img{max-width:100%;display:block;}
-.container{max-width:1200px;margin:0 auto;padding:0 24px;}
 
-#loader{position:fixed;inset:0;z-index:9999;background:var(--bg);display:flex;align-items:center;justify-content:center;flex-direction:column;gap:16px;transition:opacity .4s;}
-#loader.hide{opacity:0;pointer-events:none;}
-.spinner{width:40px;height:40px;border:3px solid rgba(255,255,255,0.1);border-top-color:var(--primary);border-radius:50%;animation:spin .8s linear infinite;}
-@keyframes spin{to{transform:rotate(360deg)}}
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: var(--font-family);
+  background: var(--bg-color);
+  color: var(--text-color);
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+a { color: var(--accent-color); text-decoration: none; transition: color 0.2s; }
+a:hover { color: var(--text-color); }
+img { max-width: 100%; display: block; }
+.container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
 
-#toasts{position:fixed;top:24px;right:24px;z-index:10000;display:flex;flex-direction:column;gap:8px;}
-.toast{padding:14px 24px;border-radius:12px;color:#fff;font-size:14px;font-weight:500;transform:translateX(120%);transition:transform .3s ease;backdrop-filter:blur(12px);max-width:360px;}
-.toast.show{transform:translateX(0);}
-.toast-success{background:rgba(34,197,94,0.9);}
-.toast-error{background:rgba(239,68,68,0.9);}
-.toast-info{background:rgba(37,99,235,0.9);}
+/* ====== LOADING SCREEN ====== */
+#loader {
+  position: fixed; inset: 0; z-index: 9999;
+  background: var(--bg-color);
+  display: flex; align-items: center; justify-content: center;
+  flex-direction: column; gap: 20px;
+  transition: opacity 0.5s ease;
+}
+#loader.hide { opacity: 0; pointer-events: none; }
+.loader-logo {
+  width: 64px; height: 64px; border-radius: 16px;
+  background: #22c55e; display: flex; align-items: center;
+  justify-content: center; font-size: 32px; font-weight: 700;
+  color: #fff; font-family: Arial, sans-serif;
+  animation: loaderPulse 1.2s ease-in-out infinite;
+}
+@keyframes loaderPulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.08); }
+}
+.spinner-bar {
+  width: 200px; height: 3px; border-radius: 3px;
+  background: rgba(255,255,255,0.08); overflow: hidden;
+}
+.spinner-bar::after {
+  content: ''; display: block; width: 40%; height: 100%;
+  background: var(--primary-color); border-radius: 3px;
+  animation: barSlide 1s ease-in-out infinite;
+}
+@keyframes barSlide {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(350%); }
+}
+.loader-text { color: var(--text-secondary); font-size: 13px; letter-spacing: 0.05em; }
 
-nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:16px 0;transition:background .3s,backdrop-filter .3s;}
-nav.scrolled{background:rgba(5,5,5,0.85);backdrop-filter:blur(16px);border-bottom:1px solid rgba(255,255,255,0.06);}
-.nav-inner{display:flex;align-items:center;justify-content:space-between;}
-.nav-logo{font-size:20px;font-weight:700;letter-spacing:-0.03em;color:var(--text);}
-.nav-logo span{color:var(--accent);}
-.nav-links{display:flex;gap:32px;align-items:center;}
-.nav-links a{color:var(--text2);font-size:14px;font-weight:500;transition:color .2s;}
-.nav-links a:hover{color:var(--text);}
-.hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;background:none;border:none;padding:4px;}
-.hamburger span{width:24px;height:2px;background:var(--text);border-radius:2px;transition:.3s;}
+/* ====== TOAST NOTIFICATIONS ====== */
+#toasts {
+  position: fixed; top: 24px; right: 24px; z-index: 10000;
+  display: flex; flex-direction: column; gap: 10px;
+  pointer-events: none;
+}
+.toast {
+  padding: 14px 22px; border-radius: 12px; color: #fff;
+  font-size: 14px; font-weight: 500; pointer-events: auto;
+  transform: translateX(130%); transition: transform 0.35s cubic-bezier(0.16,1,0.3,1);
+  backdrop-filter: blur(12px); max-width: 380px;
+  display: flex; align-items: center; gap: 10px;
+  box-shadow: 0 8px 30px rgba(0,0,0,0.4);
+}
+.toast.show { transform: translateX(0); }
+.toast-success { background: rgba(34,197,94,0.92); }
+.toast-error { background: rgba(239,68,68,0.92); }
+.toast-info { background: rgba(37,99,235,0.92); }
+.toast-icon { font-size: 18px; flex-shrink: 0; }
 
-#hero{min-height:100vh;display:flex;align-items:center;justify-content:center;text-align:center;position:relative;overflow:hidden;padding:120px 24px 80px;}
-.hero-bg{position:absolute;inset:0;background-size:cover;background-position:center;filter:brightness(0.3);transition:background-image .5s;}
-.hero-overlay{position:absolute;inset:0;background:linear-gradient(to bottom,rgba(5,5,5,0.4),var(--bg));}
-.hero-content{position:relative;z-index:2;max-width:700px;}
-.profile-pic{width:120px;height:120px;border-radius:50%;border:3px solid var(--accent);margin:0 auto 24px;background:var(--card-bg);display:flex;align-items:center;justify-content:center;overflow:hidden;}
-.profile-pic img{width:100%;height:100%;object-fit:cover;}
-.profile-pic .placeholder-icon{font-size:48px;color:var(--text2);}
-.hero-title{font-size:clamp(32px,6vw,56px);font-weight:700;letter-spacing:-0.03em;line-height:1.1;margin-bottom:16px;background:linear-gradient(to right,#fff,var(--accent));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
-.hero-sub{font-size:clamp(16px,2.5vw,20px);color:var(--text2);font-weight:300;margin-bottom:36px;line-height:1.6;}
-.hero-btns{display:flex;gap:16px;justify-content:center;flex-wrap:wrap;}
+/* ====== REFRESH BUTTON ====== */
+#refreshBtn {
+  position: fixed; bottom: 24px; right: 24px; z-index: 90;
+  width: 48px; height: 48px; border-radius: 50%;
+  background: var(--card-bg); border: 1px solid var(--card-border-color);
+  color: var(--text-secondary); cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: all 0.3s; box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+}
+#refreshBtn:hover { color: var(--accent-color); border-color: var(--accent-color); transform: scale(1.05); }
+#refreshBtn.spinning .iconify { animation: spin 0.6s linear; }
+@keyframes spin { to { transform: rotate(360deg); } }
 
-.btn{display:inline-flex;align-items:center;gap:8px;padding:14px 32px;border-radius:12px;font-size:14px;font-weight:600;border:none;cursor:pointer;transition:all .25s;font-family:var(--font);}
-.btn-primary{background:var(--primary);color:#fff;box-shadow:0 0 24px rgba(37,99,235,0.4);}
-.btn-primary:hover{background:var(--secondary);box-shadow:0 0 32px rgba(37,99,235,0.6);transform:translateY(-2px);}
-.btn-secondary{background:rgba(255,255,255,0.06);color:var(--text);border:1px solid rgba(255,255,255,0.1);}
-.btn-secondary:hover{background:rgba(255,255,255,0.12);transform:translateY(-2px);}
-.btn-sm{padding:10px 20px;font-size:13px;border-radius:10px;}
+/* ====== NAVIGATION ====== */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  padding: 18px 0; transition: all 0.3s ease;
+}
+nav.scrolled {
+  background: rgba(5,5,5,0.88); backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--card-border-color);
+  padding: 12px 0;
+}
+.nav-inner { display: flex; align-items: center; justify-content: space-between; }
+.nav-logo {
+  font-size: 20px; font-weight: 700; letter-spacing: -0.03em;
+  color: var(--text-color); display: flex; align-items: center; gap: 10px;
+}
+.nav-logo-icon {
+  width: 34px; height: 34px; border-radius: 9px; background: #22c55e;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 18px; font-weight: 700; color: #fff; font-family: Arial;
+}
+.nav-logo span { color: var(--accent-color); }
+.nav-links { display: flex; gap: 32px; align-items: center; }
+.nav-links a {
+  color: var(--text-secondary); font-size: 14px; font-weight: 500;
+  transition: color 0.2s; position: relative;
+}
+.nav-links a:hover { color: var(--text-color); }
+.nav-links a::after {
+  content: ''; position: absolute; bottom: -4px; left: 0; right: 0;
+  height: 2px; background: var(--accent-color); border-radius: 2px;
+  transform: scaleX(0); transition: transform 0.2s;
+}
+.nav-links a:hover::after { transform: scaleX(1); }
+.hamburger {
+  display: none; flex-direction: column; gap: 5px;
+  cursor: pointer; background: none; border: none; padding: 6px;
+}
+.hamburger span {
+  width: 22px; height: 2px; background: var(--text-color);
+  border-radius: 2px; transition: 0.3s; display: block;
+}
 
-section{padding:100px 0;}
-.section-label{font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:0.15em;color:var(--accent);margin-bottom:12px;}
-.section-title{font-size:clamp(28px,4vw,40px);font-weight:600;letter-spacing:-0.02em;margin-bottom:16px;}
-.section-desc{color:var(--text2);font-size:16px;max-width:560px;margin-bottom:48px;}
-.section-header{text-align:center;display:flex;flex-direction:column;align-items:center;}
+/* ====== MOBILE MENU ====== */
+.mobile-menu {
+  display: none; position: fixed; inset: 0; z-index: 99;
+  background: rgba(5,5,5,0.97); backdrop-filter: blur(24px);
+  flex-direction: column; align-items: center; justify-content: center; gap: 36px;
+}
+.mobile-menu.open { display: flex; }
+.mobile-menu a {
+  font-size: 22px; font-weight: 500; color: var(--text-secondary);
+  transition: color 0.2s;
+}
+.mobile-menu a:hover { color: var(--text-color); }
 
-.services-grid{display:grid;grid-template-columns:repeat(var(--cols),1fr);gap:24px;}
-.service-card{background:var(--card-bg);border:1px solid var(--card-border);border-radius:var(--card-radius);padding:var(--card-pad);box-shadow:var(--card-shadow);transition:all .35s;position:relative;overflow:hidden;}
-.service-card::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,255,255,0.03),transparent);pointer-events:none;}
-.service-card:hover{transform:translateY(-6px);box-shadow:0 12px 40px rgba(0,0,0,0.5);border-color:rgba(96,165,250,0.2);}
-.service-icon{font-size:40px;margin-bottom:20px;}
-.service-card h3{font-size:18px;font-weight:600;margin-bottom:10px;}
-.service-card p{color:var(--text2);font-size:14px;line-height:1.7;margin-bottom:16px;}
-.service-price{color:var(--accent);font-weight:600;font-size:15px;margin-bottom:16px;}
+/* ====== HERO SECTION ====== */
+#hero {
+  min-height: 100vh; display: flex; align-items: center;
+  justify-content: center; text-align: center;
+  position: relative; overflow: hidden; padding: 120px 24px 80px;
+}
+.hero-bg {
+  position: absolute; inset: 0; background-size: cover;
+  background-position: center; filter: brightness(0.25);
+  transition: opacity 0.6s;
+}
+.hero-overlay {
+  position: absolute; inset: 0;
+  background: linear-gradient(to bottom, rgba(5,5,5,0.3), var(--bg-color));
+}
+.hero-glow {
+  position: absolute; width: 600px; height: 600px; border-radius: 50%;
+  background: radial-gradient(circle, rgba(37,99,235,0.12), transparent 70%);
+  top: 20%; left: 50%; transform: translateX(-50%); pointer-events: none;
+}
+.hero-content { position: relative; z-index: 2; max-width: 720px; }
+.profile-pic {
+  width: 130px; height: 130px; border-radius: 50%;
+  border: 3px solid var(--accent-color); margin: 0 auto 28px;
+  background: var(--card-bg); display: flex; align-items: center;
+  justify-content: center; overflow: hidden; position: relative;
+  box-shadow: 0 0 40px rgba(96,165,250,0.15);
+}
+.profile-pic img { width: 100%; height: 100%; object-fit: cover; }
+.profile-pic .ph-icon { font-size: 52px; color: var(--text-secondary); }
+.hero-title {
+  font-size: clamp(34px,6vw,58px); font-weight: 700;
+  letter-spacing: -0.03em; line-height: 1.08; margin-bottom: 18px;
+  background: linear-gradient(to right, var(--text-color), var(--accent-color));
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.hero-sub {
+  font-size: clamp(15px,2.2vw,19px); color: var(--text-secondary);
+  font-weight: 300; margin-bottom: 40px; line-height: 1.7; max-width: 560px;
+  margin-left: auto; margin-right: auto;
+}
+.hero-btns { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
 
-.reviews-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:24px;max-width:900px;margin:0 auto;}
-.review-card{background:var(--card-bg);border:1px solid var(--card-border);border-radius:var(--card-radius);padding:var(--card-pad);box-shadow:var(--card-shadow);}
-.review-header{display:flex;align-items:center;gap:12px;margin-bottom:12px;}
-.review-avatar{width:40px;height:40px;border-radius:50%;background:linear-gradient(135deg,var(--primary),var(--accent));display:flex;align-items:center;justify-content:center;font-weight:600;font-size:16px;color:#fff;flex-shrink:0;}
-.review-name{font-weight:600;font-size:15px;}
-.review-date{color:var(--text2);font-size:12px;}
-.stars{display:flex;gap:2px;margin-bottom:10px;}
-.star{color:#fbbf24;font-size:18px;}
-.star.empty{color:rgba(255,255,255,0.1);}
-.review-comment{color:var(--text2);font-size:14px;line-height:1.7;}
+/* ====== BUTTONS ====== */
+.btn {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 14px 32px; border-radius: 12px; font-size: 14px;
+  font-weight: 600; border: none; cursor: pointer;
+  transition: all 0.25s ease; font-family: var(--font-family);
+  text-decoration: none;
+}
+.btn-primary {
+  background: var(--primary-color); color: #fff;
+  box-shadow: 0 0 28px rgba(37,99,235,0.35);
+}
+.btn-primary:hover {
+  background: var(--secondary-color);
+  box-shadow: 0 0 36px rgba(37,99,235,0.5);
+  transform: translateY(-2px);
+}
+.btn-secondary {
+  background: rgba(255,255,255,0.06); color: var(--text-color);
+  border: 1px solid rgba(255,255,255,0.1);
+}
+.btn-secondary:hover {
+  background: rgba(255,255,255,0.12);
+  transform: translateY(-2px);
+}
+.btn-sm { padding: 10px 22px; font-size: 13px; border-radius: 10px; }
 
-.review-form{max-width:560px;margin:48px auto 0;background:var(--card-bg);border:1px solid var(--card-border);border-radius:var(--card-radius);padding:var(--card-pad);}
-.form-group{margin-bottom:20px;}
-.form-group label{display:block;font-size:13px;font-weight:500;color:var(--text2);margin-bottom:8px;}
-.form-group input,.form-group select,.form-group textarea{width:100%;padding:12px 16px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.1);border-radius:10px;color:var(--text);font-size:14px;font-family:var(--font);transition:border-color .2s;outline:none;}
-.form-group input:focus,.form-group select:focus,.form-group textarea:focus{border-color:var(--accent);}
-.form-group textarea{resize:vertical;min-height:80px;}
-.form-group select option{background:var(--card-bg);color:var(--text);}
-.star-input{display:flex;gap:6px;cursor:pointer;}
-.star-input .star-btn{font-size:28px;color:rgba(255,255,255,0.15);background:none;border:none;cursor:pointer;transition:color .15s;padding:0;}
-.star-input .star-btn.active,.star-input .star-btn.hover{color:#fbbf24;}
+/* ====== SECTIONS ====== */
+section { padding: 100px 0; }
+.section-label {
+  font-size: 12px; font-weight: 600; text-transform: uppercase;
+  letter-spacing: 0.15em; color: var(--accent-color); margin-bottom: 12px;
+}
+.section-title {
+  font-size: clamp(28px,4vw,40px); font-weight: 600;
+  letter-spacing: -0.02em; margin-bottom: 16px;
+}
+.section-desc {
+  color: var(--text-secondary); font-size: 16px;
+  max-width: 560px; margin-bottom: 48px;
+}
+.section-header {
+  text-align: center; display: flex;
+  flex-direction: column; align-items: center;
+}
 
-.booking-wrapper{max-width:600px;margin:0 auto;background:var(--card-bg);border:1px solid var(--card-border);border-radius:var(--card-radius);padding:var(--card-pad);box-shadow:var(--card-shadow);}
+/* ====== SERVICE CARDS ====== */
+.services-grid {
+  display: grid; gap: 24px;
+  grid-template-columns: repeat(var(--card-columns), 1fr);
+}
+.service-card {
+  background: var(--card-bg);
+  border: 1px solid var(--card-border-color);
+  border-radius: var(--card-border-radius);
+  padding: var(--card-padding);
+  box-shadow: var(--card-shadow);
+  transition: all 0.35s ease; position: relative; overflow: hidden;
+}
+.service-card::before {
+  content: ''; position: absolute; inset: 0;
+  background: linear-gradient(135deg, rgba(255,255,255,0.03), transparent);
+  pointer-events: none;
+}
+.service-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 16px 48px rgba(0,0,0,0.5);
+  border-color: rgba(96,165,250,0.2);
+}
+.service-card-img {
+  width: 100%; height: 160px; border-radius: 10px;
+  object-fit: cover; margin-bottom: 20px;
+  background: var(--bg-secondary);
+}
+.service-icon { font-size: 42px; margin-bottom: 20px; }
+.service-card h3 { font-size: 18px; font-weight: 600; margin-bottom: 10px; }
+.service-card p { color: var(--text-secondary); font-size: 14px; line-height: 1.7; margin-bottom: 18px; }
+.service-price {
+  color: var(--accent-color); font-weight: 600;
+  font-size: 16px; margin-bottom: 18px;
+}
 
-.ads-carousel{display:flex;gap:20px;overflow-x:auto;padding:20px 0;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;scrollbar-width:none;}
-.ads-carousel::-webkit-scrollbar{display:none;}
-.ad-card{flex:0 0 360px;height:240px;border-radius:var(--card-radius);overflow:hidden;scroll-snap-align:start;position:relative;background:var(--card-bg);border:1px solid var(--card-border);}
-.ad-card img,.ad-card video,.ad-card iframe{width:100%;height:100%;object-fit:cover;}
-.ad-card .ad-title{position:absolute;bottom:0;left:0;right:0;padding:16px;background:linear-gradient(transparent,rgba(0,0,0,0.8));font-size:14px;font-weight:500;}
+/* ====== REVIEWS ====== */
+.reviews-grid {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(300px,1fr));
+  gap: 24px; max-width: 960px; margin: 0 auto;
+}
+.review-card {
+  background: var(--card-bg);
+  border: 1px solid var(--card-border-color);
+  border-radius: var(--card-border-radius);
+  padding: var(--card-padding);
+  box-shadow: var(--card-shadow);
+}
+.review-header { display: flex; align-items: center; gap: 14px; margin-bottom: 14px; }
+.review-avatar {
+  width: 44px; height: 44px; border-radius: 50%;
+  background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 600; font-size: 17px; color: #fff; flex-shrink: 0;
+}
+.review-name { font-weight: 600; font-size: 15px; }
+.review-date { color: var(--text-secondary); font-size: 12px; }
+.review-service { color: var(--accent-color); font-size: 12px; font-weight: 500; }
+.stars { display: flex; gap: 3px; margin-bottom: 12px; }
+.star { color: #fbbf24; font-size: 18px; }
+.star.empty { color: rgba(255,255,255,0.1); }
+.review-comment { color: var(--text-secondary); font-size: 14px; line-height: 1.7; }
 
-.contact-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:24px;max-width:800px;margin:0 auto;}
-.contact-card{background:var(--card-bg);border:1px solid var(--card-border);border-radius:var(--card-radius);padding:28px;text-align:center;transition:all .3s;}
-.contact-card:hover{transform:translateY(-4px);border-color:rgba(96,165,250,0.2);}
-.contact-icon{font-size:28px;color:var(--accent);margin-bottom:12px;}
-.contact-card h4{font-size:14px;font-weight:600;margin-bottom:6px;}
-.contact-card p{color:var(--text2);font-size:14px;word-break:break-all;}
+/* ====== REVIEW FORM ====== */
+.review-form {
+  max-width: 580px; margin: 48px auto 0;
+  background: var(--card-bg);
+  border: 1px solid var(--card-border-color);
+  border-radius: var(--card-border-radius);
+  padding: var(--card-padding);
+  box-shadow: var(--card-shadow);
+}
+.review-form h3 { font-size: 18px; font-weight: 600; margin-bottom: 24px; }
 
-footer{border-top:1px solid rgba(255,255,255,0.06);padding:40px 0;text-align:center;}
-footer p{color:var(--text2);font-size:13px;}
+/* ====== FORM ELEMENTS ====== */
+.form-group { margin-bottom: 20px; }
+.form-group label {
+  display: block; font-size: 13px; font-weight: 500;
+  color: var(--text-secondary); margin-bottom: 8px;
+}
+.form-group input,
+.form-group select,
+.form-group textarea {
+  width: 100%; padding: 12px 16px;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid var(--card-border-color);
+  border-radius: 10px; color: var(--text-color);
+  font-size: 14px; font-family: var(--font-family);
+  transition: border-color 0.2s, box-shadow 0.2s; outline: none;
+}
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+  border-color: var(--accent-color);
+  box-shadow: 0 0 0 3px rgba(96,165,250,0.1);
+}
+.form-group textarea { resize: vertical; min-height: 90px; }
+.form-group select option { background: var(--card-bg); color: var(--text-color); }
 
-.empty-state{text-align:center;padding:60px 24px;color:var(--text2);}
-.empty-state .iconify{font-size:48px;margin-bottom:16px;opacity:0.3;}
+/* Star rating input */
+.star-input { display: flex; gap: 6px; cursor: pointer; }
+.star-input .star-btn {
+  font-size: 30px; color: rgba(255,255,255,0.12);
+  background: none; border: none; cursor: pointer;
+  transition: color 0.15s, transform 0.15s; padding: 0; line-height: 1;
+}
+.star-input .star-btn.active,
+.star-input .star-btn.hover { color: #fbbf24; transform: scale(1.15); }
 
-.mobile-menu{display:none;position:fixed;inset:0;z-index:99;background:rgba(5,5,5,0.97);backdrop-filter:blur(20px);flex-direction:column;align-items:center;justify-content:center;gap:32px;}
-.mobile-menu.open{display:flex;}
-.mobile-menu a{font-size:20px;font-weight:500;color:var(--text2);}
+/* ====== BOOKING ====== */
+.booking-wrapper {
+  max-width: 620px; margin: 0 auto;
+  background: var(--card-bg);
+  border: 1px solid var(--card-border-color);
+  border-radius: var(--card-border-radius);
+  padding: var(--card-padding);
+  box-shadow: var(--card-shadow);
+}
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
 
-.reveal{opacity:0;transform:translateY(30px);transition:all .7s cubic-bezier(0.16,1,0.3,1);}
-.reveal.visible{opacity:1;transform:translateY(0);}
+/* ====== ADS CAROUSEL ====== */
+.ads-carousel {
+  display: flex; gap: 20px; overflow-x: auto;
+  padding: 24px 0; scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch; scrollbar-width: none;
+}
+.ads-carousel::-webkit-scrollbar { display: none; }
+.ad-card {
+  flex: 0 0 380px; height: 250px;
+  border-radius: var(--card-border-radius);
+  overflow: hidden; scroll-snap-align: start;
+  position: relative; background: var(--card-bg);
+  border: 1px solid var(--card-border-color);
+  box-shadow: var(--card-shadow);
+}
+.ad-card img, .ad-card video, .ad-card iframe {
+  width: 100%; height: 100%; object-fit: cover; border: none;
+}
+.ad-card .ad-label {
+  position: absolute; bottom: 0; left: 0; right: 0;
+  padding: 18px; background: linear-gradient(transparent, rgba(0,0,0,0.85));
+  font-size: 14px; font-weight: 500;
+}
+.ad-card .ad-badge {
+  position: absolute; top: 12px; left: 12px;
+  padding: 4px 10px; border-radius: 6px;
+  background: rgba(37,99,235,0.8); font-size: 10px;
+  font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em;
+}
 
-@media(max-width:768px){
-  .nav-links{display:none;}
-  .hamburger{display:flex;}
-  .services-grid{grid-template-columns:1fr !important;}
-  .ad-card{flex:0 0 280px;height:200px;}
-  section{padding:70px 0;}
+/* ====== CONTACT CARDS ====== */
+.contact-grid {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(260px,1fr));
+  gap: 24px; max-width: 860px; margin: 0 auto;
+}
+.contact-card {
+  background: var(--card-bg);
+  border: 1px solid var(--card-border-color);
+  border-radius: var(--card-border-radius);
+  padding: 30px; text-align: center; transition: all 0.3s;
+}
+.contact-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(96,165,250,0.2);
+  box-shadow: 0 12px 40px rgba(0,0,0,0.3);
+}
+.contact-icon { font-size: 30px; color: var(--accent-color); margin-bottom: 14px; }
+.contact-card h4 { font-size: 14px; font-weight: 600; margin-bottom: 8px; }
+.contact-card p {
+  color: var(--text-secondary); font-size: 14px;
+  word-break: break-all; line-height: 1.5;
+}
+.contact-card a { color: var(--accent-color); }
+
+/* ====== FOOTER ====== */
+footer {
+  border-top: 1px solid var(--card-border-color);
+  padding: 48px 0; text-align: center;
+}
+footer .footer-logo {
+  font-size: 18px; font-weight: 700; margin-bottom: 12px;
+  letter-spacing: -0.02em;
+}
+footer .footer-logo span { color: var(--accent-color); }
+footer p { color: var(--text-secondary); font-size: 13px; }
+
+/* ====== EMPTY STATE ====== */
+.empty-state {
+  text-align: center; padding: 60px 24px; color: var(--text-secondary);
+}
+.empty-state .iconify { font-size: 52px; margin-bottom: 16px; opacity: 0.25; }
+.empty-state p { font-size: 14px; }
+
+/* ====== REVEAL ANIMATION ====== */
+.reveal {
+  opacity: 0; transform: translateY(30px);
+  transition: all 0.7s cubic-bezier(0.16,1,0.3,1);
+}
+.reveal.visible { opacity: 1; transform: translateY(0); }
+.reveal-delay-1 { transition-delay: 0.1s; }
+.reveal-delay-2 { transition-delay: 0.2s; }
+.reveal-delay-3 { transition-delay: 0.3s; }
+
+/* ====== RESPONSIVE ====== */
+@media (max-width: 768px) {
+  .nav-links { display: none; }
+  .hamburger { display: flex; }
+  .services-grid { grid-template-columns: 1fr !important; }
+  .ad-card { flex: 0 0 300px; height: 200px; }
+  section { padding: 70px 0; }
+  .form-row { grid-template-columns: 1fr; }
+  .hero-btns { flex-direction: column; align-items: center; }
+  .reviews-grid { grid-template-columns: 1fr; }
 }
 </style>
 </head>
 <body>
 
-<div id="loader"><div class="spinner"></div><p style="color:var(--text2);font-size:14px;">Loading...</p></div>
+<!-- Loading Screen -->
+<div id="loader">
+  <div class="loader-logo">E</div>
+  <div class="spinner-bar"></div>
+  <p class="loader-text">Loading EDDY TECH...</p>
+</div>
+
+<!-- Toast Container -->
 <div id="toasts"></div>
 
+<!-- Refresh Button -->
+<button id="refreshBtn" onclick="refreshSite()" title="Refresh content">
+  <span class="iconify" data-icon="lucide:refresh-cw" style="font-size:20px;"></span>
+</button>
+
+<!-- Mobile Menu -->
 <div class="mobile-menu" id="mobileMenu">
   <a href="#services-section" onclick="closeMobile()">Services</a>
   <a href="#reviews-section" onclick="closeMobile()">Reviews</a>
@@ -154,9 +498,13 @@ footer p{color:var(--text2);font-size:13px;}
   <a href="#contact-section" onclick="closeMobile()">Contact</a>
 </div>
 
+<!-- Navigation -->
 <nav id="navbar">
   <div class="container nav-inner">
-    <div class="nav-logo">EDDY <span>TECH</span></div>
+    <div class="nav-logo">
+      <div class="nav-logo-icon">E</div>
+      EDDY <span>TECH</span>
+    </div>
     <div class="nav-links">
       <a href="#services-section">Services</a>
       <a href="#reviews-section">Reviews</a>
@@ -164,24 +512,35 @@ footer p{color:var(--text2);font-size:13px;}
       <a href="#ads-section">Featured</a>
       <a href="#contact-section">Contact</a>
     </div>
-    <button class="hamburger" onclick="toggleMobile()" aria-label="Menu"><span></span><span></span><span></span></button>
+    <button class="hamburger" onclick="toggleMobile()" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
   </div>
 </nav>
 
+<!-- Hero Section -->
 <section id="hero">
   <div class="hero-bg" id="heroBg"></div>
   <div class="hero-overlay"></div>
+  <div class="hero-glow"></div>
   <div class="hero-content">
-    <div class="profile-pic" id="profilePic"><span class="placeholder-icon iconify" data-icon="lucide:user"></span></div>
+    <div class="profile-pic" id="profilePic">
+      <span class="ph-icon iconify" data-icon="lucide:user"></span>
+    </div>
     <h1 class="hero-title" id="heroTitle">Welcome to EDDY TECH</h1>
     <p class="hero-sub" id="heroSub">We deliver innovative technology services tailored to your needs</p>
     <div class="hero-btns">
-      <a href="#services-section" class="btn btn-primary"><span class="iconify" data-icon="lucide:grid-3x3"></span> View Services</a>
-      <a href="#contact-section" class="btn btn-secondary"><span class="iconify" data-icon="lucide:mail"></span> Contact Us</a>
+      <a href="#services-section" class="btn btn-primary">
+        <span class="iconify" data-icon="lucide:grid-3x3"></span> View Services
+      </a>
+      <a href="#contact-section" class="btn btn-secondary">
+        <span class="iconify" data-icon="lucide:mail"></span> Contact Us
+      </a>
     </div>
   </div>
 </section>
 
+<!-- Services Section -->
 <section id="services-section">
   <div class="container">
     <div class="section-header reveal">
@@ -193,7 +552,8 @@ footer p{color:var(--text2);font-size:13px;}
   </div>
 </section>
 
-<section id="reviews-section" style="background:var(--bg2);">
+<!-- Reviews Section -->
+<section id="reviews-section" style="background: var(--bg-secondary);">
   <div class="container">
     <div class="section-header reveal">
       <p class="section-label">Testimonials</p>
@@ -201,49 +561,82 @@ footer p{color:var(--text2);font-size:13px;}
     </div>
     <div class="reviews-grid reveal" id="reviewsGrid"></div>
     <div class="review-form reveal" id="reviewForm">
-      <h3 style="font-size:18px;font-weight:600;margin-bottom:24px;">Leave a Review</h3>
+      <h3>Leave a Review</h3>
       <form onsubmit="submitReview(event)">
-        <div class="form-group"><label>Your Name</label><input type="text" id="revName" required placeholder="John Doe"></div>
-        <div class="form-group"><label>Select Service (optional)</label><select id="revService"><option value="">General Review</option></select></div>
-        <div class="form-group"><label>Rating</label>
+        <div class="form-group">
+          <label>Your Name</label>
+          <input type="text" id="revName" required placeholder="John Doe">
+        </div>
+        <div class="form-group">
+          <label>Select Service (optional)</label>
+          <select id="revService"><option value="">General Review</option></select>
+        </div>
+        <div class="form-group">
+          <label>Rating</label>
           <div class="star-input" id="starInput">
-            <button type="button" class="star-btn" data-val="1">★</button>
-            <button type="button" class="star-btn" data-val="2">★</button>
-            <button type="button" class="star-btn" data-val="3">★</button>
-            <button type="button" class="star-btn" data-val="4">★</button>
-            <button type="button" class="star-btn" data-val="5">★</button>
+            <button type="button" class="star-btn" data-val="1">&#9733;</button>
+            <button type="button" class="star-btn" data-val="2">&#9733;</button>
+            <button type="button" class="star-btn" data-val="3">&#9733;</button>
+            <button type="button" class="star-btn" data-val="4">&#9733;</button>
+            <button type="button" class="star-btn" data-val="5">&#9733;</button>
           </div>
         </div>
-        <div class="form-group"><label>Your Comment</label><textarea id="revComment" required placeholder="Tell us about your experience..."></textarea></div>
-        <button type="submit" class="btn btn-primary" style="width:100%;justify-content:center;">Submit Review</button>
+        <div class="form-group">
+          <label>Your Comment</label>
+          <textarea id="revComment" required placeholder="Tell us about your experience..."></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary" style="width:100%;justify-content:center;">
+          <span class="iconify" data-icon="lucide:send"></span> Submit Review
+        </button>
       </form>
     </div>
   </div>
 </section>
 
+<!-- Booking Section -->
 <section id="booking-section">
   <div class="container">
     <div class="section-header reveal">
       <p class="section-label">Schedule</p>
       <h2 class="section-title">Book a Service</h2>
-      <p class="section-desc">Fill out the form below and we'll get back to you shortly</p>
+      <p class="section-desc">Fill out the form below and we will get back to you shortly</p>
     </div>
     <div class="booking-wrapper reveal">
       <form onsubmit="submitBooking(event)">
-        <div class="form-group"><label>Select Service</label><select id="bookService" required><option value="">Choose a service...</option></select></div>
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
-          <div class="form-group"><label>Full Name</label><input type="text" id="bookName" required placeholder="John Doe"></div>
-          <div class="form-group"><label>Phone</label><input type="tel" id="bookPhone" placeholder="+251..."></div>
+        <div class="form-group">
+          <label>Select Service</label>
+          <select id="bookService" required>
+            <option value="">Choose a service...</option>
+          </select>
         </div>
-        <div class="form-group"><label>Email</label><input type="email" id="bookEmail" placeholder="john@example.com"></div>
-        <div class="form-group"><label>Message</label><textarea id="bookMsg" placeholder="Tell us about your project..."></textarea></div>
-        <button type="submit" class="btn btn-primary" style="width:100%;justify-content:center;"><span class="iconify" data-icon="lucide:calendar-check"></span> Book Now</button>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Full Name</label>
+            <input type="text" id="bookName" required placeholder="John Doe">
+          </div>
+          <div class="form-group">
+            <label>Phone</label>
+            <input type="tel" id="bookPhone" placeholder="+251...">
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Email</label>
+          <input type="email" id="bookEmail" placeholder="john@example.com">
+        </div>
+        <div class="form-group">
+          <label>Message</label>
+          <textarea id="bookMsg" placeholder="Tell us about your project or requirements..."></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary" style="width:100%;justify-content:center;">
+          <span class="iconify" data-icon="lucide:calendar-check"></span> Book Now
+        </button>
       </form>
     </div>
   </div>
 </section>
 
-<section id="ads-section" style="background:var(--bg2);">
+<!-- Ads Section -->
+<section id="ads-section" style="background: var(--bg-secondary);">
   <div class="container">
     <div class="section-header reveal">
       <p class="section-label">Spotlight</p>
@@ -253,6 +646,7 @@ footer p{color:var(--text2);font-size:13px;}
   </div>
 </section>
 
+<!-- Contact Section -->
 <section id="contact-section">
   <div class="container">
     <div class="section-header reveal">
@@ -263,269 +657,410 @@ footer p{color:var(--text2);font-size:13px;}
   </div>
 </section>
 
+<!-- Footer -->
 <footer>
-  <div class="container"><p>&copy; 2025 EDDY TECH. All rights reserved.</p></div>
+  <div class="container">
+    <div class="footer-logo">EDDY <span>TECH</span></div>
+    <p>&copy; 2025 EDDY TECH. All rights reserved.</p>
+  </div>
 </footer>
 
 <script>
-const SB_URL='https://kyhgwsatvkazvtdqbmeb.supabase.co';
-const SB_KEY='sb_publishable_wvwTKSI76Rfkzh8sC3uW0g_V_0C8xb7';
-const sb=window.supabase.createClient(SB_URL,SB_KEY);
-let allServices=[],currentRating=0;
+/* ====== SUPABASE CONFIG ====== */
+const SB_URL = 'https://kyhgwsatvkazvtdqbmeb.supabase.co';
+const SB_KEY = 'sb_publishable_wvwTKSI76Rfkzh8sC3uW0g_V_0C8xb7';
+const sb = window.supabase.createClient(SB_URL, SB_KEY);
 
-/* THIS IS THE KEY FIX: maps setting keys to the correct CSS variable names */
-const CSS_MAP={
-  'primary_color':'--primary',
-  'secondary_color':'--secondary',
-  'accent_color':'--accent',
-  'bg_color':'--bg',
-  'bg_secondary':'--bg2',
-  'text_color':'--text',
-  'text_secondary':'--text2',
-  'card_bg':'--card-bg',
-  'card_border_color':'--card-border',
-  'card_border_radius':'--card-radius',
-  'card_padding':'--card-pad',
-  'card_shadow':'--card-shadow',
-  'card_columns':'--cols',
-  'font_family':'--font'
-};
+/* ====== STATE ====== */
+let allServices = [];
+let currentRating = 0;
+let settingsMap = {};
+let adAutoScrollTimer = null;
 
-function setVar(cssVar,val){document.documentElement.style.setProperty(cssVar,val);}
-
-function toast(msg,type){
-  type=type||'success';
-  var t=document.createElement('div');
-  t.className='toast toast-'+type;t.textContent=msg;
-  document.getElementById('toasts').appendChild(t);
-  setTimeout(function(){t.classList.add('show');},10);
-  setTimeout(function(){t.classList.remove('show');setTimeout(function(){t.remove();},300);},3500);
+/* ====== HELPERS ====== */
+function esc(str) {
+  if (!str) return '';
+  const div = document.createElement('div');
+  div.textContent = str;
+  return div.innerHTML;
 }
 
-async function init(){
-  try{
-    var results=await Promise.all([
-      sb.from('site_settings').select('*'),
-      sb.from('profile').select('*').single(),
-      sb.from('services').select('*').eq('active',true).order('order_index'),
-      sb.from('reviews').select('*').order('created_at',{ascending:false}),
-      sb.from('contacts').select('*').eq('active',true),
-      sb.from('ads').select('*').eq('active',true).order('order_index')
-    ]);
+function toast(message, type) {
+  type = type || 'success';
+  var icons = { success: 'lucide:check-circle', error: 'lucide:alert-circle', info: 'lucide:info' };
+  var t = document.createElement('div');
+  t.className = 'toast toast-' + type;
+  t.innerHTML = '<span class="toast-icon iconify" data-icon="' + icons[type] + '"></span>' + esc(message);
+  document.getElementById('toasts').appendChild(t);
+  setTimeout(function() { t.classList.add('show'); }, 20);
+  setTimeout(function() {
+    t.classList.remove('show');
+    setTimeout(function() { t.remove(); }, 400);
+  }, 4000);
+}
 
-    var settingsData=results[0].data||[];
-    var profileData=results[1].data;
-    var servicesData=results[2].data||[];
-    var reviewsData=results[3].data||[];
-    var contactsData=results[4].data||[];
-    var adsData=results[5].data||[];
+/* Apply a CSS variable from settings */
+function applyCSSVar(dbKey, value) {
+  var cssName = '--' + dbKey.replace(/_/g, '-');
+  document.documentElement.style.setProperty(cssName, value);
+}
 
-    /* Apply CSS variable settings using the correct mapping */
-    settingsData.forEach(function(s){
-      var cssVar=CSS_MAP[s.key];
-      if(cssVar && s.value){
-        setVar(cssVar, s.value);
+/* ====== DATA LOADING ====== */
+async function loadAllData() {
+  try {
+    /* 1. Load all settings */
+    var settingsResult = await sb.from('site_settings').select('*');
+    if (settingsResult.error) throw settingsResult.error;
+
+    if (settingsResult.data && settingsResult.data.length > 0) {
+      settingsResult.data.forEach(function(row) {
+        settingsMap[row.key] = row.value;
+        applyCSSVar(row.key, row.value);
+      });
+    }
+
+    /* Apply text content from settings */
+    var gt = function(key, fallback) {
+      return settingsMap[key] || fallback || '';
+    };
+
+    document.title = gt('site_title', 'EDDY TECH');
+    document.getElementById('heroTitle').textContent = gt('hero_title', 'Welcome to EDDY TECH');
+    document.getElementById('heroSub').textContent = gt('hero_subtitle', 'We deliver innovative technology services');
+    document.getElementById('servicesTitle').textContent = gt('services_title', 'Our Services');
+    document.getElementById('reviewsTitle').textContent = gt('reviews_title', 'Client Reviews');
+    document.getElementById('contactTitle').textContent = gt('contact_title', 'Get In Touch');
+    document.getElementById('adsTitle').textContent = gt('ads_title', 'Featured');
+
+    /* Hero background image */
+    var heroImg = gt('hero_bg_image', '');
+    if (heroImg) {
+      document.getElementById('heroBg').style.backgroundImage = 'url(' + heroImg + ')';
+    }
+
+    /* Grid columns — apply directly for reliability */
+    var cols = gt('card_columns', '3');
+    document.getElementById('servicesGrid').style.gridTemplateColumns = 'repeat(' + cols + ', 1fr)';
+
+    /* 2. Load profile */
+    var profileResult = await sb.from('profile').select('*').single();
+    if (profileResult.data) {
+      var p = profileResult.data;
+      if (p.image_url) {
+        document.getElementById('profilePic').innerHTML = '<img src="' + esc(p.image_url) + '" alt="' + esc(p.name) + '">';
       }
-    });
-
-    /* Apply text settings */
-    function gv(key){
-      var found=settingsData.find(function(x){return x.key===key;});
-      return found ? found.value : '';
     }
 
-    var siteTitle=gv('site_title');
-    if(siteTitle) document.title=siteTitle;
-
-    var heroTitle=gv('hero_title');
-    if(heroTitle) document.getElementById('heroTitle').textContent=heroTitle;
-
-    var heroSub=gv('hero_subtitle');
-    if(heroSub) document.getElementById('heroSub').textContent=heroSub;
-
-    var servTitle=gv('services_title');
-    if(servTitle) document.getElementById('servicesTitle').textContent=servTitle;
-
-    var revTitle=gv('reviews_title');
-    if(revTitle) document.getElementById('reviewsTitle').textContent=revTitle;
-
-    var contTitle=gv('contact_title');
-    if(contTitle) document.getElementById('contactTitle').textContent=contTitle;
-
-    var adsTitle=gv('ads_title');
-    if(adsTitle) document.getElementById('adsTitle').textContent=adsTitle;
-
-    var heroBg=gv('hero_bg_image');
-    if(heroBg) document.getElementById('heroBg').style.backgroundImage='url('+heroBg+')';
-
-    /* Profile image */
-    if(profileData && profileData.image_url){
-      document.getElementById('profilePic').innerHTML='<img src="'+profileData.image_url+'" alt="Profile">';
-    }
-
-    allServices=servicesData;
+    /* 3. Load services */
+    var servicesResult = await sb.from('services').select('*').eq('active', true).order('order_index');
+    if (servicesResult.error) throw servicesResult.error;
+    allServices = servicesResult.data || [];
     renderServices(allServices);
     populateServiceSelects(allServices);
-    renderReviews(reviewsData);
-    renderContacts(contactsData);
-    renderAds(adsData);
+
+    /* 4. Load reviews */
+    var reviewsResult = await sb.from('reviews').select('*').order('created_at', { ascending: false });
+    if (reviewsResult.error) throw reviewsResult.error;
+    renderReviews(reviewsResult.data || []);
+
+    /* 5. Load contacts */
+    var contactsResult = await sb.from('contacts').select('*').eq('active', true);
+    if (contactsResult.error) throw contactsResult.error;
+    renderContacts(contactsResult.data || []);
+
+    /* 6. Load ads */
+    var adsResult = await sb.from('ads').select('*').eq('active', true).order('order_index');
+    if (adsResult.error) throw adsResult.error;
+    renderAds(adsResult.data || []);
+
+  } catch (err) {
+    console.error('Load error:', err);
+    toast('Error loading data: ' + (err.message || 'Unknown error'), 'error');
+  }
+}
+
+/* ====== RENDER FUNCTIONS ====== */
+function renderServices(list) {
+  var grid = document.getElementById('servicesGrid');
+  if (!list || list.length === 0) {
+    grid.innerHTML = '<div class="empty-state" style="grid-column:1/-1;">' +
+      '<span class="iconify" data-icon="lucide:package-open"></span>' +
+      '<p>Services coming soon. Check back later!</p></div>';
+    return;
+  }
+  grid.innerHTML = list.map(function(s) {
+    var imgHtml = '';
+    if (s.image_url) {
+      imgHtml = '<img class="service-card-img" src="' + esc(s.image_url) + '" alt="' + esc(s.title) + '">';
+    } else {
+      imgHtml = '<div class="service-icon">' + (s.icon || '&#128187;') + '</div>';
+    }
+    var priceHtml = s.price ? '<div class="service-price">' + esc(s.price) + '</div>' : '';
+    return '<div class="service-card">' +
+      imgHtml +
+      '<h3>' + esc(s.title) + '</h3>' +
+      '<p>' + esc(s.description || '') + '</p>' +
+      priceHtml +
+      '<button class="btn btn-sm btn-primary" onclick="bookService(' + s.id + ',\'' + esc(s.title).replace(/'/g, "\\'") + '\')">' +
+      '<span class="iconify" data-icon="lucide:calendar-plus"></span> Book Now</button>' +
+      '</div>';
+  }).join('');
+}
+
+function renderReviews(list) {
+  var grid = document.getElementById('reviewsGrid');
+  if (!list || list.length === 0) {
+    grid.innerHTML = '<div class="empty-state" style="grid-column:1/-1;">' +
+      '<span class="iconify" data-icon="lucide:message-square"></span>' +
+      '<p>No reviews yet. Be the first to share your experience!</p></div>';
+    return;
+  }
+  grid.innerHTML = list.map(function(r) {
+    var starsHtml = '';
+    for (var i = 0; i < 5; i++) {
+      starsHtml += '<span class="star' + (i < r.rating ? '' : ' empty') + '">&#9733;</span>';
+    }
+    var dateStr = new Date(r.created_at).toLocaleDateString('en-US', {
+      month: 'short', day: 'numeric', year: 'numeric'
+    });
+    var svcHtml = r.service_name ? '<div class="review-service">' + esc(r.service_name) + '</div>' : '';
+    return '<div class="review-card">' +
+      '<div class="review-header">' +
+      '<div class="review-avatar">' + esc(r.name.charAt(0).toUpperCase()) + '</div>' +
+      '<div><div class="review-name">' + esc(r.name) + '</div>' +
+      '<div class="review-date">' + dateStr + '</div>' +
+      svcHtml + '</div></div>' +
+      '<div class="stars">' + starsHtml + '</div>' +
+      '<p class="review-comment">' + esc(r.comment || '') + '</p>' +
+      '</div>';
+  }).join('');
+}
+
+function renderContacts(list) {
+  var grid = document.getElementById('contactGrid');
+  if (!list || list.length === 0) {
+    grid.innerHTML = '<div class="empty-state"><p>No contact info available</p></div>';
+    return;
+  }
+  var html = '';
+  list.forEach(function(c) {
+    if (c.phone) {
+      html += '<div class="contact-card">' +
+        '<div class="contact-icon"><span class="iconify" data-icon="lucide:phone"></span></div>' +
+        '<h4>Phone</h4><p><a href="tel:' + esc(c.phone) + '">' + esc(c.phone) + '</a></p></div>';
+    }
+    if (c.email) {
+      html += '<div class="contact-card">' +
+        '<div class="contact-icon"><span class="iconify" data-icon="lucide:mail"></span></div>' +
+        '<h4>Email</h4><p><a href="mailto:' + esc(c.email) + '">' + esc(c.email) + '</a></p></div>';
+    }
+    if (c.telegram) {
+      var tgUser = c.telegram.replace('@', '');
+      html += '<div class="contact-card">' +
+        '<div class="contact-icon"><span class="iconify" data-icon="lucide:send"></span></div>' +
+        '<h4>Telegram</h4><p><a href="https://t.me/' + esc(tgUser) + '" target="_blank" rel="noopener">@' + esc(tgUser) + '</a></p></div>';
+    }
+    if (c.address) {
+      html += '<div class="contact-card">' +
+        '<div class="contact-icon"><span class="iconify" data-icon="lucide:map-pin"></span></div>' +
+        '<h4>Address</h4><p>' + esc(c.address) + '</p></div>';
+    }
+  });
+  grid.innerHTML = html;
+}
+
+function renderAds(list) {
+  var carousel = document.getElementById('adsCarousel');
+  var section = carousel.closest('section');
+  if (!list || list.length === 0) {
+    carousel.innerHTML = '';
+    section.style.display = 'none';
+    return;
+  }
+  section.style.display = '';
+  carousel.innerHTML = list.map(function(a) {
+    var content = '';
+    if (a.image_data) {
+      content = '<img src="' + a.image_data + '" alt="' + esc(a.title || 'Ad') + '">';
+    } else if (a.video_url) {
+      var src = a.video_url;
+      if (src.indexOf('youtube.com/watch') !== -1) {
+        src = src.replace('watch?v=', 'embed/');
+      } else if (src.indexOf('youtu.be/') !== -1) {
+        src = 'https://www.youtube.com/embed/' + src.split('youtu.be/')[1].split('?')[0];
+      }
+      content = '<iframe src="' + esc(src) + '" allowfullscreen></iframe>';
+    }
+    var labelHtml = a.title ? '<div class="ad-label">' + esc(a.title) + '</div>' : '';
+    return '<div class="ad-card">' + content + '<div class="ad-badge">Ad</div>' + labelHtml + '</div>';
+  }).join('');
+
+  /* Auto-scroll carousel */
+  if (adAutoScrollTimer) clearInterval(adAutoScrollTimer);
+  if (list.length > 1) {
+    adAutoScrollTimer = setInterval(function() {
+      carousel.scrollBy({ left: 400, behavior: 'smooth' });
+      if (carousel.scrollLeft >= carousel.scrollWidth - carousel.clientWidth - 20) {
+        carousel.scrollTo({ left: 0, behavior: 'smooth' });
+      }
+    }, 5000);
+  }
+}
+
+function populateServiceSelects(list) {
+  var opts = list.map(function(s) {
+    return '<option value="' + s.id + '">' + esc(s.title) + '</option>';
+  }).join('');
+  document.getElementById('bookService').innerHTML = '<option value="">Choose a service...</option>' + opts;
+  document.getElementById('revService').innerHTML = '<option value="">General Review</option>' + opts;
+}
+
+/* ====== FORM HANDLERS ====== */
+function bookService(id, title) {
+  document.getElementById('bookService').value = id;
+  document.getElementById('booking-section').scrollIntoView({ behavior: 'smooth' });
+}
+
+async function submitBooking(e) {
+  e.preventDefault();
+  var serviceId = document.getElementById('bookService').value;
+  var svc = allServices.find(function(s) { return s.id == serviceId; });
+  var data = {
+    service_id: serviceId ? parseInt(serviceId) : null,
+    service_name: svc ? svc.title : '',
+    name: document.getElementById('bookName').value.trim(),
+    email: document.getElementById('bookEmail').value.trim(),
+    phone: document.getElementById('bookPhone').value.trim(),
+    message: document.getElementById('bookMsg').value.trim(),
+    status: 'pending'
+  };
+  if (!data.name) { toast('Please enter your name', 'error'); return; }
+
+  var btn = e.target.querySelector('button[type="submit"]');
+  btn.disabled = true;
+  btn.innerHTML = '<span class="iconify" data-icon="lucide:loader-2" style="animation:spin 0.8s linear infinite;"></span> Submitting...';
+
+  try {
+    var result = await sb.from('bookings').insert(data);
+    if (result.error) throw result.error;
+    toast('Booking submitted! We will contact you soon.');
+    e.target.reset();
+  } catch (err) {
+    toast('Booking failed: ' + (err.message || 'Please try again'), 'error');
+  } finally {
+    btn.disabled = false;
+    btn.innerHTML = '<span class="iconify" data-icon="lucide:calendar-check"></span> Book Now';
+  }
+}
+
+async function submitReview(e) {
+  e.preventDefault();
+  if (!currentRating) { toast('Please select a star rating', 'error'); return; }
+  var serviceId = document.getElementById('revService').value;
+  var svc = allServices.find(function(s) { return s.id == serviceId; });
+  var data = {
+    service_id: serviceId ? parseInt(serviceId) : null,
+    service_name: svc ? svc.title : '',
+    name: document.getElementById('revName').value.trim(),
+    rating: currentRating,
+    comment: document.getElementById('revComment').value.trim()
+  };
+  if (!data.name) { toast('Please enter your name', 'error'); return; }
+
+  var btn = e.target.querySelector('button[type="submit"]');
+  btn.disabled = true;
+  btn.innerHTML = '<span class="iconify" data-icon="lucide:loader-2" style="animation:spin 0.8s linear infinite;"></span> Submitting...';
+
+  try {
+    var result = await sb.from('reviews').insert(data);
+    if (result.error) throw result.error;
+    toast('Thank you for your review!');
+    e.target.reset();
+    currentRating = 0;
+    document.querySelectorAll('#starInput .star-btn').forEach(function(b) {
+      b.classList.remove('active');
+    });
+    /* Reload reviews */
+    var revResult = await sb.from('reviews').select('*').order('created_at', { ascending: false });
+    if (revResult.data) renderReviews(revResult.data);
+  } catch (err) {
+    toast('Review failed: ' + (err.message || 'Please try again'), 'error');
+  } finally {
+    btn.disabled = false;
+    btn.innerHTML = '<span class="iconify" data-icon="lucide:send"></span> Submit Review';
+  }
+}
+
+/* ====== STAR RATING ====== */
+function setupStars() {
+  var btns = document.querySelectorAll('#starInput .star-btn');
+  btns.forEach(function(btn) {
+    btn.addEventListener('mouseenter', function() {
+      var val = parseInt(btn.getAttribute('data-val'));
+      btns.forEach(function(b) {
+        b.classList.toggle('hover', parseInt(b.getAttribute('data-val')) <= val);
+      });
+    });
+    btn.addEventListener('click', function() {
+      currentRating = parseInt(btn.getAttribute('data-val'));
+      btns.forEach(function(b) {
+        b.classList.toggle('active', parseInt(b.getAttribute('data-val')) <= currentRating);
+      });
+    });
+  });
+  document.getElementById('starInput').addEventListener('mouseleave', function() {
+    btns.forEach(function(b) { b.classList.remove('hover'); });
+  });
+}
+
+/* ====== NAVIGATION ====== */
+function toggleMobile() {
+  document.getElementById('mobileMenu').classList.toggle('open');
+}
+function closeMobile() {
+  document.getElementById('mobileMenu').classList.remove('open');
+}
+
+/* Scroll effects */
+window.addEventListener('scroll', function() {
+  document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 60);
+});
+
+/* Reveal on scroll */
+function setupReveal() {
+  var observer = new IntersectionObserver(function(entries) {
+    entries.forEach(function(entry) {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
+  document.querySelectorAll('.reveal').forEach(function(el) { observer.observe(el); });
+}
+
+/* Refresh */
+async function refreshSite() {
+  var btn = document.getElementById('refreshBtn');
+  btn.classList.add('spinning');
+  await loadAllData();
+  setTimeout(function() { btn.classList.remove('spinning'); }, 700);
+  toast('Content refreshed', 'info');
+}
+
+/* ====== INITIALIZATION ====== */
+async function init() {
+  try {
+    await loadAllData();
     setupStars();
     setupReveal();
-
-  }catch(e){
-    console.error('Init error:',e);
-    toast('Error loading site data','error');
+  } catch (err) {
+    console.error('Init error:', err);
+  } finally {
+    setTimeout(function() {
+      document.getElementById('loader').classList.add('hide');
+    }, 300);
   }
-  finally{
-    document.getElementById('loader').classList.add('hide');
-  }
-}
-
-function renderServices(list){
-  var g=document.getElementById('servicesGrid');
-  if(!list.length){g.innerHTML='<div class="empty-state" style="grid-column:1/-1;"><span class="iconify" data-icon="lucide:package-open"></span><p>Services coming soon...</p></div>';return;}
-  g.innerHTML=list.map(function(s){
-    return '<div class="service-card">'+
-      '<div class="service-icon">'+(s.icon||'💻')+'</div>'+
-      '<h3>'+esc(s.title)+'</h3>'+
-      '<p>'+esc(s.description||'')+'</p>'+
-      (s.price?'<div class="service-price">'+esc(s.price)+'</div>':'')+
-      '<button class="btn btn-sm btn-primary" onclick="bookService('+s.id+',\''+esc(s.title).replace(/'/g,"\\'")+'\')">Book Now</button>'+
-    '</div>';
-  }).join('');
-}
-
-function renderReviews(list){
-  var g=document.getElementById('reviewsGrid');
-  if(!list.length){g.innerHTML='<div class="empty-state" style="grid-column:1/-1;"><span class="iconify" data-icon="lucide:message-square"></span><p>No reviews yet. Be the first!</p></div>';return;}
-  g.innerHTML=list.map(function(r){
-    var starsHtml='';
-    for(var i=0;i<5;i++){
-      starsHtml+='<span class="star'+(i<r.rating?'':' empty')+'">★</span>';
-    }
-    var d=new Date(r.created_at).toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'});
-    return '<div class="review-card">'+
-      '<div class="review-header"><div class="review-avatar">'+esc(r.name.charAt(0).toUpperCase())+'</div><div><div class="review-name">'+esc(r.name)+'</div><div class="review-date">'+d+'</div></div></div>'+
-      '<div class="stars">'+starsHtml+'</div>'+
-      '<p class="review-comment">'+esc(r.comment||'')+'</p>'+
-    '</div>';
-  }).join('');
-}
-
-function renderContacts(list){
-  var g=document.getElementById('contactGrid');
-  if(!list.length){g.innerHTML='<div class="empty-state"><p>No contact info available</p></div>';return;}
-  var html='';
-  list.forEach(function(c){
-    if(c.phone) html+='<div class="contact-card"><div class="contact-icon"><span class="iconify" data-icon="lucide:phone"></span></div><h4>Phone</h4><p><a href="tel:'+c.phone+'">'+esc(c.phone)+'</a></p></div>';
-    if(c.email) html+='<div class="contact-card"><div class="contact-icon"><span class="iconify" data-icon="lucide:mail"></span></div><h4>Email</h4><p><a href="mailto:'+c.email+'">'+esc(c.email)+'</a></p></div>';
-    if(c.telegram) html+='<div class="contact-card"><div class="contact-icon"><span class="iconify" data-icon="lucide:send"></span></div><h4>Telegram</h4><p><a href="https://t.me/'+c.telegram.replace('@','')+'" target="_blank">@'+esc(c.telegram.replace('@',''))+'</a></p></div>';
-    if(c.address) html+='<div class="contact-card"><div class="contact-icon"><span class="iconify" data-icon="lucide:map-pin"></span></div><h4>Address</h4><p>'+esc(c.address)+'</p></div>';
-  });
-  g.innerHTML=html;
-}
-
-function renderAds(list){
-  var c=document.getElementById('adsCarousel');
-  if(!list.length){c.innerHTML='';return;}
-  c.innerHTML=list.map(function(a){
-    var content='';
-    if(a.image_data){
-      content='<img src="'+a.image_data+'" alt="'+esc(a.title||'Ad')+'">';
-    } else if(a.video_url){
-      var src=a.video_url;
-      if(src.indexOf('youtube.com/watch')!==-1) src=src.replace('watch?v=','embed/');
-      else if(src.indexOf('youtu.be/')!==-1) src='https://www.youtube.com/embed/'+src.split('youtu.be/')[1].split('?')[0];
-      content='<iframe src="'+src+'" frameborder="0" allowfullscreen style="width:100%;height:100%;"></iframe>';
-    }
-    return '<div class="ad-card">'+content+(a.title?'<div class="ad-title">'+esc(a.title)+'</div>':'')+'</div>';
-  }).join('');
-  if(list.length>1){
-    setInterval(function(){
-      c.scrollBy({left:380,behavior:'smooth'});
-      if(c.scrollLeft>=c.scrollWidth-c.clientWidth-10) c.scrollTo({left:0,behavior:'smooth'});
-    },4000);
-  }
-}
-
-function populateServiceSelects(list){
-  var opts=list.map(function(s){return '<option value="'+s.id+'">'+esc(s.title)+'</option>';}).join('');
-  document.getElementById('bookService').innerHTML='<option value="">Choose a service...</option>'+opts;
-  document.getElementById('revService').innerHTML='<option value="">General Review</option>'+opts;
-}
-
-function bookService(id,title){
-  document.getElementById('bookService').value=id;
-  document.getElementById('booking-section').scrollIntoView({behavior:'smooth'});
-}
-
-function setupStars(){
-  var btns=document.querySelectorAll('#starInput .star-btn');
-  btns.forEach(function(b){
-    b.addEventListener('mouseenter',function(){
-      var v=parseInt(b.dataset.val);
-      btns.forEach(function(x){x.classList.toggle('hover',parseInt(x.dataset.val)<=v);});
-    });
-    b.addEventListener('click',function(){
-      currentRating=parseInt(b.dataset.val);
-      btns.forEach(function(x){x.classList.toggle('active',parseInt(x.dataset.val)<=currentRating);});
-    });
-  });
-  document.getElementById('starInput').addEventListener('mouseleave',function(){
-    btns.forEach(function(x){x.classList.remove('hover');});
-  });
-}
-
-async function submitBooking(e){
-  e.preventDefault();
-  var sid=document.getElementById('bookService').value;
-  var svc=allServices.find(function(s){return s.id==sid;});
-  var data={
-    service_id:sid||null,
-    service_name:svc?svc.title:'',
-    name:document.getElementById('bookName').value,
-    email:document.getElementById('bookEmail').value,
-    phone:document.getElementById('bookPhone').value,
-    message:document.getElementById('bookMsg').value,
-    status:'pending'
-  };
-  var result=await sb.from('bookings').insert(data);
-  if(result.error){toast('Booking failed: '+result.error.message,'error');return;}
-  toast('Booking submitted successfully!');
-  e.target.reset();
-}
-
-async function submitReview(e){
-  e.preventDefault();
-  if(!currentRating){toast('Please select a star rating','error');return;}
-  var sid=document.getElementById('revService').value;
-  var svc=allServices.find(function(s){return s.id==sid;});
-  var data={
-    service_id:sid||null,
-    service_name:svc?svc.title:'',
-    name:document.getElementById('revName').value,
-    rating:currentRating,
-    comment:document.getElementById('revComment').value
-  };
-  var result=await sb.from('reviews').insert(data);
-  if(result.error){toast('Review failed: '+result.error.message,'error');return;}
-  toast('Thank you for your review!');
-  e.target.reset();currentRating=0;
-  document.querySelectorAll('#starInput .star-btn').forEach(function(b){b.classList.remove('active');});
-  var result2=await sb.from('reviews').select('*').order('created_at',{ascending:false});
-  renderReviews(result2.data||[]);
-}
-
-function esc(s){if(!s)return '';var d=document.createElement('div');d.textContent=s;return d.innerHTML;}
-function toggleMobile(){document.getElementById('mobileMenu').classList.toggle('open');}
-function closeMobile(){document.getElementById('mobileMenu').classList.remove('open');}
-window.addEventListener('scroll',function(){document.getElementById('navbar').classList.toggle('scrolled',window.scrollY>50);});
-
-function setupReveal(){
-  var obs=new IntersectionObserver(function(entries){
-    entries.forEach(function(e){if(e.isIntersecting){e.target.classList.add('visible');obs.unobserve(e.target);}});
-  },{threshold:0.1});
-  document.querySelectorAll('.reveal').forEach(function(el){obs.observe(el);});
 }
 
 init();
