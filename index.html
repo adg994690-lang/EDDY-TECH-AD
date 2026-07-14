@@ -1,2101 +1,504 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>EDDY TECH — Digital Solutions</title>
-    <link rel="icon" id="favicon-32" type="image/png" sizes="32x32" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%2300e68a'/%3E%3Ctext x='16' y='23' text-anchor='middle' font-family='sans-serif' font-weight='bold' font-size='20' fill='%2308080d'%3EE%3C/text%3E%3C/svg%3E">
-    <link rel="icon" id="favicon-16" type="image/png" sizes="16x16" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Crect width='16' height='16' rx='3' fill='%2300e68a'/%3E%3Ctext x='8' y='12' text-anchor='middle' font-family='sans-serif' font-weight='bold' font-size='11' fill='%2308080d'%3EE%3C/text%3E%3C/svg%3E">
-    <link rel="apple-touch-icon" id="favicon-apple" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 180 180'%3E%3Crect width='180' height='180' rx='36' fill='%2300e68a'/%3E%3Ctext x='90' y='128' text-anchor='middle' font-family='sans-serif' font-weight='bold' font-size='110' fill='%2308080d'%3EE%3C/text%3E%3C/svg%3E">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800;900&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <style>
-        /* ══════════════════════════════════════════
-           CSS VARIABLES & RESET
-           ══════════════════════════════════════════ */
-        :root {
-            --bg: #08080d;
-            --bg-elevated: #0e0e15;
-            --bg-card: #111119;
-            --fg: #e8e8ed;
-            --fg-muted: #8a8a9a;
-            --accent: #00e68a;
-            --accent-dim: #00b36b;
-            --accent-glow: rgba(0, 230, 138, 0.25);
-            --accent-glow-strong: rgba(0, 230, 138, 0.45);
-            --gold: #ffb800;
-            --danger: #ff4466;
-            --border: rgba(255, 255, 255, 0.06);
-            --border-accent: rgba(0, 230, 138, 0.2);
-            --shadow-card: 0 4px 24px rgba(0, 0, 0, 0.5), 0 1px 4px rgba(0, 0, 0, 0.3);
-            --shadow-card-hover: 0 12px 48px rgba(0, 0, 0, 0.6), 0 2px 8px rgba(0, 0, 0, 0.4), 0 0 30px rgba(0, 230, 138, 0.1);
-            --shadow-btn: 0 4px 16px rgba(0, 230, 138, 0.3), 0 0 0 1px rgba(0, 230, 138, 0.15);
-            --shadow-btn-hover: 0 6px 28px rgba(0, 230, 138, 0.45), 0 0 0 1px rgba(0, 230, 138, 0.3);
-            --radius: 12px;
-            --radius-sm: 8px;
-            --radius-lg: 16px;
-            --header-h: 72px;
-            --font-heading: 'Outfit', sans-serif;
-            --font-body: 'Space Grotesk', sans-serif;
-        }
-
-        *, *::before, *::after {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        html {
-            scroll-behavior: smooth;
-            scroll-padding-top: calc(var(--header-h) + 20px);
-        }
-
-        ::selection {
-            background: rgba(0, 230, 138, 0.3);
-            color: #fff;
-        }
-
-        body {
-            font-family: var(--font-body);
-            background: var(--bg);
-            color: var(--fg);
-            line-height: 1.6;
-            overflow-x: hidden;
-            -webkit-font-smoothing: antialiased;
-            -moz-osx-font-smoothing: grayscale;
-        }
-
-        /* Custom Scrollbar */
-        ::-webkit-scrollbar {
-            width: 8px;
-        }
-        ::-webkit-scrollbar-track {
-            background: var(--bg);
-        }
-        ::-webkit-scrollbar-thumb {
-            background: rgba(0, 230, 138, 0.2);
-            border-radius: 4px;
-        }
-        ::-webkit-scrollbar-thumb:hover {
-            background: rgba(0, 230, 138, 0.4);
-        }
-
-        /* ══════════════════════════════════════════
-           REDUCED MOTION
-           ══════════════════════════════════════════ */
-        @media (prefers-reduced-motion: reduce) {
-            *, *::before, *::after {
-                animation-duration: 0.01ms !important;
-                animation-iteration-count: 1 !important;
-                transition-duration: 0.01ms !important;
-                scroll-behavior: auto !important;
-            }
-        }
-
-        /* ══════════════════════════════════════════
-           KEYFRAMES
-           ══════════════════════════════════════════ */
-        @keyframes pulseGlow {
-            0%, 100% { transform: scale(1); opacity: 0.5; }
-            50% { transform: scale(1.15); opacity: 0.8; }
-        }
-
-        @keyframes pulseGlowSlow {
-            0%, 100% { transform: scale(1); opacity: 0.3; }
-            50% { transform: scale(1.08); opacity: 0.55; }
-        }
-
-        @keyframes fadeUp {
-            from { opacity: 0; transform: translateY(30px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        @keyframes shimmer {
-            0% { background-position: -400px 0; }
-            100% { background-position: 400px 0; }
-        }
-
-        @keyframes slideUpToast {
-            from { opacity: 0; transform: translateY(20px) scale(0.95); }
-            to { opacity: 1; transform: translateY(0) scale(1); }
-        }
-
-        @keyframes slideDownToast {
-            from { opacity: 1; transform: translateY(0) scale(1); }
-            to { opacity: 0; transform: translateY(20px) scale(0.95); }
-        }
-
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
-
-        @keyframes pulseDot {
-            0%, 100% { box-shadow: 0 0 0 0 rgba(0, 230, 138, 0.5); }
-            50% { box-shadow: 0 0 0 6px rgba(0, 230, 138, 0); }
-        }
-
-        @keyframes pulseDotRed {
-            0%, 100% { box-shadow: 0 0 0 0 rgba(255, 68, 102, 0.5); }
-            50% { box-shadow: 0 0 0 6px rgba(255, 68, 102, 0); }
-        }
-
-        @keyframes bounceDown {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(5px); }
-        }
-
-        @keyframes scaleXIn {
-            from { transform: scaleX(0); }
-            to { transform: scaleX(1); }
-        }
-
-        /* ══════════════════════════════════════════
-           SKELETON LOADING
-           ══════════════════════════════════════════ */
-        .skeleton {
-            background: linear-gradient(90deg, var(--bg-card) 25%, rgba(255,255,255,0.05) 50%, var(--bg-card) 75%);
-            background-size: 800px 100%;
-            animation: shimmer 1.5s infinite linear;
-            border-radius: var(--radius-sm);
-        }
-
-        .skeleton-card {
-            background: var(--bg-card);
-            border-radius: var(--radius);
-            padding: 28px;
-            border: 1px solid var(--border);
-        }
-
-        .skeleton-circle {
-            border-radius: 50%;
-        }
-
-        /* ══════════════════════════════════════════
-           TOAST NOTIFICATIONS
-           ══════════════════════════════════════════ */
-        #toast-container {
-            position: fixed;
-            bottom: 24px;
-            right: 24px;
-            z-index: 10000;
-            display: flex;
-            flex-direction: column-reverse;
-            gap: 10px;
-            pointer-events: none;
-            max-width: 400px;
-        }
-
-        .toast {
-            pointer-events: auto;
-            background: var(--bg-elevated);
-            color: var(--fg);
-            padding: 14px 20px;
-            border-radius: var(--radius-sm);
-            border: 1px solid var(--border);
-            box-shadow: 0 8px 32px rgba(0,0,0,0.5);
-            font-size: 14px;
-            line-height: 1.5;
-            cursor: pointer;
-            animation: slideUpToast 0.3s ease-out forwards;
-            display: flex;
-            align-items: flex-start;
-            gap: 10px;
-            word-break: break-word;
-        }
-
-        .toast.toast-exit {
-            animation: slideDownToast 0.25s ease-in forwards;
-        }
-
-        .toast-error {
-            border-left: 3px solid var(--danger);
-        }
-
-        .toast-success {
-            border-left: 3px solid var(--accent);
-        }
-
-        .toast i {
-            margin-top: 2px;
-            flex-shrink: 0;
-        }
-
-        /* ══════════════════════════════════════════
-           CONNECTION STATUS
-           ══════════════════════════════════════════ */
-        #connection-status {
-            position: fixed;
-            bottom: 16px;
-            left: 16px;
-            z-index: 9999;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            background: var(--bg-elevated);
-            border: 1px solid var(--border);
-            border-radius: 20px;
-            padding: 6px 14px;
-            font-size: 11px;
-            color: var(--fg-muted);
-            box-shadow: 0 4px 16px rgba(0,0,0,0.4);
-            transition: all 0.3s ease;
-        }
-
-        #connection-status .dot {
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            flex-shrink: 0;
-            transition: background 0.3s;
-        }
-
-        #connection-status.connected .dot {
-            background: var(--accent);
-            box-shadow: 0 0 8px var(--accent-glow);
-            animation: pulseDot 2s infinite;
-        }
-
-        #connection-status.offline .dot {
-            background: var(--danger);
-            box-shadow: 0 0 8px rgba(255, 68, 102, 0.4);
-            animation: pulseDotRed 1.5s infinite;
-        }
-
-        /* ══════════════════════════════════════════
-           HEADER / NAVIGATION
-           ══════════════════════════════════════════ */
-        header {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: var(--header-h);
-            z-index: 1000;
-            display: flex;
-            align-items: center;
-            padding: 0 32px;
-            background: rgba(8, 8, 13, 0.6);
-            backdrop-filter: blur(16px) saturate(1.4);
-            -webkit-backdrop-filter: blur(16px) saturate(1.4);
-            border-bottom: 1px solid transparent;
-            transition: background 0.3s, border-color 0.3s, box-shadow 0.3s;
-        }
-
-        header.scrolled {
-            background: rgba(8, 8, 13, 0.92);
-            border-bottom-color: var(--border);
-            box-shadow: 0 4px 24px rgba(0,0,0,0.4);
-        }
-
-        .nav-inner {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            width: 100%;
-            max-width: 1280px;
-            margin: 0 auto;
-        }
-
-        .logo {
-            font-family: var(--font-heading);
-            font-weight: 900;
-            font-size: 24px;
-            letter-spacing: -0.5px;
-            text-decoration: none;
-            display: flex;
-            align-items: center;
-            gap: 2px;
-        }
-
-        .logo-eddy {
-            color: var(--accent);
-        }
-
-        .logo-tech {
-            color: var(--fg);
-        }
-
-        .nav-links {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            list-style: none;
-        }
-
-        .nav-links a {
-            color: var(--fg-muted);
-            text-decoration: none;
-            font-size: 14px;
-            font-weight: 500;
-            padding: 8px 16px;
-            border-radius: var(--radius-sm);
-            transition: color 0.2s, background 0.2s;
-            position: relative;
-        }
-
-        .nav-links a:hover {
-            color: var(--fg);
-            background: rgba(255,255,255,0.04);
-        }
-
-        .nav-links a.active {
-            color: var(--accent);
-            background: rgba(0, 230, 138, 0.08);
-        }
-
-        .nav-right {
-            display: flex;
-            align-items: center;
-            gap: 16px;
-        }
-
-        .profile-circle {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            border: 2px solid var(--accent-dim);
-            overflow: hidden;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            transition: transform 0.25s, border-color 0.25s, box-shadow 0.25s;
-            background: var(--bg-card);
-            flex-shrink: 0;
-        }
-
-        .profile-circle:hover {
-            transform: scale(1.1);
-            border-color: var(--accent);
-            box-shadow: 0 0 16px var(--accent-glow);
-        }
-
-        .profile-circle img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            display: block;
-        }
-
-        .profile-circle .profile-letter {
-            font-family: var(--font-heading);
-            font-weight: 900;
-            font-size: 18px;
-            color: var(--accent);
-            line-height: 1;
-        }
-
-        /* Hamburger */
-        .hamburger {
-            display: none;
-            flex-direction: column;
-            gap: 5px;
-            cursor: pointer;
-            padding: 8px;
-            background: none;
-            border: none;
-            z-index: 1001;
-        }
-
-        .hamburger span {
-            display: block;
-            width: 24px;
-            height: 2px;
-            background: var(--fg);
-            border-radius: 2px;
-            transition: transform 0.3s, opacity 0.3s;
-            transform-origin: center;
-        }
-
-        .hamburger.open span:nth-child(1) {
-            transform: translateY(7px) rotate(45deg);
-        }
-
-        .hamburger.open span:nth-child(2) {
-            opacity: 0;
-        }
-
-        .hamburger.open span:nth-child(3) {
-            transform: translateY(-7px) rotate(-45deg);
-        }
-
-        /* Mobile Menu */
-        .mobile-menu {
-            display: none;
-            position: fixed;
-            top: var(--header-h);
-            left: 0;
-            right: 0;
-            background: rgba(8, 8, 13, 0.96);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border-bottom: 1px solid var(--border);
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.4s ease;
-            z-index: 999;
-        }
-
-        .mobile-menu.open {
-            max-height: 400px;
-        }
-
-        .mobile-menu a {
-            display: block;
-            padding: 14px 32px;
-            color: var(--fg-muted);
-            text-decoration: none;
-            font-size: 15px;
-            font-weight: 500;
-            border-bottom: 1px solid var(--border);
-            transition: color 0.2s, background 0.2s;
-        }
-
-        .mobile-menu a:hover,
-        .mobile-menu a.active {
-            color: var(--accent);
-            background: rgba(0, 230, 138, 0.05);
-        }
-
-        @media (max-width: 768px) {
-            header {
-                padding: 0 16px;
-            }
-
-            .nav-links {
-                display: none;
-            }
-
-            .hamburger {
-                display: flex;
-            }
-
-            .mobile-menu {
-                display: block;
-            }
-        }
-
-        /* ══════════════════════════════════════════
-           HERO SECTION
-           ══════════════════════════════════════════ */
-        #hero {
-            position: relative;
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            padding: 120px 24px 80px;
-            overflow: hidden;
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
-        }
-
-        .hero-overlay {
-            position: absolute;
-            inset: 0;
-            background: linear-gradient(180deg, rgba(8,8,13,0.85) 0%, rgba(8,8,13,0.7) 40%, rgba(8,8,13,0.95) 100%);
-            z-index: 1;
-            display: none;
-        }
-
-        .hero-grid-pattern {
-            position: absolute;
-            inset: 0;
-            z-index: 2;
-            opacity: 0.04;
-            background-image:
-                linear-gradient(rgba(255,255,255,0.3) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(255,255,255,0.3) 1px, transparent 1px);
-            background-size: 60px 60px;
-            pointer-events: none;
-        }
-
-        .hero-glow-1 {
-            position: absolute;
-            width: 600px;
-            height: 600px;
-            border-radius: 50%;
-            background: radial-gradient(circle, var(--accent-glow) 0%, transparent 70%);
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            z-index: 0;
-            animation: pulseGlow 4s ease-in-out infinite;
-            pointer-events: none;
-        }
-
-        .hero-glow-2 {
-            position: absolute;
-            width: 350px;
-            height: 350px;
-            border-radius: 50%;
-            background: radial-gradient(circle, rgba(0, 230, 138, 0.12) 0%, transparent 70%);
-            top: 35%;
-            right: 10%;
-            z-index: 0;
-            animation: pulseGlowSlow 6s ease-in-out infinite;
-            pointer-events: none;
-        }
-
-        .hero-content {
-            position: relative;
-            z-index: 3;
-            max-width: 720px;
-            animation: fadeUp 0.8s ease-out;
-        }
-
-        .hero-tag {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            background: rgba(0, 230, 138, 0.08);
-            border: 1px solid var(--border-accent);
-            border-radius: 50px;
-            padding: 8px 20px;
-            font-size: 13px;
-            color: var(--accent);
-            font-weight: 500;
-            margin-bottom: 28px;
-        }
-
-        .hero-tag .tag-dot {
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            background: var(--accent);
-            animation: pulseDot 2s infinite;
-        }
-
-        .hero-title {
-            font-family: var(--font-heading);
-            font-weight: 900;
-            font-size: clamp(36px, 6vw, 64px);
-            line-height: 1.1;
-            margin-bottom: 24px;
-            color: var(--fg);
-        }
-
-        .hero-title .highlight {
-            color: var(--accent);
-            position: relative;
-            display: inline-block;
-        }
-
-        .hero-title .highlight::after {
-            content: '';
-            position: absolute;
-            bottom: -4px;
-            left: 0;
-            width: 100%;
-            height: 3px;
-            background: var(--accent);
-            border-radius: 2px;
-            opacity: 0.5;
-        }
-
-        .hero-desc {
-            font-size: 16px;
-            color: var(--fg-muted);
-            line-height: 1.7;
-            margin-bottom: 36px;
-            max-width: 560px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-
-        .hero-btn {
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            background: var(--accent);
-            color: var(--bg);
-            font-family: var(--font-body);
-            font-weight: 600;
-            font-size: 15px;
-            padding: 14px 32px;
-            border-radius: 50px;
-            text-decoration: none;
-            border: none;
-            cursor: pointer;
-            box-shadow: var(--shadow-btn);
-            transition: box-shadow 0.3s, transform 0.2s;
-        }
-
-        .hero-btn:hover {
-            box-shadow: var(--shadow-btn-hover);
-            transform: translateY(-2px);
-        }
-
-        .hero-btn i {
-            transition: transform 0.3s;
-        }
-
-        .hero-btn:hover i {
-            animation: bounceDown 0.6s ease infinite;
-        }
-
-        /* ══════════════════════════════════════════
-           SECTION COMMON
-           ══════════════════════════════════════════ */
-        .section {
-            padding: 100px 24px;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        .section-label {
-            font-size: 13px;
-            font-weight: 600;
-            color: var(--accent);
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            margin-bottom: 12px;
-        }
-
-        .section-title {
-            font-family: var(--font-heading);
-            font-weight: 800;
-            font-size: clamp(28px, 4vw, 42px);
-            color: var(--fg);
-            margin-bottom: 48px;
-        }
-
-        /* Scroll reveal */
-        .reveal {
-            opacity: 0;
-            transform: translateY(30px);
-            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
-        }
-
-        .reveal.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        /* ══════════════════════════════════════════
-           ADS SECTION
-           ══════════════════════════════════════════ */
-        #ads-section {
-            display: none;
-            padding: 40px 24px 0;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        .ads-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 24px;
-        }
-
-        .ad-card {
-            background: var(--bg-card);
-            border: 1px solid var(--border);
-            border-radius: var(--radius);
-            overflow: hidden;
-            box-shadow: var(--shadow-card);
-            transition: box-shadow 0.3s, transform 0.3s;
-        }
-
-        .ad-card:hover {
-            box-shadow: var(--shadow-card-hover);
-        }
-
-        .ad-card.sz-large {
-            grid-column: 1 / -1;
-        }
-
-        .ad-card.sh-square {
-            border-radius: 4px;
-        }
-
-        .ad-card.sh-sharp {
-            border-radius: 0;
-        }
-
-        .ad-card .ad-media {
-            width: 100%;
-            overflow: hidden;
-            position: relative;
-        }
-
-        .ad-card .ad-media img {
-            width: 100%;
-            display: block;
-            transition: transform 0.4s;
-        }
-
-        .ad-card:hover .ad-media img {
-            transform: scale(1.03);
-        }
-
-        .ad-card .ad-media video {
-            width: 100%;
-            display: block;
-        }
-
-        .ad-card .ad-media iframe {
-            width: 100%;
-            aspect-ratio: 16/9;
-            border: none;
-            display: block;
-        }
-
-        .ad-card .ad-body {
-            padding: 20px;
-        }
-
-        .ad-body.ad-al-left {
-            text-align: left;
-        }
-
-        .ad-body.ad-al-center {
-            text-align: center;
-        }
-
-        .ad-body.ad-al-right {
-            text-align: right;
-        }
-
-        .ad-body h3 {
-            font-family: var(--font-heading);
-            font-weight: 700;
-            font-size: 18px;
-            color: var(--fg);
-            margin-bottom: 8px;
-        }
-
-        .ad-body p {
-            font-size: 14px;
-            color: var(--fg-muted);
-            line-height: 1.6;
-            margin-bottom: 14px;
-        }
-
-        .ad-link-btn {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            background: rgba(0, 230, 138, 0.1);
-            color: var(--accent);
-            font-size: 13px;
-            font-weight: 600;
-            padding: 8px 20px;
-            border-radius: 50px;
-            text-decoration: none;
-            border: 1px solid var(--border-accent);
-            transition: background 0.2s, gap 0.3s;
-        }
-
-        .ad-link-btn:hover {
-            background: rgba(0, 230, 138, 0.18);
-            gap: 12px;
-        }
-
-        /* ══════════════════════════════════════════
-           SERVICES SECTION
-           ══════════════════════════════════════════ */
-        .services-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-            gap: 24px;
-        }
-
-        .service-card {
-            background: var(--bg-card);
-            border: 1px solid var(--border);
-            border-radius: var(--radius);
-            padding: 32px 28px;
-            box-shadow: var(--shadow-card);
-            position: relative;
-            overflow: hidden;
-            transition: transform 0.35s, box-shadow 0.35s, border-color 0.35s;
-        }
-
-        .service-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 3px;
-            background: var(--accent);
-            transform: scaleX(0);
-            transform-origin: left;
-            transition: transform 0.4s ease;
-        }
-
-        .service-card:hover {
-            transform: translateY(-8px);
-            box-shadow: var(--shadow-card-hover);
-            border-color: var(--border-accent);
-        }
-
-        .service-card:hover::before {
-            transform: scaleX(1);
-        }
-
-        .service-card .svc-icon {
-            width: 52px;
-            height: 52px;
-            border-radius: var(--radius-sm);
-            background: rgba(0, 230, 138, 0.08);
-            border: 1px solid var(--border-accent);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 22px;
-            color: var(--accent);
-            margin-bottom: 20px;
-            transition: transform 0.3s, background 0.3s;
-        }
-
-        .service-card:hover .svc-icon {
-            transform: scale(1.1);
-            background: rgba(0, 230, 138, 0.14);
-        }
-
-        .service-card h3 {
-            font-family: var(--font-heading);
-            font-weight: 700;
-            font-size: 19px;
-            color: var(--fg);
-            margin-bottom: 12px;
-        }
-
-        .service-card p {
-            font-size: 14px;
-            color: var(--fg-muted);
-            line-height: 1.65;
-        }
-
-        /* ══════════════════════════════════════════
-           CONTACTS SECTION
-           ══════════════════════════════════════════ */
-        .contacts-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 24px;
-        }
-
-        .contact-card {
-            background: var(--bg-card);
-            border: 1px solid var(--border);
-            border-radius: var(--radius);
-            padding: 28px;
-            box-shadow: var(--shadow-card);
-            transition: transform 0.3s, box-shadow 0.3s;
-        }
-
-        .contact-card:hover {
-            transform: translateY(-4px);
-            box-shadow: var(--shadow-card-hover);
-        }
-
-        .contact-card .ct-icon {
-            width: 44px;
-            height: 44px;
-            border-radius: var(--radius-sm);
-            background: rgba(0, 230, 138, 0.08);
-            border: 1px solid var(--border-accent);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 18px;
-            color: var(--accent);
-            margin-bottom: 16px;
-        }
-
-        .contact-card h3 {
-            font-family: var(--font-heading);
-            font-weight: 700;
-            font-size: 16px;
-            color: var(--fg);
-            margin-bottom: 10px;
-        }
-
-        .contact-card .ct-value {
-            font-size: 14px;
-            color: var(--fg-muted);
-        }
-
-        .contact-card .ct-value a {
-            color: var(--fg-muted);
-            text-decoration: none;
-            transition: color 0.2s;
-        }
-
-        .contact-card .ct-value a:hover {
-            color: var(--accent);
-        }
-
-        .email-special-link {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            color: var(--accent) !important;
-            font-weight: 500;
-            border-bottom: 1px dashed var(--accent-dim);
-            padding-bottom: 2px;
-            transition: gap 0.3s;
-        }
-
-        .email-special-link:hover {
-            gap: 12px;
-        }
-
-        .email-special-link i {
-            font-size: 13px;
-        }
-
-        /* ══════════════════════════════════════════
-           MESSAGE SECTION
-           ══════════════════════════════════════════ */
-        .message-card {
-            background: var(--bg-card);
-            border: 1px solid var(--border);
-            border-radius: var(--radius);
-            padding: 36px;
-            box-shadow: var(--shadow-card);
-            max-width: 580px;
-            margin: 0 auto;
-        }
-
-        .form-group {
-            margin-bottom: 20px;
-        }
-
-        .form-group label {
-            display: block;
-            font-size: 13px;
-            font-weight: 600;
-            color: var(--fg-muted);
-            margin-bottom: 8px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
-        .form-group input,
-        .form-group textarea {
-            width: 100%;
-            background: var(--bg);
-            border: 1px solid var(--border);
-            border-radius: var(--radius-sm);
-            padding: 12px 16px;
-            color: var(--fg);
-            font-family: var(--font-body);
-            font-size: 14px;
-            transition: border-color 0.2s, box-shadow 0.2s;
-            outline: none;
-        }
-
-        .form-group input:focus,
-        .form-group textarea:focus {
-            border-color: var(--accent-dim);
-            box-shadow: 0 0 0 3px rgba(0, 230, 138, 0.1);
-        }
-
-        .form-group input::placeholder,
-        .form-group textarea::placeholder {
-            color: rgba(138, 138, 154, 0.5);
-        }
-
-        .form-group textarea {
-            min-height: 120px;
-            resize: vertical;
-        }
-
-        .btn-primary {
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            background: var(--accent);
-            color: var(--bg);
-            font-family: var(--font-body);
-            font-weight: 600;
-            font-size: 14px;
-            padding: 12px 28px;
-            border-radius: 50px;
-            border: none;
-            cursor: pointer;
-            box-shadow: var(--shadow-btn);
-            transition: box-shadow 0.3s, transform 0.2s, opacity 0.2s;
-        }
-
-        .btn-primary:hover:not(:disabled) {
-            box-shadow: var(--shadow-btn-hover);
-            transform: translateY(-1px);
-        }
-
-        .btn-primary:disabled {
-            opacity: 0.6;
-            cursor: not-allowed;
-        }
-
-        .btn-primary .spinner {
-            width: 16px;
-            height: 16px;
-            border: 2px solid transparent;
-            border-top-color: var(--bg);
-            border-radius: 50%;
-            animation: spin 0.6s linear infinite;
-            display: none;
-        }
-
-        .btn-primary.loading .spinner {
-            display: block;
-        }
-
-        .btn-primary.loading .btn-text {
-            display: none;
-        }
-
-        .msg-success {
-            background: rgba(0, 230, 138, 0.08);
-            border: 1px solid var(--border-accent);
-            border-radius: var(--radius-sm);
-            padding: 14px 20px;
-            color: var(--accent);
-            font-size: 14px;
-            margin-top: 16px;
-            animation: fadeUp 0.4s ease-out;
-            display: none;
-        }
-
-        .msg-success.show {
-            display: block;
-        }
-
-        /* ══════════════════════════════════════════
-           REVIEWS SECTION
-           ══════════════════════════════════════════ */
-        .review-form-card {
-            background: var(--bg-card);
-            border: 1px solid var(--border);
-            border-radius: var(--radius);
-            padding: 36px;
-            box-shadow: var(--shadow-card);
-            max-width: 580px;
-            margin: 0 auto 48px;
-        }
-
-        .star-rating-input {
-            display: flex;
-            gap: 6px;
-            margin-bottom: 20px;
-        }
-
-        .star-rating-input .star-btn {
-            background: none;
-            border: none;
-            cursor: pointer;
-            font-size: 28px;
-            color: rgba(255, 255, 255, 0.12);
-            transition: color 0.15s, transform 0.15s;
-            padding: 2px;
-            outline: none;
-        }
-
-        .star-rating-input .star-btn:hover {
-            transform: scale(1.15);
-        }
-
-        .star-rating-input .star-btn.active {
-            color: var(--gold);
-        }
-
-        .star-rating-input .star-btn.hovered {
-            color: var(--gold);
-            opacity: 0.75;
-        }
-
-        .star-rating-input .star-btn:focus-visible {
-            outline: 2px solid var(--accent);
-            outline-offset: 2px;
-            border-radius: 4px;
-        }
-
-        .reviews-list {
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-        }
-
-        .review-item {
-            background: var(--bg-card);
-            border: 1px solid var(--border);
-            border-radius: var(--radius);
-            padding: 24px;
-            box-shadow: var(--shadow-card);
-        }
-
-        .review-item .rev-header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-bottom: 12px;
-        }
-
-        .review-item .rev-name {
-            font-family: var(--font-heading);
-            font-weight: 700;
-            font-size: 16px;
-            color: var(--fg);
-        }
-
-        .review-item .rev-date {
-            font-size: 12px;
-            color: var(--fg-muted);
-        }
-
-        .review-item .rev-stars {
-            color: var(--gold);
-            font-size: 14px;
-            margin-bottom: 10px;
-            letter-spacing: 2px;
-        }
-
-        .review-item .rev-text {
-            font-size: 14px;
-            color: var(--fg-muted);
-            line-height: 1.65;
-        }
-
-        /* ══════════════════════════════════════════
-           FOOTER
-           ══════════════════════════════════════════ */
-        footer {
-            border-top: 1px solid var(--border);
-            padding: 32px 24px;
-            text-align: center;
-            color: var(--fg-muted);
-            font-size: 13px;
-        }
-
-        /* ══════════════════════════════════════════
-           RESPONSIVE
-           ══════════════════════════════════════════ */
-        @media (max-width: 640px) {
-            .section {
-                padding: 72px 16px;
-            }
-
-            .hero-content {
-                padding: 0 8px;
-            }
-
-            .services-grid,
-            .contacts-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .ads-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .message-card,
-            .review-form-card {
-                padding: 24px;
-            }
-
-            #connection-status {
-                font-size: 10px;
-                padding: 4px 10px;
-            }
-        }
-
-        @media (min-width: 769px) and (max-width: 1024px) {
-            .services-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EDDY TECH</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://code.iconify.design/3/3.1.0/iconify.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+:root{
+  --primary:#2563eb;--secondary:#1d4ed8;--accent:#60a5fa;
+  --bg:#050505;--bg2:#0a0a0a;--text:#fff;--text2:#9ca3af;
+  --card-bg:#111;--card-border:rgba(255,255,255,0.08);
+  --card-radius:16px;--card-pad:28px;--card-shadow:0 4px 24px rgba(0,0,0,0.4);
+  --font:'Inter',sans-serif;--cols:3;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{font-family:var(--font);background:var(--bg);color:var(--text);line-height:1.6;overflow-x:hidden;}
+a{color:var(--accent);text-decoration:none;transition:color .2s;}
+a:hover{color:#fff;}
+img{max-width:100%;display:block;}
+.container{max-width:1200px;margin:0 auto;padding:0 24px;}
+
+/* Loading */
+#loader{position:fixed;inset:0;z-index:9999;background:var(--bg);display:flex;align-items:center;justify-content:center;flex-direction:column;gap:16px;transition:opacity .4s;}
+#loader.hide{opacity:0;pointer-events:none;}
+.spinner{width:40px;height:40px;border:3px solid rgba(255,255,255,0.1);border-top-color:var(--primary);border-radius:50%;animation:spin .8s linear infinite;}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* Toast */
+#toasts{position:fixed;top:24px;right:24px;z-index:10000;display:flex;flex-direction:column;gap:8px;}
+.toast{padding:14px 24px;border-radius:12px;color:#fff;font-size:14px;font-weight:500;transform:translateX(120%);transition:transform .3s ease;backdrop-filter:blur(12px);max-width:360px;}
+.toast.show{transform:translateX(0);}
+.toast-success{background:rgba(34,197,94,0.9);}
+.toast-error{background:rgba(239,68,68,0.9);}
+.toast-info{background:rgba(37,99,235,0.9);}
+
+/* Nav */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:16px 0;transition:background .3s,backdrop-filter .3s;}
+nav.scrolled{background:rgba(5,5,5,0.85);backdrop-filter:blur(16px);border-bottom:1px solid rgba(255,255,255,0.06);}
+.nav-inner{display:flex;align-items:center;justify-content:space-between;}
+.nav-logo{font-size:20px;font-weight:700;letter-spacing:-0.03em;color:var(--text);}
+.nav-logo span{color:var(--accent);}
+.nav-links{display:flex;gap:32px;align-items:center;}
+.nav-links a{color:var(--text2);font-size:14px;font-weight:500;transition:color .2s;}
+.nav-links a:hover{color:var(--text);}
+.hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;background:none;border:none;padding:4px;}
+.hamburger span{width:24px;height:2px;background:var(--text);border-radius:2px;transition:.3s;}
+
+/* Hero */
+#hero{min-height:100vh;display:flex;align-items:center;justify-content:center;text-align:center;position:relative;overflow:hidden;padding:120px 24px 80px;}
+.hero-bg{position:absolute;inset:0;background-size:cover;background-position:center;filter:brightness(0.3);transition:background-image .5s;}
+.hero-overlay{position:absolute;inset:0;background:linear-gradient(to bottom,rgba(5,5,5,0.4),var(--bg));}
+.hero-content{position:relative;z-index:2;max-width:700px;}
+.profile-pic{width:120px;height:120px;border-radius:50%;border:3px solid var(--accent);margin:0 auto 24px;object-fit:cover;background:var(--card-bg);display:flex;align-items:center;justify-content:center;overflow:hidden;}
+.profile-pic img{width:100%;height:100%;object-fit:cover;}
+.profile-pic .placeholder-icon{font-size:48px;color:var(--text2);}
+.hero-title{font-size:clamp(32px,6vw,56px);font-weight:700;letter-spacing:-0.03em;line-height:1.1;margin-bottom:16px;background:linear-gradient(to right,#fff,var(--accent));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.hero-sub{font-size:clamp(16px,2.5vw,20px);color:var(--text2);font-weight:300;margin-bottom:36px;line-height:1.6;}
+.hero-btns{display:flex;gap:16px;justify-content:center;flex-wrap:wrap;}
+
+/* Buttons */
+.btn{display:inline-flex;align-items:center;gap:8px;padding:14px 32px;border-radius:12px;font-size:14px;font-weight:600;border:none;cursor:pointer;transition:all .25s;font-family:var(--font);}
+.btn-primary{background:var(--primary);color:#fff;box-shadow:0 0 24px rgba(37,99,235,0.4);}
+.btn-primary:hover{background:var(--secondary);box-shadow:0 0 32px rgba(37,99,235,0.6);transform:translateY(-2px);}
+.btn-secondary{background:rgba(255,255,255,0.06);color:var(--text);border:1px solid rgba(255,255,255,0.1);}
+.btn-secondary:hover{background:rgba(255,255,255,0.12);transform:translateY(-2px);}
+.btn-sm{padding:10px 20px;font-size:13px;border-radius:10px;}
+
+/* Sections */
+section{padding:100px 0;}
+.section-label{font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:0.15em;color:var(--accent);margin-bottom:12px;}
+.section-title{font-size:clamp(28px,4vw,40px);font-weight:600;letter-spacing:-0.02em;margin-bottom:16px;}
+.section-desc{color:var(--text2);font-size:16px;max-width:560px;margin-bottom:48px;}
+.section-header{text-align:center;display:flex;flex-direction:column;align-items:center;}
+
+/* Service Cards */
+.services-grid{display:grid;grid-template-columns:repeat(var(--cols),1fr);gap:24px;}
+.service-card{background:var(--card-bg);border:1px solid var(--card-border);border-radius:var(--card-radius);padding:var(--card-pad);box-shadow:var(--card-shadow);transition:all .35s;position:relative;overflow:hidden;}
+.service-card::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,255,255,0.03),transparent);pointer-events:none;}
+.service-card:hover{transform:translateY(-6px);box-shadow:0 12px 40px rgba(0,0,0,0.5);border-color:rgba(96,165,250,0.2);}
+.service-icon{font-size:40px;margin-bottom:20px;}
+.service-card h3{font-size:18px;font-weight:600;margin-bottom:10px;}
+.service-card p{color:var(--text2);font-size:14px;line-height:1.7;margin-bottom:16px;}
+.service-price{color:var(--accent);font-weight:600;font-size:15px;margin-bottom:16px;}
+
+/* Reviews */
+.reviews-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:24px;max-width:900px;margin:0 auto;}
+.review-card{background:var(--card-bg);border:1px solid var(--card-border);border-radius:var(--card-radius);padding:var(--card-pad);box-shadow:var(--card-shadow);}
+.review-header{display:flex;align-items:center;gap:12px;margin-bottom:12px;}
+.review-avatar{width:40px;height:40px;border-radius:50%;background:linear-gradient(135deg,var(--primary),var(--accent));display:flex;align-items:center;justify-content:center;font-weight:600;font-size:16px;color:#fff;flex-shrink:0;}
+.review-name{font-weight:600;font-size:15px;}
+.review-date{color:var(--text2);font-size:12px;}
+.stars{display:flex;gap:2px;margin-bottom:10px;}
+.star{color:#fbbf24;font-size:18px;}
+.star.empty{color:rgba(255,255,255,0.1);}
+.review-comment{color:var(--text2);font-size:14px;line-height:1.7;}
+
+/* Review Form */
+.review-form{max-width:560px;margin:48px auto 0;background:var(--card-bg);border:1px solid var(--card-border);border-radius:var(--card-radius);padding:var(--card-pad);}
+.form-group{margin-bottom:20px;}
+.form-group label{display:block;font-size:13px;font-weight:500;color:var(--text2);margin-bottom:8px;}
+.form-group input,.form-group select,.form-group textarea{width:100%;padding:12px 16px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.1);border-radius:10px;color:var(--text);font-size:14px;font-family:var(--font);transition:border-color .2s;outline:none;}
+.form-group input:focus,.form-group select:focus,.form-group textarea:focus{border-color:var(--accent);}
+.form-group textarea{resize:vertical;min-height:80px;}
+.form-group select option{background:var(--card-bg);color:var(--text);}
+.star-input{display:flex;gap:6px;cursor:pointer;}
+.star-input .star-btn{font-size:28px;color:rgba(255,255,255,0.15);background:none;border:none;cursor:pointer;transition:color .15s;padding:0;}
+.star-input .star-btn.active,.star-input .star-btn.hover{color:#fbbf24;}
+
+/* Booking */
+.booking-wrapper{max-width:600px;margin:0 auto;background:var(--card-bg);border:1px solid var(--card-border);border-radius:var(--card-radius);padding:var(--card-pad);box-shadow:var(--card-shadow);}
+
+/* Ads */
+.ads-carousel{display:flex;gap:20px;overflow-x:auto;padding:20px 0;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;scrollbar-width:none;}
+.ads-carousel::-webkit-scrollbar{display:none;}
+.ad-card{flex:0 0 360px;height:240px;border-radius:var(--card-radius);overflow:hidden;scroll-snap-align:start;position:relative;background:var(--card-bg);border:1px solid var(--card-border);}
+.ad-card img,.ad-card video{width:100%;height:100%;object-fit:cover;}
+.ad-card .ad-title{position:absolute;bottom:0;left:0;right:0;padding:16px;background:linear-gradient(transparent,rgba(0,0,0,0.8));font-size:14px;font-weight:500;}
+
+/* Contact */
+.contact-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:24px;max-width:800px;margin:0 auto;}
+.contact-card{background:var(--card-bg);border:1px solid var(--card-border);border-radius:var(--card-radius);padding:28px;text-align:center;transition:all .3s;}
+.contact-card:hover{transform:translateY(-4px);border-color:rgba(96,165,250,0.2);}
+.contact-icon{font-size:28px;color:var(--accent);margin-bottom:12px;}
+.contact-card h4{font-size:14px;font-weight:600;margin-bottom:6px;}
+.contact-card p{color:var(--text2);font-size:14px;word-break:break-all;}
+
+/* Footer */
+footer{border-top:1px solid rgba(255,255,255,0.06);padding:40px 0;text-align:center;}
+footer p{color:var(--text2);font-size:13px;}
+
+/* Empty state */
+.empty-state{text-align:center;padding:60px 24px;color:var(--text2);}
+.empty-state .iconify{font-size:48px;margin-bottom:16px;opacity:0.3;}
+
+/* Mobile nav */
+.mobile-menu{display:none;position:fixed;inset:0;z-index:99;background:rgba(5,5,5,0.97);backdrop-filter:blur(20px);flex-direction:column;align-items:center;justify-content:center;gap:32px;}
+.mobile-menu.open{display:flex;}
+.mobile-menu a{font-size:20px;font-weight:500;color:var(--text2);}
+
+/* Reveal animation */
+.reveal{opacity:0;transform:translateY(30px);transition:all .7s cubic-bezier(0.16,1,0.3,1);}
+.reveal.visible{opacity:1;transform:translateY(0);}
+
+@media(max-width:768px){
+  .nav-links{display:none;}
+  .hamburger{display:flex;}
+  .services-grid{grid-template-columns:1fr!important;}
+  .ad-card{flex:0 0 280px;height:200px;}
+  section{padding:70px 0;}
+}
+</style>
 </head>
 <body>
 
-    <!-- Toast Container -->
-    <div id="toast-container"></div>
+<div id="loader"><div class="spinner"></div><p style="color:var(--text2);font-size:14px;">Loading...</p></div>
+<div id="toasts"></div>
 
-    <!-- Connection Status -->
-    <div id="connection-status" class="offline">
-        <span class="dot"></span>
-        <span class="status-text">Connecting...</span>
+<!-- Mobile Menu -->
+<div class="mobile-menu" id="mobileMenu">
+  <a href="#services-section" onclick="closeMobile()">Services</a>
+  <a href="#reviews-section" onclick="closeMobile()">Reviews</a>
+  <a href="#booking-section" onclick="closeMobile()">Book</a>
+  <a href="#ads-section" onclick="closeMobile()">Featured</a>
+  <a href="#contact-section" onclick="closeMobile()">Contact</a>
+</div>
+
+<!-- Nav -->
+<nav id="navbar">
+  <div class="container nav-inner">
+    <div class="nav-logo">EDDY <span>TECH</span></div>
+    <div class="nav-links">
+      <a href="#services-section">Services</a>
+      <a href="#reviews-section">Reviews</a>
+      <a href="#booking-section">Book</a>
+      <a href="#ads-section">Featured</a>
+      <a href="#contact-section">Contact</a>
     </div>
+    <button class="hamburger" onclick="toggleMobile()" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
 
-    <!-- Header -->
-    <header id="main-header">
-        <nav class="nav-inner">
-            <a href="#hero" class="logo">
-                <span class="logo-eddy">EDDY</span><span class="logo-tech">TECH</span>
-            </a>
-            <ul class="nav-links" id="nav-links">
-                <li><a href="#hero" class="active" data-section="hero">Home</a></li>
-                <li><a href="#services" data-section="services">Services</a></li>
-                <li><a href="#contacts" data-section="contacts">Contact</a></li>
-                <li><a href="#messages" data-section="messages">Message</a></li>
-                <li><a href="#reviews" data-section="reviews">Reviews</a></li>
-            </ul>
-            <div class="nav-right">
-                <div class="profile-circle" id="profile-circle" title="Profile">
-                    <span class="profile-letter">E</span>
-                </div>
-                <button class="hamburger" id="hamburger-btn" aria-label="Toggle menu">
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                </button>
-            </div>
-        </nav>
-    </header>
-
-    <!-- Mobile Menu -->
-    <div class="mobile-menu" id="mobile-menu">
-        <a href="#hero" class="active" data-section="hero">Home</a>
-        <a href="#services" data-section="services">Services</a>
-        <a href="#contacts" data-section="contacts">Contact</a>
-        <a href="#messages" data-section="messages">Message</a>
-        <a href="#reviews" data-section="reviews">Reviews</a>
+<!-- Hero -->
+<section id="hero">
+  <div class="hero-bg" id="heroBg"></div>
+  <div class="hero-overlay"></div>
+  <div class="hero-content">
+    <div class="profile-pic" id="profilePic"><span class="placeholder-icon iconify" data-icon="lucide:user"></span></div>
+    <h1 class="hero-title" id="heroTitle">Welcome to EDDY TECH</h1>
+    <p class="hero-sub" id="heroSub">We deliver innovative technology services tailored to your needs</p>
+    <div class="hero-btns">
+      <a href="#services-section" class="btn btn-primary"><span class="iconify" data-icon="lucide:grid-3x3"></span> View Services</a>
+      <a href="#contact-section" class="btn btn-secondary"><span class="iconify" data-icon="lucide:mail"></span> Contact Us</a>
     </div>
+  </div>
+</section>
 
-    <!-- Hero Section -->
-    <section id="hero">
-        <div class="hero-overlay" id="hero-overlay"></div>
-        <div class="hero-grid-pattern"></div>
-        <div class="hero-glow-1"></div>
-        <div class="hero-glow-2"></div>
-        <div class="hero-content">
-            <div class="hero-tag">
-                <span class="tag-dot"></span>
-                <span id="hero-tagline">Digital Solutions by Eddy</span>
-            </div>
-            <h1 class="hero-title" id="hero-title">Welcome to <span class="highlight" id="hero-highlight">EDDY TECH</span></h1>
-            <p class="hero-desc" id="hero-desc">Founded by Eddy — the owner of AMBO MARKET, the premier local platform to buy and sell things. We bring your digital vision to life with professional precision.</p>
-            <a href="#services" class="hero-btn" id="hero-btn">
-                <span class="btn-text">Explore Services</span>
-                <i class="fas fa-arrow-down"></i>
-            </a>
+<!-- Services -->
+<section id="services-section">
+  <div class="container">
+    <div class="section-header reveal">
+      <p class="section-label">What We Offer</p>
+      <h2 class="section-title" id="servicesTitle">Our Services</h2>
+      <p class="section-desc" id="servicesDesc">Choose from our range of professional technology services</p>
+    </div>
+    <div class="services-grid reveal" id="servicesGrid"></div>
+  </div>
+</section>
+
+<!-- Reviews -->
+<section id="reviews-section" style="background:var(--bg2);">
+  <div class="container">
+    <div class="section-header reveal">
+      <p class="section-label">Testimonials</p>
+      <h2 class="section-title" id="reviewsTitle">Client Reviews</h2>
+    </div>
+    <div class="reviews-grid reveal" id="reviewsGrid"></div>
+    <div class="review-form reveal" id="reviewForm">
+      <h3 style="font-size:18px;font-weight:600;margin-bottom:24px;">Leave a Review</h3>
+      <form onsubmit="submitReview(event)">
+        <div class="form-group">
+          <label>Your Name</label>
+          <input type="text" id="revName" required placeholder="John Doe">
         </div>
-    </section>
-
-    <!-- Ads Section -->
-    <section id="ads-section">
-        <div class="ads-grid" id="ads-grid"></div>
-    </section>
-
-    <!-- Services Section -->
-    <section id="services" class="section">
-        <div class="reveal">
-            <p class="section-label" id="services-label">What We Do</p>
-            <h2 class="section-title" id="services-title">Our Services</h2>
+        <div class="form-group">
+          <label>Select Service (optional)</label>
+          <select id="revService"><option value="">General Review</option></select>
         </div>
-        <div class="services-grid" id="services-grid">
-            <!-- Skeleton placeholders -->
-            <div class="skeleton-card reveal"><div class="skeleton" style="width:52px;height:52px;border-radius:8px;margin-bottom:20px;"></div><div class="skeleton" style="width:60%;height:20px;margin-bottom:12px;"></div><div class="skeleton" style="width:100%;height:14px;margin-bottom:8px;"></div><div class="skeleton" style="width:85%;height:14px;"></div></div>
-            <div class="skeleton-card reveal"><div class="skeleton" style="width:52px;height:52px;border-radius:8px;margin-bottom:20px;"></div><div class="skeleton" style="width:70%;height:20px;margin-bottom:12px;"></div><div class="skeleton" style="width:100%;height:14px;margin-bottom:8px;"></div><div class="skeleton" style="width:90%;height:14px;"></div></div>
-            <div class="skeleton-card reveal"><div class="skeleton" style="width:52px;height:52px;border-radius:8px;margin-bottom:20px;"></div><div class="skeleton" style="width:50%;height:20px;margin-bottom:12px;"></div><div class="skeleton" style="width:100%;height:14px;margin-bottom:8px;"></div><div class="skeleton" style="width:80%;height:14px;"></div></div>
-            <div class="skeleton-card reveal"><div class="skeleton" style="width:52px;height:52px;border-radius:8px;margin-bottom:20px;"></div><div class="skeleton" style="width:65%;height:20px;margin-bottom:12px;"></div><div class="skeleton" style="width:100%;height:14px;margin-bottom:8px;"></div><div class="skeleton" style="width:75%;height:14px;"></div></div>
+        <div class="form-group">
+          <label>Rating</label>
+          <div class="star-input" id="starInput">
+            <button type="button" class="star-btn" data-val="1">★</button>
+            <button type="button" class="star-btn" data-val="2">★</button>
+            <button type="button" class="star-btn" data-val="3">★</button>
+            <button type="button" class="star-btn" data-val="4">★</button>
+            <button type="button" class="star-btn" data-val="5">★</button>
+          </div>
         </div>
-    </section>
-
-    <!-- Contacts Section -->
-    <section id="contacts" class="section">
-        <div class="reveal">
-            <p class="section-label" id="contacts-label">Reach Out</p>
-            <h2 class="section-title" id="contacts-title">Get In Touch</h2>
+        <div class="form-group">
+          <label>Your Comment</label>
+          <textarea id="revComment" required placeholder="Tell us about your experience..."></textarea>
         </div>
-        <div class="contacts-grid" id="contacts-grid">
-            <!-- Skeleton placeholders -->
-            <div class="skeleton-card reveal"><div class="skeleton" style="width:44px;height:44px;border-radius:8px;margin-bottom:16px;"></div><div class="skeleton" style="width:50%;height:16px;margin-bottom:10px;"></div><div class="skeleton" style="width:70%;height:14px;"></div></div>
-            <div class="skeleton-card reveal"><div class="skeleton" style="width:44px;height:44px;border-radius:8px;margin-bottom:16px;"></div><div class="skeleton" style="width:40%;height:16px;margin-bottom:10px;"></div><div class="skeleton" style="width:80%;height:14px;"></div></div>
-            <div class="skeleton-card reveal"><div class="skeleton" style="width:44px;height:44px;border-radius:8px;margin-bottom:16px;"></div><div class="skeleton" style="width:45%;height:16px;margin-bottom:10px;"></div><div class="skeleton" style="width:60%;height:14px;"></div></div>
+        <button type="submit" class="btn btn-primary" style="width:100%;justify-content:center;">Submit Review</button>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- Booking -->
+<section id="booking-section">
+  <div class="container">
+    <div class="section-header reveal">
+      <p class="section-label">Schedule</p>
+      <h2 class="section-title">Book a Service</h2>
+      <p class="section-desc">Fill out the form below and we'll get back to you shortly</p>
+    </div>
+    <div class="booking-wrapper reveal">
+      <form onsubmit="submitBooking(event)">
+        <div class="form-group">
+          <label>Select Service</label>
+          <select id="bookService" required><option value="">Choose a service...</option></select>
         </div>
-    </section>
-
-    <!-- Messages Section -->
-    <section id="messages" class="section">
-        <div class="reveal">
-            <p class="section-label" id="messages-label">Send a Message</p>
-            <h2 class="section-title" id="messages-title">Get In Touch With Us</h2>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
+          <div class="form-group"><label>Full Name</label><input type="text" id="bookName" required placeholder="John Doe"></div>
+          <div class="form-group"><label>Phone</label><input type="tel" id="bookPhone" placeholder="+251..."></div>
         </div>
-        <div class="message-card reveal">
-            <form id="message-form" novalidate>
-                <div class="form-group">
-                    <label for="msg-name">Name *</label>
-                    <input type="text" id="msg-name" placeholder="Your name" maxlength="100" required>
-                </div>
-                <div class="form-group">
-                    <label for="msg-email">Email</label>
-                    <input type="email" id="msg-email" placeholder="you@example.com" maxlength="200">
-                </div>
-                <div class="form-group">
-                    <label for="msg-text">Message *</label>
-                    <textarea id="msg-text" placeholder="Write your message here..." maxlength="2000" required></textarea>
-                </div>
-                <button type="submit" class="btn-primary" id="msg-submit-btn">
-                    <span class="btn-text">Send Message</span>
-                    <span class="spinner"></span>
-                    <i class="fas fa-paper-plane btn-text"></i>
-                </button>
-            </form>
-            <div class="msg-success" id="msg-success">
-                <i class="fas fa-check-circle"></i> Your message has been sent successfully!
-            </div>
-        </div>
-    </section>
-
-    <!-- Reviews Section -->
-    <section id="reviews" class="section">
-        <div class="reveal">
-            <p class="section-label" id="reviews-label">Testimonials</p>
-            <h2 class="section-title" id="reviews-title">Client Reviews</h2>
-        </div>
-        <div class="review-form-card reveal">
-            <div class="star-rating-input" id="star-input" role="radiogroup" aria-label="Rating">
-                <button type="button" class="star-btn" data-value="1" role="radio" aria-label="1 star" tabindex="0"><i class="fas fa-star"></i></button>
-                <button type="button" class="star-btn" data-value="2" role="radio" aria-label="2 stars" tabindex="0"><i class="fas fa-star"></i></button>
-                <button type="button" class="star-btn" data-value="3" role="radio" aria-label="3 stars" tabindex="0"><i class="fas fa-star"></i></button>
-                <button type="button" class="star-btn" data-value="4" role="radio" aria-label="4 stars" tabindex="0"><i class="fas fa-star"></i></button>
-                <button type="button" class="star-btn" data-value="5" role="radio" aria-label="5 stars" tabindex="0"><i class="fas fa-star"></i></button>
-            </div>
-            <div class="form-group">
-                <label for="rev-name">Name *</label>
-                <input type="text" id="rev-name" placeholder="Your name" maxlength="100" required>
-            </div>
-            <div class="form-group">
-                <label for="rev-text">Your Review *</label>
-                <textarea id="rev-text" placeholder="Share your experience..." maxlength="2000" required></textarea>
-            </div>
-            <button type="button" class="btn-primary" id="rev-submit-btn">
-                <span class="btn-text">Submit Review</span>
-                <span class="spinner"></span>
-                <i class="fas fa-star btn-text"></i>
-            </button>
-        </div>
-        <div class="reviews-list" id="reviews-list">
-            <!-- Skeleton placeholders -->
-            <div class="review-item reveal"><div class="rev-header"><div class="skeleton" style="width:120px;height:18px;"></div><div class="skeleton" style="width:80px;height:14px;"></div></div><div class="skeleton" style="width:100px;height:16px;margin-bottom:10px;"></div><div class="skeleton" style="width:100%;height:14px;margin-bottom:6px;"></div><div class="skeleton" style="width:75%;height:14px;"></div></div>
-            <div class="review-item reveal"><div class="rev-header"><div class="skeleton" style="width:140px;height:18px;"></div><div class="skeleton" style="width:80px;height:14px;"></div></div><div class="skeleton" style="width:100px;height:16px;margin-bottom:10px;"></div><div class="skeleton" style="width:100%;height:14px;margin-bottom:6px;"></div><div class="skeleton" style="width:85%;height:14px;"></div></div>
-            <div class="review-item reveal"><div class="rev-header"><div class="skeleton" style="width:110px;height:18px;"></div><div class="skeleton" style="width:80px;height:14px;"></div></div><div class="skeleton" style="width:80px;height:16px;margin-bottom:10px;"></div><div class="skeleton" style="width:100%;height:14px;margin-bottom:6px;"></div><div class="skeleton" style="width:70%;height:14px;"></div></div>
-        </div>
-    </section>
-
-    <!-- Footer -->
-    <footer>
-        <p id="footer-text">&copy; 2025 EDDY TECH. All rights reserved.</p>
-    </footer>
-
-    <script>
-        /* ══════════════════════════════════════════
-           CONFIGURATION & CONSTANTS
-           ══════════════════════════════════════════ */
-        const SUPABASE_URL = 'https://kyhgwsatvkazvtdqbmeb.supabase.co';
-        const SUPABASE_KEY = 'sb_publishable_wvwTKSI76Rfkzh8sC3uW0g_V_0C8xb7';
-        const REST_BASE = SUPABASE_URL + '/rest/v1/';
-        const DEFAULT_MAILTO = 'mailto:eddygech@gmail.com?subject=Eddytech%20contact%20&body=Founded%20by%20Eddy%20%E2%80%94%20the%20owner%20of%20AMBO%20MARKET%2C%20the%20premier%20local%20platform%20to%20buy%20and%20sell%20things.%20We%20bring%20your%20digital%20vision%20to%20life%20with%20professional%20precision.%0A%7BGEDION%20GETACEHW%7D';
-
-        /* ══════════════════════════════════════════
-           FALLBACK DATA
-           ══════════════════════════════════════════ */
-        const FALLBACK_SERVICES = [
-            { id: 1, title: 'Website Development', description: 'We build fast, responsive, and modern websites that elevate your brand and convert visitors into loyal customers. From landing pages to full-stack web applications, we deliver pixel-perfect results.', icon: 'fa-code', sort_order: 1 },
-            { id: 2, title: 'Video & Image Editing', description: 'Professional photo retouching, color grading, and video editing that transforms raw footage into polished, shareable content that captivates your audience.', icon: 'fa-film', sort_order: 2 },
-            { id: 3, title: 'Promo Videos', description: 'Eye-catching promotional videos crafted to showcase your products, services, or events. We handle scripting, shooting, and post-production for maximum impact.', icon: 'fa-video', sort_order: 3 },
-            { id: 4, title: 'Event Media Coverage', description: 'Complete event documentation including live photography, video coverage, and real-time social media content creation to capture every important moment.', icon: 'fa-camera', sort_order: 4 }
-        ];
-
-        const FALLBACK_CONTACTS = [
-            { id: 1, icon: 'fa-phone', title: 'Phone', value: '+251959634128', link: 'tel:+251959634128', sort_order: 1 },
-            { id: 2, icon: 'fa-envelope', title: 'Email', value: 'eddygech@gmail.com', link: DEFAULT_MAILTO, sort_order: 2 },
-            { id: 3, icon: 'fa-paper-plane', title: 'Telegram', value: '@Threecreatives3c', link: 'https://t.me/Threecreatives3c', sort_order: 3 }
-        ];
-
-        const FALLBACK_REVIEWS = [
-            { id: 1, name: 'Abel Tadesse', rating: 5, text: 'EDDY TECH delivered an incredible website for my business. The design was modern, the code was clean, and the whole process was smooth from start to finish. Highly recommended for anyone looking for quality web development.', review_date: '2025-01-15', created_at: '2025-01-15T10:00:00Z' },
-            { id: 2, name: 'Hanna Mekonnen', rating: 5, text: 'Their video editing skills are top-notch. They turned our raw event footage into a stunning promotional video that got us so many compliments. Professional team with real talent.', review_date: '2025-02-20', created_at: '2025-02-20T14:30:00Z' },
-            { id: 3, name: 'Dawit Assefa', rating: 4, text: 'Great service and fast turnaround. The promo video they created for our product launch exceeded expectations. Communication was clear and they delivered right on schedule.', review_date: '2025-03-10', created_at: '2025-03-10T09:15:00Z' }
-        ];
-
-        const FALLBACK_SETTINGS = {
-            hero_text: 'Founded by Eddy — the owner of AMBO MARKET, the premier local platform to buy and sell things. We bring your digital vision to life with professional precision.',
-            profile_image: '',
-            background_image: ''
-        };
-
-        const FALLBACK_PAGE_CONTENT = {
-            hero_tagline: 'Digital Solutions by Eddy',
-            hero_title: 'Welcome to EDDY TECH',
-            hero_title_highlight: 'EDDY TECH',
-            hero_button_text: 'Explore Services',
-            services_label: 'What We Do',
-            services_title: 'Our Services',
-            contacts_label: 'Reach Out',
-            contacts_title: 'Get In Touch',
-            messages_label: 'Send a Message',
-            messages_title: 'Get In Touch With Us',
-            reviews_label: 'Testimonials',
-            reviews_title: 'Client Reviews',
-            footer_text: '\u00A9 2025 EDDY TECH. All rights reserved.'
-        };
-
-        /* ══════════════════════════════════════════
-           FETCH HELPER
-           ══════════════════════════════════════════ */
-        async function supabaseFetch(url, options) {
-            const headers = {
-                'apikey': SUPABASE_KEY,
-                'Authorization': 'Bearer ' + SUPABASE_KEY,
-                ...(options && options.headers ? options.headers : {})
-            };
-            const opts = {
-                ...(options || {}),
-                headers: headers
-            };
-            try {
-                const response = await fetch(url, opts);
-                if (!response.ok) {
-                    let errMsg = response.statusText;
-                    try {
-                        const errData = await response.json();
-                        errMsg = errData.message || errData.msg || errMsg;
-                    } catch (e) {
-                        /* use statusText */
-                    }
-                    throw new Error(errMsg + ' (HTTP ' + response.status + ')');
-                }
-                const text = await response.text();
-                if (!text) return [];
-                return JSON.parse(text);
-            } catch (err) {
-                if (err instanceof SyntaxError) {
-                    return [];
-                }
-                throw err;
-            }
-        }
-
-        /* ══════════════════════════════════════════
-           TOAST SYSTEM
-           ══════════════════════════════════════════ */
-        function showToast(message, type) {
-            type = type || 'error';
-            const container = document.getElementById('toast-container');
-            const toast = document.createElement('div');
-            toast.className = 'toast toast-' + type;
-            const iconClass = type === 'success' ? 'fa-check-circle' : 'fa-exclamation-circle';
-            const iconColor = type === 'success' ? 'var(--accent)' : 'var(--danger)';
-            toast.innerHTML = '<i class="fas ' + iconClass + '" style="color:' + iconColor + '"></i><span>' + escapeHtml(message) + '</span>';
-            toast.addEventListener('click', function() {
-                dismissToast(toast);
-            });
-            container.appendChild(toast);
-            setTimeout(function() {
-                dismissToast(toast);
-            }, 4000);
-        }
-
-        function dismissToast(toast) {
-            if (toast.classList.contains('toast-exit')) return;
-            toast.classList.add('toast-exit');
-            setTimeout(function() {
-                if (toast.parentNode) toast.parentNode.removeChild(toast);
-            }, 250);
-        }
-
-        function escapeHtml(str) {
-            var div = document.createElement('div');
-            div.appendChild(document.createTextNode(str));
-            return div.innerHTML;
-        }
-
-        /* ══════════════════════════════════════════
-           CONNECTION STATUS
-           ══════════════════════════════════════════ */
-        function setConnectionStatus(connected, message) {
-            var el = document.getElementById('connection-status');
-            var textEl = el.querySelector('.status-text');
-            if (connected) {
-                el.className = 'connected';
-                textEl.textContent = 'Connected to database';
-            } else {
-                el.className = 'offline';
-                textEl.textContent = 'Offline \u2014 ' + (message || 'Unknown error');
-            }
-        }
-
-        /* ══════════════════════════════════════════
-           HEADER SCROLL BEHAVIOR
-           ══════════════════════════════════════════ */
-        var headerEl = document.getElementById('main-header');
-
-        function handleHeaderScroll() {
-            if (window.scrollY > 20) {
-                headerEl.classList.add('scrolled');
-            } else {
-                headerEl.classList.remove('scrolled');
-            }
-        }
-
-        window.addEventListener('scroll', handleHeaderScroll, { passive: true });
-
-        /* ══════════════════════════════════════════
-           ACTIVE NAV TRACKING
-           ══════════════════════════════════════════ */
-        var sections = ['hero', 'services', 'contacts', 'messages', 'reviews'];
-        var navLinksDesktop = document.querySelectorAll('#nav-links a');
-        var navLinksMobile = document.querySelectorAll('#mobile-menu a');
-        var currentActiveSection = 'hero';
-        var ticking = false;
-
-        function updateActiveNav() {
-            var scrollPos = window.scrollY + 120;
-            var newActive = 'hero';
-            for (var i = sections.length - 1; i >= 0; i--) {
-                var sec = document.getElementById(sections[i]);
-                if (sec && sec.offsetTop <= scrollPos) {
-                    newActive = sections[i];
-                    break;
-                }
-            }
-            if (newActive !== currentActiveSection) {
-                currentActiveSection = newActive;
-                navLinksDesktop.forEach(function(link) {
-                    link.classList.toggle('active', link.getAttribute('data-section') === newActive);
-                });
-                navLinksMobile.forEach(function(link) {
-                    link.classList.toggle('active', link.getAttribute('data-section') === newActive);
-                });
-            }
-            ticking = false;
-        }
-
-        window.addEventListener('scroll', function() {
-            if (!ticking) {
-                requestAnimationFrame(updateActiveNav);
-                ticking = true;
-            }
-        }, { passive: true });
-
-        /* ══════════════════════════════════════════
-           HAMBURGER MENU
-           ══════════════════════════════════════════ */
-        var hamburgerBtn = document.getElementById('hamburger-btn');
-        var mobileMenu = document.getElementById('mobile-menu');
-
-        hamburgerBtn.addEventListener('click', function() {
-            hamburgerBtn.classList.toggle('open');
-            mobileMenu.classList.toggle('open');
-        });
-
-        navLinksMobile.forEach(function(link) {
-            link.addEventListener('click', function() {
-                hamburgerBtn.classList.remove('open');
-                mobileMenu.classList.remove('open');
-            });
-        });
-
-        document.addEventListener('click', function(e) {
-            if (!mobileMenu.contains(e.target) && !hamburgerBtn.contains(e.target)) {
-                hamburgerBtn.classList.remove('open');
-                mobileMenu.classList.remove('open');
-            }
-        });
-
-        document.addEventListener('keydown', function(e) {
-            if (e.key === 'Escape') {
-                hamburgerBtn.classList.remove('open');
-                mobileMenu.classList.remove('open');
-            }
-        });
-
-        /* ══════════════════════════════════════════
-           SCROLL REVEAL (IntersectionObserver)
-           ══════════════════════════════════════════ */
-        function initScrollReveal() {
-            var observer = new IntersectionObserver(function(entries) {
-                entries.forEach(function(entry) {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add('visible');
-                        observer.unobserve(entry.target);
-                    }
-                });
-            }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
-
-            document.querySelectorAll('.reveal').forEach(function(el) {
-                observer.observe(el);
-            });
-        }
-
-        /* ══════════════════════════════════════════
-           PROFILE IMAGE
-           ══════════════════════════════════════════ */
-        function setProfileImage(imageUrl) {
-            var circle = document.getElementById('profile-circle');
-            circle.innerHTML = '';
-            if (imageUrl && imageUrl.trim() !== '') {
-                var img = document.createElement('img');
-                img.src = imageUrl;
-                img.alt = 'Profile';
-                img.addEventListener('error', function() {
-                    circle.innerHTML = '<span class="profile-letter">E</span>';
-                });
-                circle.appendChild(img);
-            } else {
-                circle.innerHTML = '<span class="profile-letter">E</span>';
-            }
-        }
-
-        /* ══════════════════════════════════════════
-           FAVICON UPDATE
-           ══════════════════════════════════════════ */
-        function updateFavicons(imageUrl) {
-            if (imageUrl && imageUrl.trim() !== '') {
-                var f32 = document.getElementById('favicon-32');
-                var f16 = document.getElementById('favicon-16');
-                var fApple = document.getElementById('favicon-apple');
-                if (f32) f32.href = imageUrl;
-                if (f16) f16.href = imageUrl;
-                if (fApple) fApple.href = imageUrl;
-            }
-        }
-
-        /* ══════════════════════════════════════════
-           RENDER SERVICES
-           ══════════════════════════════════════════ */
-        function renderServices(services) {
-            var grid = document.getElementById('services-grid');
-            grid.innerHTML = '';
-            services.sort(function(a, b) {
-                return (a.sort_order || 0) - (b.sort_order || 0) || a.id - b.id;
-            });
-            services.forEach(function(svc) {
-                var card = document.createElement('div');
-                card.className = 'service-card reveal';
-                card.innerHTML = '<div class="svc-icon"><i class="fas ' + escapeHtml(svc.icon || 'fa-gear') + '"></i></div>' +
-                    '<h3>' + escapeHtml(svc.title) + '</h3>' +
-                    '<p>' + escapeHtml(svc.description) + '</p>';
-                grid.appendChild(card);
-            });
-            initScrollReveal();
-        }
-
-        /* ══════════════════════════════════════════
-           RENDER CONTACTS
-           ══════════════════════════════════════════ */
-        function renderContacts(contacts) {
-            var grid = document.getElementById('contacts-grid');
-            grid.innerHTML = '';
-            contacts.sort(function(a, b) {
-                return (a.sort_order || 0) - (b.sort_order || 0) || a.id - b.id;
-            });
-            contacts.forEach(function(ct) {
-                var card = document.createElement('div');
-                card.className = 'contact-card reveal';
-                var valueHtml = '';
-                var link = ct.link || '';
-                if (link !== '' && link.startsWith('mailto:')) {
-                    var finalMailto = link;
-                    if (finalMailto.indexOf('?') === -1) {
-                        finalMailto = DEFAULT_MAILTO;
-                    }
-                    valueHtml = '<a href="' + escapeHtml(finalMailto) + '" class="email-special-link"><i class="fas fa-paper-plane"></i> Send us an email <i class="fas fa-arrow-right" style="font-size:11px;"></i></a>';
-                } else if (link !== '') {
-                    valueHtml = '<a href="' + escapeHtml(link) + '" target="_blank" rel="noopener">' + escapeHtml(ct.value) + '</a>';
-                } else {
-                    valueHtml = escapeHtml(ct.value);
-                }
-                card.innerHTML = '<div class="ct-icon"><i class="fas ' + escapeHtml(ct.icon || 'fa-phone') + '"></i></div>' +
-                    '<h3>' + escapeHtml(ct.title) + '</h3>' +
-                    '<div class="ct-value">' + valueHtml + '</div>';
-                grid.appendChild(card);
-            });
-            initScrollReveal();
-        }
-
-        /* ══════════════════════════════════════════
-           RENDER ADS
-           ══════════════════════════════════════════ */
-        function renderAds(ads) {
-            var section = document.getElementById('ads-section');
-            var grid = document.getElementById('ads-grid');
-            grid.innerHTML = '';
-            if (!ads || ads.length === 0) {
-                section.style.display = 'none';
-                return;
-            }
-            section.style.display = 'block';
-            ads.sort(function(a, b) {
-                return (a.sort_order || 0) - (b.sort_order || 0) || a.id - b.id;
-            });
-            ads.forEach(function(ad) {
-                var sizeClass = 'sz-' + (ad.card_size || 'medium');
-                var shapeClass = 'sh-' + (ad.card_shape || 'rounded');
-                var alignClass = 'ad-al-' + (ad.alignment || 'center');
-                var card = document.createElement('div');
-                card.className = 'ad-card ' + sizeClass + ' ' + shapeClass + ' reveal';
-                var mediaHtml = '';
-                var bodyHtml = '';
-                var videoUrl = ad.video_url || '';
-                var imageUrl = ad.image_url || '';
-                var linkUrl = ad.link_url || '';
-
-                /* Check if YouTube URL */
-                var youtubeId = null;
-                if (videoUrl) {
-                    var ytMatch = videoUrl.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/)([a-zA-Z0-9_-]{11})/);
-                    if (ytMatch) {
-                        youtubeId = ytMatch[1];
-                    }
-                }
-
-                if (youtubeId) {
-                    mediaHtml = '<div class="ad-media"><iframe src="https://www.youtube.com/embed/' + youtubeId + '" allowfullscreen loading="lazy"></iframe></div>';
-                } else if (videoUrl) {
-                    mediaHtml = '<div class="ad-media"><video controls preload="metadata"><source src="' + escapeHtml(videoUrl) + '"></video></div>';
-                } else if (imageUrl) {
-                    mediaHtml = '<div class="ad-media"><img src="' + escapeHtml(imageUrl) + '" alt="' + escapeHtml(ad.title || 'Advertisement') + '" loading="lazy"></div>';
-                }
-
-                bodyHtml = '<div class="ad-body ' + alignClass + '">';
-                if (ad.title) bodyHtml += '<h3>' + escapeHtml(ad.title) + '</h3>';
-                if (ad.description) bodyHtml += '<p>' + escapeHtml(ad.description) + '</p>';
-                if (linkUrl && youtubeId) {
-                    bodyHtml += '<a href="' + escapeHtml(linkUrl) + '" target="_blank" rel="noopener" class="ad-link-btn"><span>Visit Link</span><i class="fas fa-arrow-right" style="font-size:11px;"></i></a>';
-                }
-                bodyHtml += '</div>';
-
-                if (linkUrl && !youtubeId && !videoUrl) {
-                    card.innerHTML = '<a href="' + escapeHtml(linkUrl) + '" target="_blank" rel="noopener" style="text-decoration:none;color:inherit;display:block;">' + mediaHtml + bodyHtml + '</a>';
-                } else {
-                    card.innerHTML = mediaHtml + bodyHtml;
-                }
-                grid.appendChild(card);
-            });
-            initScrollReveal();
-        }
-
-        /* ══════════════════════════════════════════
-           RENDER REVIEWS
-           ══════════════════════════════════════════ */
-        function renderReviews(reviews) {
-            var list = document.getElementById('reviews-list');
-            list.innerHTML = '';
-            reviews.sort(function(a, b) {
-                return new Date(b.created_at) - new Date(a.created_at);
-            });
-            reviews.forEach(function(rev) {
-                var item = document.createElement('div');
-                item.className = 'review-item reveal';
-                var starsHtml = '';
-                for (var i = 1; i <= 5; i++) {
-                    if (i <= rev.rating) {
-                        starsHtml += '<i class="fas fa-star"></i> ';
-                    } else {
-                        starsHtml += '<i class="far fa-star" style="opacity:0.2;"></i> ';
-                    }
-                }
-                var dateStr = 'Unknown date';
-                if (rev.review_date) {
-                    try {
-                        dateStr = new Date(rev.review_date + 'T00:00:00').toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
-                    } catch (e) {
-                        dateStr = rev.review_date;
-                    }
-                }
-                item.innerHTML = '<div class="rev-header"><span class="rev-name">' + escapeHtml(rev.name) + '</span><span class="rev-date">' + dateStr + '</span></div>' +
-                    '<div class="rev-stars">' + starsHtml + '</div>' +
-                    '<p class="rev-text">' + escapeHtml(rev.text) + '</p>';
-                list.appendChild(item);
-            });
-            initScrollReveal();
-        }
-
-        /* ══════════════════════════════════════════
-           APPLY PAGE CONTENT
-           ══════════════════════════════════════════ */
-        function applyPageContent(pcMap) {
-            function getVal(key) {
-                return pcMap[key] !== undefined ? pcMap[key] : FALLBACK_PAGE_CONTENT[key];
-            }
-            document.getElementById('hero-tagline').textContent = getVal('hero_tagline');
-            var titleText = getVal('hero_title');
-            var highlightText = getVal('hero_title_highlight');
-            var heroTitleEl = document.getElementById('hero-title');
-            if (highlightText && titleText.indexOf(highlightText) !== -1) {
-                heroTitleEl.innerHTML = escapeHtml(titleText.replace(highlightText, '|||HIGHLIGHT|||')).replace('|||HIGHLIGHT|||', '<span class="highlight" id="hero-highlight">' + escapeHtml(highlightText) + '</span>');
-            } else {
-                heroTitleEl.innerHTML = escapeHtml(titleText);
-            }
-            document.getElementById('hero-btn').querySelector('.btn-text').textContent = getVal('hero_button_text');
-            document.getElementById('services-label').textContent = getVal('services_label');
-            document.getElementById('services-title').textContent = getVal('services_title');
-            document.getElementById('contacts-label').textContent = getVal('contacts_label');
-            document.getElementById('contacts-title').textContent = getVal('contacts_title');
-            document.getElementById('messages-label').textContent = getVal('messages_label');
-            document.getElementById('messages-title').textContent = getVal('messages_title');
-            document.getElementById('reviews-label').textContent = getVal('reviews_label');
-            document.getElementById('reviews-title').textContent = getVal('reviews_title');
-            document.getElementById('footer-text').textContent = getVal('footer_text');
-        }
-
-        /* ══════════════════════════════════════════
-           APPLY SETTINGS
-           ══════════════════════════════════════════ */
-        function applySettings(settingsMap) {
-            var heroText = settingsMap.hero_text !== undefined ? settingsMap.hero_text : FALLBACK_SETTINGS.hero_text;
-            document.getElementById('hero-desc').textContent = heroText;
-
-            var profileImg = settingsMap.profile_image !== undefined ? settingsMap.profile_image : FALLBACK_SETTINGS.profile_image;
-            setProfileImage(profileImg);
-            updateFavicons(profileImg);
-
-            var bgImg = settingsMap.background_image !== undefined ? settingsMap.background_image : FALLBACK_SETTINGS.background_image;
-            var heroSection = document.getElementById('hero');
-            var overlay = document.getElementById('hero-overlay');
-            if (bgImg && bgImg.trim() !== '') {
-                heroSection.style.backgroundImage = 'url(' + bgImg + ')';
-                overlay.style.display = 'block';
-            } else {
-                heroSection.style.backgroundImage = 'none';
-                overlay.style.display = 'none';
-            }
-        }
-
-        /* ══════════════════════════════════════════
-           STAR RATING INTERACTION
-           ══════════════════════════════════════════ */
-        var selectedRating = 0;
-        var starButtons = document.querySelectorAll('#star-input .star-btn');
-
-        starButtons.forEach(function(btn) {
-            btn.addEventListener('mouseenter', function() {
-                var val = parseInt(btn.getAttribute('data-value'));
-                starButtons.forEach(function(b) {
-                    var bVal = parseInt(b.getAttribute('data-value'));
-                    b.classList.remove('hovered');
-                    if (bVal <= val && bVal > selectedRating) {
-                        b.classList.add('hovered');
-                    }
-                });
-            });
-
-            btn.addEventListener('mouseleave', function() {
-                starButtons.forEach(function(b) {
-                    b.classList.remove('hovered');
-                });
-            });
-
-            btn.addEventListener('click', function() {
-                selectedRating = parseInt(btn.getAttribute('data-value'));
-                starButtons.forEach(function(b) {
-                    var bVal = parseInt(b.getAttribute('data-value'));
-                    b.classList.toggle('active', bVal <= selectedRating);
-                });
-            });
-
-            btn.addEventListener('keydown', function(e) {
-                if (e.key === 'Enter' || e.key === ' ') {
-                    e.preventDefault();
-                    btn.click();
-                }
-            });
-        });
-
-        /* ══════════════════════════════════════════
-           MESSAGE FORM SUBMIT
-           ══════════════════════════════════════════ */
-        var messageForm = document.getElementById('message-form');
-        var msgSubmitBtn = document.getElementById('msg-submit-btn');
-        var msgSuccess = document.getElementById('msg-success');
-        var msgSuccessTimeout = null;
-
-        messageForm.addEventListener('submit', async function(e) {
-            e.preventDefault();
-            var name = document.getElementById('msg-name').value.trim();
-            var email = document.getElementById('msg-email').value.trim();
-            var message = document.getElementById('msg-text').value.trim();
-
-            if (!name) {
-                showToast('Please enter your name.', 'error');
-                return;
-            }
-            if (!message) {
-                showToast('Please enter a message.', 'error');
-                return;
-            }
-
-            msgSubmitBtn.classList.add('loading');
-            msgSubmitBtn.disabled = true;
-
-            try {
-                await supabaseFetch(REST_BASE + 'messages', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json', 'Prefer': 'return=representation' },
-                    body: JSON.stringify({ name: name, email: email, message: message })
-                });
-                document.getElementById('msg-name').value = '';
-                document.getElementById('msg-email').value = '';
-                document.getElementById('msg-text').value = '';
-                msgSuccess.classList.add('show');
-                if (msgSuccessTimeout) clearTimeout(msgSuccessTimeout);
-                msgSuccessTimeout = setTimeout(function() {
-                    msgSuccess.classList.remove('show');
-                }, 5000);
-            } catch (err) {
-                showToast('Failed to send message: ' + err.message, 'error');
-            } finally {
-                msgSubmitBtn.classList.remove('loading');
-                msgSubmitBtn.disabled = false;
-            }
-        });
-
-        /* ══════════════════════════════════════════
-           REVIEW FORM SUBMIT
-           ══════════════════════════════════════════ */
-        var revSubmitBtn = document.getElementById('rev-submit-btn');
-
-        revSubmitBtn.addEventListener('click', async function() {
-            if (selectedRating === 0) {
-                showToast('Please select a star rating.', 'error');
-                return;
-            }
-            var name = document.getElementById('rev-name').value.trim();
-            var text = document.getElementById('rev-text').value.trim();
-
-            if (!name) {
-                showToast('Please enter your name.', 'error');
-                return;
-            }
-            if (!text) {
-                showToast('Please write a review.', 'error');
-                return;
-            }
-
-            revSubmitBtn.classList.add('loading');
-            revSubmitBtn.disabled = true;
-
-            try {
-                await supabaseFetch(REST_BASE + 'reviews', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json', 'Prefer': 'return=representation' },
-                    body: JSON.stringify({ name: name, rating: selectedRating, text: text })
-                });
-                selectedRating = 0;
-                starButtons.forEach(function(b) { b.classList.remove('active'); });
-                document.getElementById('rev-name').value = '';
-                document.getElementById('rev-text').value = '';
-                showToast('Review submitted successfully!', 'success');
-                /* Refresh reviews */
-                try {
-                    var freshReviews = await supabaseFetch(REST_BASE + 'reviews?select=*&order=created_at.desc');
-                    renderReviews(freshReviews);
-                } catch (err2) {
-                    /* keep existing */
-                }
-            } catch (err) {
-                showToast('Failed to submit review: ' + err.message, 'error');
-            } finally {
-                revSubmitBtn.classList.remove('loading');
-                revSubmitBtn.disabled = false;
-            }
-        });
-
-        /* ══════════════════════════════════════════
-           DATA LOADING ON DOMCONTENTLOADED
-           ══════════════════════════════════════════ */
-        document.addEventListener('DOMContentLoaded', function() {
-            initScrollReveal();
-
-            var fetchServices = supabaseFetch(REST_BASE + 'services?select=*&order=sort_order.asc,id.asc');
-            var fetchContacts = supabaseFetch(REST_BASE + 'contacts?select=*&order=sort_order.asc,id.asc');
-            var fetchReviews = supabaseFetch(REST_BASE + 'reviews?select=*&order=created_at.desc');
-            var fetchSettings = supabaseFetch(REST_BASE + 'settings?select=*');
-            var fetchPageContent = supabaseFetch(REST_BASE + 'page_content?select=*');
-            var fetchAds = supabaseFetch(REST_BASE + 'ads?select=*&is_active=eq.true&order=sort_order.asc,id.asc');
-
-            Promise.allSettled([fetchServices, fetchContacts, fetchReviews, fetchSettings, fetchPageContent, fetchAds])
-                .then(function(results) {
-                    var hasAnySuccess = false;
-                    var allErrors = [];
-
-                    /* Process Services */
-                    if (results[0].status === 'fulfilled') {
-                        hasAnySuccess = true;
-                        renderServices(results[0].value);
-                    } else {
-                        allErrors.push('Services: ' + results[0].reason.message);
-                        renderServices(FALLBACK_SERVICES);
-                    }
-
-                    /* Process Contacts */
-                    if (results[1].status === 'fulfilled') {
-                        hasAnySuccess = true;
-                        renderContacts(results[1].value);
-                    } else {
-                        allErrors.push('Contacts: ' + results[1].reason.message);
-                        renderContacts(FALLBACK_CONTACTS);
-                    }
-
-                    /* Process Reviews */
-                    if (results[2].status === 'fulfilled') {
-                        hasAnySuccess = true;
-                        renderReviews(results[2].value);
-                    } else {
-                        allErrors.push('Reviews: ' + results[2].reason.message);
-                        renderReviews(FALLBACK_REVIEWS);
-                    }
-
-                    /* Process Settings */
-                    var settingsMap = {};
-                    if (results[3].status === 'fulfilled') {
-                        hasAnySuccess = true;
-                        var settingsArr = results[3].value;
-                        settingsArr.forEach(function(s) {
-                            settingsMap[s.setting_key] = s.setting_value;
-                        });
-                    } else {
-                        allErrors.push('Settings: ' + results[3].reason.message);
-                    }
-                    applySettings(settingsMap);
-
-                    /* Process Page Content */
-                    var pcMap = {};
-                    if (results[4].status === 'fulfilled') {
-                        hasAnySuccess = true;
-                        var pcArr = results[4].value;
-                        pcArr.forEach(function(p) {
-                            pcMap[p.element_key] = p.content;
-                        });
-                    } else {
-                        allErrors.push('Page Content: ' + results[4].reason.message);
-                    }
-                    applyPageContent(pcMap);
-
-                    /* Process Ads */
-                    if (results[5].status === 'fulfilled') {
-                        hasAnySuccess = true;
-                        renderAds(results[5].value);
-                    } else {
-                        allErrors.push('Ads: ' + results[5].reason.message);
-                        renderAds([]);
-                    }
-
-                    /* Connection status */
-                    if (hasAnySuccess) {
-                        setConnectionStatus(true);
-                    } else {
-                        setConnectionStatus(false, 'All requests failed');
-                    }
-
-                    /* Show errors as toasts */
-                    allErrors.forEach(function(errMsg) {
-                        showToast(errMsg, 'error');
-                    });
-                });
-        });
-    </script>
+        <div class="form-group"><label>Email</label><input type="email" id="bookEmail" placeholder="john@example.com"></div>
+        <div class="form-group"><label>Message</label><textarea id="bookMsg" placeholder="Tell us about your project..."></textarea></div>
+        <button type="submit" class="btn btn-primary" style="width:100%;justify-content:center;"><span class="iconify" data-icon="lucide:calendar-check"></span> Book Now</button>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- Ads -->
+<section id="ads-section" style="background:var(--bg2);">
+  <div class="container">
+    <div class="section-header reveal">
+      <p class="section-label">Spotlight</p>
+      <h2 class="section-title" id="adsTitle">Featured</h2>
+    </div>
+    <div class="ads-carousel reveal" id="adsCarousel"></div>
+  </div>
+</section>
+
+<!-- Contact -->
+<section id="contact-section">
+  <div class="container">
+    <div class="section-header reveal">
+      <p class="section-label">Reach Out</p>
+      <h2 class="section-title" id="contactTitle">Get In Touch</h2>
+    </div>
+    <div class="contact-grid reveal" id="contactGrid"></div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer>
+  <div class="container">
+    <p>&copy; 2025 EDDY TECH. All rights reserved.</p>
+  </div>
+</footer>
+
+<script>
+const SB_URL='https://kyhgwsatvkazvtdqbmeb.supabase.co';
+const SB_KEY='sb_publishable_wvwTKSI76Rfkzh8sC3uW0g_V_0C8xb7';
+const sb=window.supabase.createClient(SB_URL,SB_KEY);
+let allServices=[],currentRating=0;
+
+function toast(msg,type='success'){
+  const t=document.createElement('div');
+  t.className=`toast toast-${type}`;t.textContent=msg;
+  document.getElementById('toasts').appendChild(t);
+  setTimeout(()=>t.classList.add('show'),10);
+  setTimeout(()=>{t.classList.remove('show');setTimeout(()=>t.remove(),300);},3500);
+}
+
+function setVar(k,v){document.documentElement.style.setProperty(k,v);}
+
+async function init(){
+  try{
+    const[settings,profile,services,reviews,contacts,ads]=await Promise.all([
+      sb.from('site_settings').select('*'),
+      sb.from('profile').select('*').single(),
+      sb.from('services').select('*').eq('active',true).order('order_index'),
+      sb.from('reviews').select('*').order('created_at',{ascending:false}),
+      sb.from('contacts').select('*').eq('active',true),
+      sb.from('ads').select('*').eq('active',true).order('order_index')
+    ]);
+    if(settings.data)settings.data.forEach(s=>setVar('--'+s.key.replace(/_/g,'-'),s.value));
+    if(settings.data){
+      const g=k=>{const s=settings.data.find(x=>x.key===k);return s?s.value:'';};
+      document.getElementById('heroTitle').textContent=g('hero_title')||'Welcome to EDDY TECH';
+      document.getElementById('heroSub').textContent=g('hero_subtitle')||'';
+      document.getElementById('servicesTitle').textContent=g('services_title')||'Our Services';
+      document.getElementById('reviewsTitle').textContent=g('reviews_title')||'Client Reviews';
+      document.getElementById('contactTitle').textContent=g('contact_title')||'Get In Touch';
+      document.getElementById('adsTitle').textContent=g('ads_title')||'Featured';
+      document.title=g('site_title')||'EDDY TECH';
+      if(g('hero_bg_image'))document.getElementById('heroBg').style.backgroundImage=`url(${g('hero_bg_image')})`;
+    }
+    if(profile.data){
+      const p=profile.data;
+      if(p.image_url){
+        document.getElementById('profilePic').innerHTML=`<img src="${p.image_url}" alt="${p.name}">`;
+      }
+    }
+    allServices=services.data||[];
+    renderServices(allServices);
+    populateServiceSelects(allServices);
+    renderReviews(reviews.data||[]);
+    renderContacts(contacts.data||[]);
+    renderAds(ads.data||[]);
+    setupStars();
+    setupReveal();
+  }catch(e){console.error(e);toast('Error loading site data','error');}
+  finally{document.getElementById('loader').classList.add('hide');}
+}
+
+function renderServices(list){
+  const g=document.getElementById('servicesGrid');
+  if(!list.length){g.innerHTML='<div class="empty-state" style="grid-column:1/-1;"><span class="iconify" data-icon="lucide:package-open"></span><p>Services coming soon...</p></div>';return;}
+  g.innerHTML=list.map(s=>`
+    <div class="service-card">
+      <div class="service-icon">${s.icon||'💻'}</div>
+      <h3>${esc(s.title)}</h3>
+      <p>${esc(s.description||'')}</p>
+      ${s.price?`<div class="service-price">${esc(s.price)}</div>`:''}
+      <button class="btn btn-sm btn-primary" onclick="bookService(${s.id},'${esc(s.title)}')">Book Now</button>
+    </div>
+  `).join('');
+}
+
+function renderReviews(list){
+  const g=document.getElementById('reviewsGrid');
+  if(!list.length){g.innerHTML='<div class="empty-state" style="grid-column:1/-1;"><span class="iconify" data-icon="lucide:message-square"></span><p>No reviews yet. Be the first!</p></div>';return;}
+  g.innerHTML=list.map(r=>{
+    const stars=Array.from({length:5},(_,i)=>`<span class="star${i<r.rating?'':' empty'}">★</span>`).join('');
+    const d=new Date(r.created_at).toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'});
+    return`<div class="review-card">
+      <div class="review-header"><div class="review-avatar">${esc(r.name.charAt(0).toUpperCase())}</div><div><div class="review-name">${esc(r.name)}</div><div class="review-date">${d}</div></div></div>
+      <div class="stars">${stars}</div>
+      <p class="review-comment">${esc(r.comment||'')}</p>
+    </div>`;
+  }).join('');
+}
+
+function renderContacts(list){
+  const g=document.getElementById('contactGrid');
+  if(!list.length){g.innerHTML='<div class="empty-state"><p>No contact info available</p></div>';return;}
+  g.innerHTML=list.map(c=>{
+    let cards='';
+    if(c.phone)cards+=`<div class="contact-card"><div class="contact-icon"><span class="iconify" data-icon="lucide:phone"></span></div><h4>Phone</h4><p><a href="tel:${c.phone}">${esc(c.phone)}</a></p></div>`;
+    if(c.email)cards+=`<div class="contact-card"><div class="contact-icon"><span class="iconify" data-icon="lucide:mail"></span></div><h4>Email</h4><p><a href="mailto:${c.email}">${esc(c.email)}</a></p></div>`;
+    if(c.telegram)cards+=`<div class="contact-card"><div class="contact-icon"><span class="iconify" data-icon="lucide:send"></span></div><h4>Telegram</h4><p><a href="https://t.me/${c.telegram.replace('@','')}" target="_blank">@${esc(c.telegram.replace('@',''))}</a></p></div>`;
+    if(c.address)cards+=`<div class="contact-card"><div class="contact-icon"><span class="iconify" data-icon="lucide:map-pin"></span></div><h4>Address</h4><p>${esc(c.address)}</p></div>`;
+    return cards;
+  }).join('');
+}
+
+function renderAds(list){
+  const c=document.getElementById('adsCarousel');
+  if(!list.length){c.innerHTML='';c.parentElement.querySelector('.section-header')&&(c.parentElement.style.display='none');return;}
+  c.parentElement.style.display='';
+  c.innerHTML=list.map(a=>{
+    let content='';
+    if(a.image_data)content=`<img src="${a.image_data}" alt="${esc(a.title||'Ad')}">`;
+    else if(a.video_url){
+      let src=a.video_url;
+      if(src.includes('youtube.com/watch'))src=src.replace('watch?v=','embed/');
+      else if(src.includes('youtu.be/'))src='https://www.youtube.com/embed/'+src.split('youtu.be/')[1].split('?')[0];
+      content=`<iframe src="${src}" frameborder="0" allowfullscreen style="width:100%;height:100%;"></iframe>`;
+    }
+    return`<div class="ad-card">${content}${a.title?`<div class="ad-title">${esc(a.title)}</div>`:''}</div>`;
+  }).join('');
+  if(list.length>1)setInterval(()=>{c.scrollBy({left:380,behavior:'smooth'});if(c.scrollLeft>=c.scrollWidth-c.clientWidth-10)c.scrollTo({left:0,behavior:'smooth'});},4000);
+}
+
+function populateServiceSelects(list){
+  const opts=list.map(s=>`<option value="${s.id}">${esc(s.title)}</option>`).join('');
+  document.getElementById('bookService').innerHTML='<option value="">Choose a service...</option>'+opts;
+  document.getElementById('revService').innerHTML='<option value="">General Review</option>'+opts;
+}
+
+function bookService(id,title){
+  document.getElementById('bookService').value=id;
+  document.getElementById('booking-section').scrollIntoView({behavior:'smooth'});
+}
+
+function setupStars(){
+  const btns=document.querySelectorAll('#starInput .star-btn');
+  btns.forEach(b=>{
+    b.addEventListener('mouseenter',()=>{
+      const v=+b.dataset.val;
+      btns.forEach(x=>x.classList.toggle('hover',+x.dataset.val<=v));
+    });
+    b.addEventListener('click',()=>{currentRating=+b.dataset.val;btns.forEach(x=>x.classList.toggle('active',+x.dataset.val<=currentRating));});
+  });
+  document.getElementById('starInput').addEventListener('mouseleave',()=>{btns.forEach(x=>x.classList.remove('hover'));});
+}
+
+async function submitBooking(e){
+  e.preventDefault();
+  const sid=document.getElementById('bookService').value;
+  const svc=allServices.find(s=>s.id==sid);
+  const data={
+    service_id:sid||null,
+    service_name:svc?svc.title:'',
+    name:document.getElementById('bookName').value,
+    email:document.getElementById('bookEmail').value,
+    phone:document.getElementById('bookPhone').value,
+    message:document.getElementById('bookMsg').value,
+    status:'pending'
+  };
+  const{error}=await sb.from('bookings').insert(data);
+  if(error){toast('Booking failed: '+error.message,'error');return;}
+  toast('Booking submitted successfully! We will contact you soon.');
+  e.target.reset();
+}
+
+async function submitReview(e){
+  e.preventDefault();
+  if(!currentRating){toast('Please select a star rating','error');return;}
+  const sid=document.getElementById('revService').value;
+  const svc=allServices.find(s=>s.id==sid);
+  const data={
+    service_id:sid||null,
+    service_name:svc?svc.title:'',
+    name:document.getElementById('revName').value,
+    rating:currentRating,
+    comment:document.getElementById('revComment').value
+  };
+  const{error}=await sb.from('reviews').insert(data);
+  if(error){toast('Review failed: '+error.message,'error');return;}
+  toast('Thank you for your review!');
+  e.target.reset();currentRating=0;
+  document.querySelectorAll('#starInput .star-btn').forEach(b=>b.classList.remove('active'));
+  const{data:reviews}=await sb.from('reviews').select('*').order('created_at',{ascending:false});
+  renderReviews(reviews||[]);
+}
+
+function esc(s){if(!s)return '';const d=document.createElement('div');d.textContent=s;return d.innerHTML;}
+
+function toggleMobile(){document.getElementById('mobileMenu').classList.toggle('open');}
+function closeMobile(){document.getElementById('mobileMenu').classList.remove('open');}
+
+window.addEventListener('scroll',()=>{document.getElementById('navbar').classList.toggle('scrolled',window.scrollY>50);});
+
+function setupReveal(){
+  const obs=new IntersectionObserver((entries)=>{entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');obs.unobserve(e.target);}});},{threshold:0.1});
+  document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+}
+
+init();
+</script>
 </body>
 </html>
